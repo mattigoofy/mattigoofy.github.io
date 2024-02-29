@@ -1,0 +1,430 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Collecting Data</title>
+	<script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+	</script>
+
+	<link rel="stylesheet" href=
+"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+		integrity=
+"sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+		crossorigin="anonymous">
+</head>
+
+<body class="container" style="margin-top: 50px;
+	width: 50%; height:auto;">
+	
+	<h2 class="text-primary" style=
+		"margin-left: 15px; margin-bottom: 10px">
+		Hey There,Help Us In Collecting Data
+	</h2>
+	
+	<form class="container" id="contactForm">
+		<div class="card">
+			<div class="card-body">
+				<div class="form-group">
+					<label for="exampleFormControlInput1">
+						Enter Your Name
+					</label>
+					
+					<input type="text" class="form-control"
+					id="name" placeholder="Enter your name">
+				</div>
+
+				<div class="form-group">
+					<label for="exampleFormControlInput1">
+						Email address
+					</label>
+					
+					<input type="email" class="form-control"
+					id="email" placeholder="name@example.com">
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary"
+				style="margin-left: 15px; margin-top: 10px">
+				Submit
+			</button>
+		</div>
+	</form>
+
+	<script src=
+"https://www.gstatic.com/firebasejs/3.7.4/firebase.js">
+	</script>
+	
+	<script>
+		let firebaseConfig = {
+            apiKey: "AIzaSyCwkZcev1aHD98mqbrkJKrgzIx80Ji6R2s",
+            authDomain: "boekenkast-9feaf.firebaseapp.com",
+            databaseURL: "https://boekenkast-9feaf-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "boekenkast-9feaf",
+            storageBucket: "boekenkast-9feaf.appspot.com",
+            messagingSenderId: "1018308118328",
+            appId: "1:1018308118328:web:bc618dfbdbc065ee59e3cd"
+        };
+
+		firebase.initializeApp(firebaseConfig);
+
+		let messagesRef = firebase.database()
+			.ref('Collected Data');
+		
+		document.getElementById('contactForm')
+			.addEventListener('submit', submitForm);
+
+		function submitForm(e) {
+			e.preventDefault();
+
+			// Get values
+			let name = getInputVal('name');
+			let email = getInputVal('email');
+
+			saveMessage(name, email);
+			document.getElementById('contactForm').reset();
+		}
+
+		// Function to get form values
+		function getInputVal(id) {
+			return document.getElementById(id).value;
+		}
+
+		// Save message to firebase
+		function saveMessage(name, email) {
+			let newMessageRef = messagesRef.push();
+			newMessageRef.set({
+				name: name,
+				email: email,
+			});
+		}
+	</script>
+</body>
+
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <STYLE>
+        #addPage  {
+            margin: auto;
+            width: 70%;
+            padding: 10px;
+			border: solid;
+			border: black;
+			border-width: 10px;
+        }
+		body { 
+			top: 10px;
+			width: 50%;
+			left: 25%;
+			position:absolute;
+			
+		}
+		#p {
+			z-index: 0;
+		}
+		#check {
+			border-style: none;
+			border-radius: 50%;
+		}
+        #addForm {text-align: left;
+				background-color: green;
+				padding: 10px;
+  				z-index: 1;
+				top: 10px;
+				position:absolute;
+			}
+        #submitBtn {margin: auto; width: 70%;}
+		
+
+    </STYLE>
+	<link rel="stylesheet" href="test.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+<body>
+	<div id="alDeRest">
+		<p id="p">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nibh leo, bibendum non accumsan ac, accumsan eu arcu. Nulla eleifend sem eget suscipit euismod. Sed urna arcu, molestie eu dolor id, facilisis feugiat arcu. Mauris vel nulla diam. Morbi rutrum, risus quis iaculis faucibus, neque velit ultrices risus, a lacinia est orci et ex. Nunc rutrum varius nunc, a venenatis velit facilisis at. Proin justo est, mattis id diam a, vestibulum tempus tellus. Vivamus bibendum commodo mi, euismod auctor lacus tincidunt eu. Nam enim felis, tempor a est sit amet, porta varius est. Proin fermentum, lectus sed mattis ornare, mi sem scelerisque diam, ut imperdiet mi lacus sagittis justo. Vivamus eget dictum sem. Mauris feugiat lectus tortor, sed pulvinar velit tincidunt sit amet. Maecenas eu iaculis neque. Pellen
+		</p>
+		<div id="div" style="background-color: aqua; height: 10px;"></div>
+		<input type="checkbox" id="check">
+		<select id="genreSelect">
+			<option value="no genre">no genre</option>
+			<option value="rom">rom</option>
+			<option value="sci-fi">sci-fi</option>
+			<option value="action">action</option>
+		</select>
+		<DIV id="addPage">
+			<form id="addForm">
+				<input id="titel" placeholder="email">
+				<input id="author" placeholder="password">
+				<input id="score" placeholder="score"><span>/5</span>
+				<br><br>
+				<button id="submitBtn">submit</button>
+			</form>
+		</DIV>
+		<button id="testBtn">user?</button>
+		<button id="testBtn2">Log out</button>
+	</div>
+
+	<div id="logInForm" class="content">
+		<div class="text">
+		   Login Form
+		</div>
+		<form id="logInFormForm">
+		   <div class="field">
+			  <input type="text" id="emailIn" required>
+			  <span class="fas fa-user"></span>
+			  <label>Email or Phone</label>
+		   </div>
+		   <div class="field">
+			  <input type="password" id="passwordIn" required>
+			  <span class="fas fa-lock"></span>
+			  <label>Password</label>
+		   </div>
+		   <!-- <div class="forgot-pass">
+			  <a href="#">Forgot Password?</a>
+		   </div> -->
+		   <button id="signInBtn">Sign in</button>
+		   <button id="signUpBtn">Sign up</button>
+		   <div class="sign-up">
+			  <span id="memberTxt">Not a member?</span>
+			  <a id="signUpNowBtn">signup now</a>
+			  <a id="signInNowBtn">signin now</a>
+		   </div>
+		</form>
+	 </div>
+</body>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+	import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCwkZcev1aHD98mqbrkJKrgzIx80Ji6R2s",
+      authDomain: "boekenkast-9feaf.firebaseapp.com",
+      databaseURL: "https://boekenkast-9feaf-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "boekenkast-9feaf",
+      storageBucket: "boekenkast-9feaf.appspot.com",
+      messagingSenderId: "1018308118328",
+      appId: "1:1018308118328:web:bc618dfbdbc065ee59e3cd"
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+  
+	// Initialize Firebase Authentication and get a reference to the service
+	const auth = getAuth(app);
+
+	// document.getElementById('addForm').addEventListener('submit', function(e) {
+	// 	e.preventDefault();
+	// 	let email = document.getElementById("titel").value;
+	// 	let password = document.getElementById("author").value;
+
+	// 	// auth.createUserWithEmailAndPassword(email, password).then(cred => {
+	// 	// 	console.log(cred);
+	// 	// })
+	// 	createUserWithEmailAndPassword(auth, email, password);
+
+	// })
+
+	document.forms.addForm.onsubmit = function(e) {
+		e = e || event;
+		e.preventDefault();
+	}
+
+	document.getElementById("signUpNowBtn").addEventListener('click', function() {
+		document.getElementById("signUpBtn").style.display = "block";
+		document.getElementById("signInBtn").style.display = "none";
+		document.getElementById("signInNowBtn").style.display = "inline";
+		document.getElementById("signUpNowBtn").style.display = "none";
+		document.getElementById("memberTxt").innerHTML = "Already a member?";
+	})
+
+	document.getElementById("signInNowBtn").addEventListener('click', function() {
+		document.getElementById("signUpBtn").style.display = "none";
+		document.getElementById("signInBtn").style.display = "block";
+		document.getElementById("signInNowBtn").style.display = "none";
+		document.getElementById("signUpNowBtn").style.display = "inline";
+		document.getElementById("memberTxt").innerHTML = "Not a member?";
+	})
+
+	document.getElementById("signUpBtn").addEventListener('click', function() {
+		let email = document.getElementById("emailIn").value;
+		let password = document.getElementById("passwordIn").value;
+		createUserWithEmailAndPassword(auth, email, password);
+		loggedIn();
+	})	
+
+	document.getElementById("signInBtn").addEventListener('click', function() {
+		let email = document.getElementById("emailIn").value;
+		let password = document.getElementById("passwordIn").value;
+		signInWithEmailAndPassword(auth, email, password);
+		loggedIn();
+	})	
+
+	document.getElementById("testBtn2").addEventListener('click', function() {
+		// console.log(firebase.auth().currentUser);
+		auth.signOut();
+		console.log("Logged out");
+		document.getElementById("logInForm").style.display = "block";
+		document.getElementById("alDeRest").style.display = "none";
+	})
+	document.getElementById("testBtn").addEventListener('click', function() {
+
+		console.log(auth.currentUser.email);
+	})
+
+	function loggedIn() {
+		// document.getElementById("emailIn").reset;
+		// document.getElementById("passwordIn").reset;
+		document.getElementById("logInFormForm").reset();
+
+		// document.getElementById("emailIn").value = "";
+		// document.getElementById("passwordIn").value = "";
+		document.getElementById("logInForm").style.display = "none";
+		document.getElementById("alDeRest").style.display = "block";
+	}
+
+	console.log(auth.currentUser)
+	if(auth.currentUser != null) {
+		loggedIn();
+		console.log('here')
+	}
+
+
+    function writeBook(titel, author, score){
+        const db = getDatabase();
+
+        const reference = ref(db,'books/' + titel);
+
+        set(reference, {
+            titel: titel,
+            author: author,
+            score: score
+        });
+    }
+
+    // document.getElementById('addForm').addEventListener('submit', submitForm);
+
+    function submitForm(e) {
+        e.preventDefault();
+
+        // Get values
+        let titel = document.getElementById("titel").value;
+        let author = document.getElementById("author").value;
+        let score = document.getElementById("score").value;
+
+        writeBook(titel, author, score);
+        document.getElementById('addForm').reset();
+		console.log(document.getElementById("check").checked);
+		console.log(document.getElementById("genreSelect").value)
+		// console.log(document.querySelector('#check:checked').value);
+    }
+	const db = getDatabase();
+
+	const reference = ref(db,'genres/');
+
+	set(reference, {
+		rom: "rom",
+		scifi: "sci-fi",
+		fantasy: "fan",
+		comedy: "com"
+	});
+
+	const reference2 = ref(db,'colors/' + "navyBlue");
+
+	set(reference2, {
+		color: "#000080",
+		name: "navyBlue"
+	});
+
+	const reference3 = ref(db,'colors/' + "black");
+
+	set(reference3, {
+		color: "black",
+		name: "black"
+	});
+
+	const reference4 = ref(db,'colors/' + "white");
+
+	set(reference4, {
+		color: "white",
+		name: "white"
+	});
+
+	const reference5 = ref(db,'colors/' + "emeraldGreen");
+
+	set(reference5, {
+		color: "#046307",
+		name: "emeraldGreen"
+	});
+	
+	const reference6 = ref(db,'colors/' + "deepPurple");
+
+	set(reference6, {
+		color: "#7B1FA2",
+		name: "deepPurple"
+	});
+
+	const reference7 = ref(db,'colors/' + "burgundy");
+
+	set(reference7, {
+		color: "#800020",
+		name: "burgundy"
+	});
+
+	const reference8 = ref(db,'colors/' + "charcoalGrey");
+
+	set(reference8, {
+		color: "#36454F",
+		name: "charcoal Grey"
+	});
+
+	const reference9 = ref(db,'colors/' + "cream");
+
+	set(reference9, {
+		color: "#FFFDD0",
+		name: "cream"
+	});
+
+	const reference10 = ref(db,'colors/' + "teal");
+
+	set(reference10, {
+		color: "#008080",
+		name: "teal"
+	});
+
+	const reference11 = ref(db,'colors/' + "blue");
+
+	set(reference11, {
+		color: "#0028ff",
+		name: "blue"
+	});
+
+  </script>
+<script>
+	document.getElementById("div").addEventListener('click', function(){
+		hello();
+	});
+
+	function hello(){
+		console.log("hey")
+
+	}
+
+	console.log(sessionStorage.getItem('myValue'));
+
+</script>
+</html>
