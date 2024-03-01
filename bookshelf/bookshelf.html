@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Bookshelf</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+	<link rel="stylesheet" href="bookshelf.css">
+	
+</head>
+
+<body>
+	<div class="boeken" id="boeken">
+		<h1>BOOKSHELF</h1>
+		<input id="searchField" placeholder="search..."></input>
+		<select id="genreSelectFilter" class="genreSelect">
+			<option value="no genre">no genre</option>
+		</select>
+		<button id="addBtn">+</button>
+		<br>
+		<div id="booklist"></div>
+	</div>
+
+	<div class="addDiv" id="addDiv">
+		<form class="addForm" id="addForm" name="addForm">
+			<button id="backAddBtn">&lt-</button>
+			<button id="removeBtn">-</button>
+			<h3 id="h3Form"></h3>
+			
+			<label>title</label><br>
+			<input id="titel" placeholder="titel">
+			<label>author</label><br>
+			<input id="author" placeholder="author"><br>
+			<label>read</label><label id="lblGenre">genre</label><label id="lblScore">score</label><br>
+			<input class="checkbox" type="checkbox" id="checkRead"><!--<span id="checkVisual"></span>-->
+			<select id="genreSelect" class="genreSelect">
+				<option value="no genre">no genre</option>
+			</select>
+			<input id="scoreIn" placeholder=""><span id="spanScorePrct">/5</span><br><br>
+			<label>extra info</label><br>
+			<textarea id="extraTxt" rows="5"></textarea><br>
+			<select id="colorSelect">
+				<option value="random color">random color</option>
+			</select>
+
+
+			<button class="form-btn dx" id="btnAddForm" >Add</button>
+			<button class="form-btn dx" id="btnEditForm">Edit</button>
+			<button class="form-btn dx" id="btnSaveForm">Save</button>
+		</form>
+	</div>
+
+	<div class="removeDiv" id="removeDiv">
+		<button id="removeBurnBtn">&times</button><div>Alert</div><br>
+		<button id="burnBtn">Burn book</button>
+	</div>
+
+
+
+
+	<!------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+	<!------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+	
+	
+	
+	<script type="module">
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+		import { getDatabase, onValue, ref, set, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+		// import { getAuth } from "firebase/auth";
+		import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+	  
+		// Your web app's Firebase configuration
+		const firebaseConfig = {
+		  apiKey: "AIzaSyCwkZcev1aHD98mqbrkJKrgzIx80Ji6R2s",
+		  authDomain: "boekenkast-9feaf.firebaseapp.com",
+		  databaseURL: "https://boekenkast-9feaf-default-rtdb.europe-west1.firebasedatabase.app",
+		  projectId: "boekenkast-9feaf",
+		  storageBucket: "boekenkast-9feaf.appspot.com",
+		  messagingSenderId: "1018308118328",
+		  appId: "1:1018308118328:web:bc618dfbdbc065ee59e3cd"
+		};
+		
+		// Initialize Firebase
+		const app = initializeApp(firebaseConfig);
+	  
+		//----------------------------------------------------------------------------------------------------------------------------------
+		// firebase authentiaction
+		//----------------------------------------------------------------------------------------------------------------------------------
+
+		// Initialize Firebase Authentication and get a reference to the service
+		const auth = getAuth(app);
+
+
+
+
+		//----------------------------------------------------------------------------------------------------------------------------------
+		// functions with direct Firebasde acces
+		//----------------------------------------------------------------------------------------------------------------------------------
+
+
+	
+	
+		function writeBook(titel, author, read, genre, score, extra, color){
+			const db = getDatabase();
+			var key = createKey(titel, author);
+			const reference = ref(db,'books/' + key);
+
+			set(reference, {
+				key: key,
+				titel: titel,
+				author: author,
+				read: read,
+				genre: genre,
+				score: score,
+				extra: extra,
+				color: color
+			});
+		}
+
+		function readBooks(){
+			// console.log("reading")
+			const db = getDatabase();
+			const distanceRef = ref(db,"books");
+			onValue(distanceRef, (snapchot) => {
+				snapchot.forEach(book => {
+					addToTable(book.val());
+				});
+			})
+		}
+
+		function changeBook(key, titel, author, read, genre, score, extra, color) {
+			const db = getDatabase();
+			const reference = ref(db,'books/' + key);
+	
+			set(reference, {
+				key: key,
+				titel: titel,
+				author: author,
+				read: read,
+				genre: genre,
+				score: score,
+				extra: extra,
+				color: color
+			});
+
+		}
+
+		function burnBook(key) {
+			const db = getDatabase();
+			let reference = ref(db,'books/' + key);
+			remove(reference);
+		}
+
+		function readGenres() {
+			const db = getDatabase();
+			const distanceRef = ref(db,"genres");
+			onValue(distanceRef, (snapchot) => {
+				snapchot.forEach(i => {
+					var genre = i.val();
+					addGenreSelect(genre);
+				});
+			})
+		}
+
+		function readColors() {
+			const db = getDatabase();
+			const distanceRef = ref(db,"colors");
+			onValue(distanceRef, (snapchot) => {
+				snapchot.forEach(i => {
+					var color = i.val();
+					addColorSelect(color);
+				});
+			})
+		}
+
+		function randomColor() {
+			// const db = getDatabase();
+			// const distanceRef = ref(db,"colors");
+			// onValue(distanceRef, (snapchot) => {
+			// 	snapchot.forEach(i => {
+			// 		var color = i.val();
+			// 		console.log(color.color);
+			// 		genList(color.color);
+			// 	});
+			// })
+			var colors = ["#000080", "black", "white", "#046307", "#7B1FA2", "#800020", "#36454F", "#FFFDD0", "#008080", "#0028ff"];
+			return colors[Math.round(Math.random() * (colors.length-1))]
+		}
+
+		function searchBooks(term) {
+			// console.log("searching")
+			const db = getDatabase();
+			const distanceRef = ref(db,"books");
+			onValue(distanceRef, (snapchot) => {
+				snapchot.forEach(book => {
+					if(book.val().titel.toLowerCase().includes(term.toLowerCase())){
+						addToTable(book.val());
+					} else if(book.val().author.toLowerCase().includes(term.toLowerCase())) {
+						addToTable(book.val());
+					}
+				});
+			})
+		}
+
+		function filterBooksGenre(genre) {
+			// console.log("filtering")
+			const db = getDatabase();
+			const distanceRef = ref(db,"books");
+			onValue(distanceRef, (snapchot) => {
+				snapchot.forEach(book => {
+					if(book.val().genre.toLowerCase() == genre){
+						addToTable(book.val());
+					}
+				});
+			})
+		}
+
+
+
+		//----------------------------------------------------------------------------------------------------------------------------------
+		// functions with indirect Firebasde acces
+		//----------------------------------------------------------------------------------------------------------------------------------
+
+		var globalKey;
+
+		document.forms.addForm.onsubmit = function(e) {
+			e = e || event;
+			e.preventDefault();
+		}
+	
+
+		document.getElementById('btnAddForm').addEventListener('click', function() {
+			addBook();
+		});
+	
+		function addBook() {
+			// Get values
+			let titel = document.getElementById("titel").value;
+			let author = document.getElementById("author").value;
+			let read = document.getElementById("checkRead").checked;
+			let genre = document.getElementById("genreSelect").value;
+			let score = document.getElementById("scoreIn").value;
+			let extra = document.getElementById("extraTxt").value;
+			let color = document.getElementById("colorSelect").value;
+
+			if(color == "random color"){
+				color = randomColor();
+				// console.log(color)
+			}
+	
+			writeBook(titel, author, read, genre, score, extra, color);
+			document.getElementById('addForm').reset();
+			clearBooks();
+			readBooks();
+		}
+
+		document.getElementById('btnEditForm').addEventListener('click', function() {
+			editBook();
+		});
+
+		function editBook() {
+			showAddDiv("edit");
+		}
+
+		document.getElementById('btnSaveForm').addEventListener('click', function() {
+			saveBook();
+		});
+
+		function saveBook() {
+			// Get values
+			let titel = document.getElementById("titel").value;
+			let author = document.getElementById("author").value;
+			let read = document.getElementById("checkRead").checked;
+			let genre = document.getElementById("genreSelect").value;
+			let score = document.getElementById("scoreIn").value;
+			let extra = document.getElementById("extraTxt").value;
+			let color = document.getElementById("colorSelect").value;
+
+			if(globalKey == createKey(titel,author)){
+				changeBook(globalKey, titel, author, read, genre, score, extra, color);
+			} else {
+				writeBook(titel, author, read, genre, score, extra, color);
+				burnBook(globalKey);
+			}
+			document.getElementById('addForm').reset();
+			document.getElementById("addDiv").style.display = "none";
+			document.getElementById("boeken").style.display = "block";
+			clearBooks();
+			readBooks();
+		}
+
+		document.getElementById('removeBtn').addEventListener('click', function() {
+			removeBook();
+		});
+
+		function removeBook() {
+			document.getElementById("removeDiv").style.display = "block";
+		}
+
+		document.getElementById('burnBtn').addEventListener('click', function() {
+			burnBook(globalKey);
+			clearBooks();
+			readBooks();
+		});
+
+		document.getElementById("searchField").addEventListener('keyup', function() {
+			clearBooks();
+			searchBooks(document.getElementById("searchField").value);
+		})
+
+		document.getElementById("genreSelectFilter").addEventListener('change', function() {
+			var genre =  document.getElementById("genreSelectFilter").value;
+			clearBooks();
+			if(genre != "no genre"){
+				filterBooksGenre(genre);
+			} else {
+				readBooks();
+			}
+		})
+		
+		readBooks();
+		readGenres();
+		readColors();
+
+
+
+
+
+
+
+		//----------------------------------------------------------------------------------------------------------------------------------
+		// Extra functions
+		//----------------------------------------------------------------------------------------------------------------------------------
+
+		document.getElementById("addBtn").addEventListener('click', function(){
+			showAddDiv('add');
+		})
+
+		function showAddDiv(key){
+			if(key == "add"){
+				document.getElementById("addDiv").style.display = "block";
+				document.getElementById("btnAddForm").style.display = "block";
+				document.getElementById("btnEditForm").style.display = "none";
+				document.getElementById("btnSaveForm").style.display = "none";
+				document.getElementById("removeBtn").style.display = "none";
+
+				document.getElementById("titel").readOnly = false;
+				document.getElementById("author").readOnly = false;
+				document.getElementById("checkRead").disabled = false;
+				document.getElementById("genreSelect").disabled = false;
+				document.getElementById("scoreIn").readOnly = false;
+				document.getElementById("extraTxt").readOnly = false;
+				document.getElementById("colorSelect").disabled = false;
+
+				document.getElementById("h3Form").innerHTML = "ADD A BOOK";
+			} else if(key == "edit") {
+				document.getElementById("btnAddForm").style.display = "none";
+				document.getElementById("btnEditForm").style.display = "none";
+				document.getElementById("btnSaveForm").style.display = "block";
+				document.getElementById("addDiv").style.display = "block";
+
+				document.getElementById("h3Form").innerHTML = "EDIT A BOOK";
+				document.getElementById("removeBtn").style.display = "block";							
+				document.getElementById("titel").readOnly = false;
+				document.getElementById("author").readOnly = false;
+				document.getElementById("checkRead").disabled = false;
+				document.getElementById("genreSelect").disabled = false;
+				document.getElementById("scoreIn").readOnly = false;
+				document.getElementById("extraTxt").readOnly = false;
+				document.getElementById("colorSelect").disabled = false;
+			}
+			else{
+				globalKey = key.key;
+				document.getElementById("addDiv").style.display = "block";
+				document.getElementById("removeBtn").style.display = "block";
+
+				document.getElementById("titel").value = key.titel;
+				document.getElementById("author").value = key.author;
+				document.getElementById("checkRead").checked = key.read;
+				document.getElementById("genreSelect").value = key.genre;
+				document.getElementById("scoreIn").value = key.score;
+				document.getElementById("extraTxt").value = key.extra;
+				document.getElementById("colorSelect").value = key.color;
+
+				document.getElementById("titel").readOnly = true;
+				document.getElementById("author").readOnly = true;
+				document.getElementById("checkRead").disabled = true;
+				document.getElementById("genreSelect").disabled = true;
+				document.getElementById("scoreIn").readOnly = true;
+				document.getElementById("extraTxt").readOnly = true;
+				document.getElementById("colorSelect").disabled = true;
+
+				document.getElementById("btnAddForm").style.display = "none";
+				document.getElementById("btnEditForm").style.display = "block";
+				document.getElementById("btnSaveForm").style.display = "none";
+				document.getElementById("h3Form").innerHTML = "read A BOOK";
+			}
+		}
+		
+
+		function createKey(titel, author){
+			return titel + "_" + author;
+		}
+
+		var cntr = 0;
+		function addToTable(key){
+			cntr++;
+
+			var book = document.createElement("div");
+			book.setAttribute("class","book");
+			book.addEventListener('click',function(){
+				showAddDiv(key)
+			});
+			var bgcolor = "background-color: " + key.color + ";";
+			if(cntr == 1){
+				bgcolor += "margin-top: 15px";
+			}
+			book.setAttribute("style",bgcolor);
+
+			var spanTitel = document.createElement("span");
+			spanTitel.setAttribute("class","titel");
+			spanTitel.appendChild(document.createTextNode(key.titel));
+
+			book.appendChild(spanTitel);
+			document.getElementById("booklist").appendChild(book);
+
+			if(cntr == 10){
+				cntr = 0;
+				var shelf = document.createElement("div");
+				shelf.setAttribute("class","shelf");
+				document.getElementById("booklist").appendChild(shelf);
+			}
+		}
+		
+		function addGenreSelect(genre) {
+			var option = document.createElement("option");
+			option.appendChild(document.createTextNode(genre));
+			option.setAttribute("class","genreSelectOption");
+			option.setAttribute("value", genre);
+			document.getElementById("genreSelect").appendChild(option);
+			
+			option = document.createElement("option");
+			option.appendChild(document.createTextNode(genre));
+			option.setAttribute("class","genreSelectOption");
+			option.setAttribute("value", genre);
+			document.getElementById("genreSelectFilter").appendChild(option);
+		}
+
+		function addColorSelect(color) {
+			var option = document.createElement("option");
+			option.appendChild(document.createTextNode(color.name));
+			option.setAttribute("class","colorSelectOption");
+			option.setAttribute("value", color.color);
+			document.getElementById("colorSelect").appendChild(option);
+		}
+
+		document.getElementById("backAddBtn").addEventListener('click', function() {
+			backAdd();
+		})
+
+		function backAdd(){
+			document.getElementById("addDiv").style.display = "none";
+			document.getElementById("removeDiv").style.display = "none";
+
+			document.getElementById("titel").value = "";
+			document.getElementById("author").value = "";
+			document.getElementById("scoreIn").value = "";
+			document.getElementById("checkRead").checked = false;
+			document.getElementById("genreSelect").value = "no genre";
+			document.getElementById("scoreIn").value = "";
+			document.getElementById("extraTxt").value = "";
+			document.getElementById("colorSelect").value = "random color";
+		}
+
+		document.getElementById("removeBurnBtn").addEventListener('click', function() {
+			removeBurnDiv();
+		})
+
+		function removeBurnDiv() {
+			document.getElementById("removeDiv").style.display = "none";
+		}
+
+		function clearBooks() {
+			// console.log("clearing");
+			backAdd();
+			document.getElementById("booklist").remove(); 
+
+			var booklist = document.createElement("div");
+			booklist.setAttribute("id", "booklist");
+			document.getElementById("boeken").append(booklist);
+			// readBooks();
+		}
+	</script>
+
+</body>
+</html>

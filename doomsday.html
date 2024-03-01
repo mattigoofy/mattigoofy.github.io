@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>Doomsday is near!!</title>
+</head>
+<style>
+    h1 {text-align: center; color:white;}
+    body{ background-color: #080710;}
+    button {width: 7%;}
+    #stoptxt {color: grey;}
+    #next {display: none;}
+    #start {display: block; width: 100%; height: 10 0%;}
+    #stopbtn {width: 75%; height: 200px;}
+    #game {display: none;}
+</style>
+<body>
+<h1>
+    Test if you know which day of the week it is
+    <div id="game">
+        
+        <p id="date">date</p> 
+        <span id="stoptxt">00:00</span> <br>
+        <button id="Monday" onclick="Monday()">Monday</button>
+        <button id="Tuesday" onclick="Tuesday()">Tuesday</button>
+        <button id="Wednesday" onclick="Wednesday()">Wednesday</button>
+        <br>
+        <button id="Thursday" onclick="Thursday()">Thursday</button>
+        <button id="Friday" onclick="Friday()">Friday</button>
+        <button id="Saturday" onclick="Saturday()">Saturday</button>
+        <br>
+        <button id="Sunday" onclick="Sunday()">Sunday</button>
+        
+        <p id="ans"></p>
+        <button id="next" onclick="next()" style="position: absolute; left: 50%; transform: translateX(-50%);">next</button>
+        <p id="test2"></p>
+    </div>
+
+    <div id="start">
+        <br><button onclick="start()" id="stopbtn">START</button>
+    </div>
+</h1>
+
+</body>
+	
+<script>
+    function start(){
+        document.getElementById("game").style.display = "block";
+        document.getElementById("start").style.display = "none";
+        stopwatch();
+    }
+
+  var months = ["jan", "feb", "mar", "apr", "may", "jun","jul","aug","sep","oct","nov","dec"];
+  var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  var score = 0;
+
+  function generateDate(from, to) {
+    return new Date(from.getTime() + Math.random()*(to.getTime() - from.getTime()));
+  }
+
+  function check(day){
+    if(day == days[date.getDay()]){
+      document.getElementById("ans").innerHTML = "correct";
+    } else {
+      document.getElementById("ans").innerHTML = "wrong, it's " + days[date.getDay()];
+    }
+    document.getElementById("next").style.display = "block"; 
+    
+    document.getElementById("Monday").disabled = true;
+    document.getElementById("Tuesday").disabled = true;
+    document.getElementById("Wednesday").disabled = true;
+    document.getElementById("Thursday").disabled = true;
+    document.getElementById("Friday").disabled = true;
+    document.getElementById("Saturday").disabled = true;
+    document.getElementById("Sunday").disabled = true;
+    stopwatch();
+    score++;
+  }
+
+  function input() {
+    check(document.getElementById("inp").value);
+  }
+  function Monday() {
+    check("Monday");
+  }
+  function Tuesday() {
+    check("Tuesday");
+  }
+  function Wednesday() {
+    check("Wednesday");
+  }
+  function Thursday() {
+    check("Thursday");
+  }
+  function Friday() {
+    check("Friday");
+  }
+  function Saturday() {
+    check("Saturday");
+  }
+  function Sunday() {
+    check("Sunday");
+  }
+
+  function next() {
+    var date = generateDate(new Date(1500,5,3), new Date());
+    document.getElementById("date").innerHTML = date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+    document.getElementById("ans").innerHTML = "";
+
+    document.getElementById("next").style.display = "none";
+    
+    document.getElementById("Monday").disabled = false;
+    document.getElementById("Tuesday").disabled = false;
+    document.getElementById("Wednesday").disabled = false;
+    document.getElementById("Thursday").disabled = false;
+    document.getElementById("Friday").disabled = false;
+    document.getElementById("Saturday").disabled = false;
+    document.getElementById("Sunday").disabled = false;
+    resetStopwatch();
+    stopwatch();
+  }
+
+  var date = generateDate(new Date(1500,5,3), new Date());
+  document.getElementById("date").innerHTML = date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+
+
+
+
+  // stopwatch
+    var timing = false;
+    var startTime; // to keep track of the start time
+    var stopwatchInterval; // to keep track of the interval
+    var elapsedPausedTime = 0; // to keep track of the elapsed time while stopped
+
+    function stopwatch(){
+        if(timing){
+            stopStopwatch();
+            document.getElementById("stopbtn").innerHTML = "START";
+        } else {
+            startStopwatch();
+            document.getElementById("stopbtn").innerHTML = "STOP";
+        }
+    }
+
+    function startStopwatch() {
+        if (!stopwatchInterval) {
+            startTime = new Date().getTime() - elapsedPausedTime; // get the starting time by subtracting the elapsed paused time from the current time
+            stopwatchInterval = setInterval(updateStopwatch, 1000); // update every second
+        }
+        timing = true;
+    }
+    function stopStopwatch() {
+        clearInterval(stopwatchInterval); // stop the interval
+        elapsedPausedTime = new Date().getTime() - startTime; // calculate elapsed paused time
+        stopwatchInterval = null; // reset the interval variable
+        timing = false;
+    }
+    function resetStopwatch() {
+        stopStopwatch(); // stop the interval
+        elapsedPausedTime = 0; // reset the elapsed paused time variable
+        document.getElementById("stoptxt").innerHTML = "00:00"; // reset the display
+        document.getElementById("stopbtn").innerHTML = "START";
+    }
+
+    function updateStopwatch() {
+        var currentTime = new Date().getTime(); // get current time in milliseconds
+        var elapsedTime = currentTime - startTime; // calculate elapsed time in milliseconds
+        var seconds = Math.floor(elapsedTime / 1000) % 60; // calculate seconds
+        var minutes = Math.floor(elapsedTime / 1000 / 60) % 60; // calculate minutes
+        var displayTime = pad(minutes) + ":" + pad(seconds); // format display time
+        document.getElementById("stoptxt").innerHTML = displayTime; // update the display
+    }
+
+    function pad(number) {
+        // add a leading zero if the number is less than 10
+        return (number < 10 ? "0" : "") + number;
+    }
+</script>
+</html>
