@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+	<link rel="stylesheet" href="bookshelfLogin.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+<body>
+	<div id="logInDiv" class="content">
+		<div class="text">
+		   Login Form
+		</div>
+		<form id="logInForm">
+		   <div class="field">
+			  <input type="text" id="emailIn" required>
+			  <span class="fas fa-user"></span>
+			  <label>Email or Phone</label>
+		   </div>
+		   <div class="field">
+			  <input type="password" id="passwordIn" required>
+			  <span class="fas fa-lock"></span>
+			  <label>Password</label>
+		   </div>
+		   <!-- <div class="forgot-pass">
+			  <a href="#">Forgot Password?</a>
+		   </div> -->
+		   <button id="signInBtn">Log in</button>
+		   <button id="signUpBtn">Sign up</button>
+		   <div class="sign-up">
+			  <span id="memberTxt">Not a member?</span>
+			  <a id="signUpNowBtn">signup now</a>
+			  <a id="signInNowBtn">login now</a>
+		   </div>
+		</form>
+	 </div>
+</body>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+	import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCwkZcev1aHD98mqbrkJKrgzIx80Ji6R2s",
+      authDomain: "boekenkast-9feaf.firebaseapp.com",
+      databaseURL: "https://boekenkast-9feaf-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "boekenkast-9feaf",
+      storageBucket: "boekenkast-9feaf.appspot.com",
+      messagingSenderId: "1018308118328",
+      appId: "1:1018308118328:web:bc618dfbdbc065ee59e3cd"
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+  
+	// Initialize Firebase Authentication and get a reference to the service
+	const auth = getAuth(app);
+
+	var globalPassword;
+
+	document.forms.logInForm.onsubmit = function(e) {
+		e = e || event;
+		e.preventDefault();
+	}
+
+	document.getElementById("signUpNowBtn").addEventListener('click', function() {
+		document.getElementById("signUpBtn").style.display = "block";
+		document.getElementById("signInBtn").style.display = "none";
+		document.getElementById("signInNowBtn").style.display = "inline";
+		document.getElementById("signUpNowBtn").style.display = "none";
+		document.getElementById("memberTxt").innerHTML = "Already a member?";
+	})
+
+	document.getElementById("signInNowBtn").addEventListener('click', function() {
+		document.getElementById("signUpBtn").style.display = "none";
+		document.getElementById("signInBtn").style.display = "block";
+		document.getElementById("signInNowBtn").style.display = "none";
+		document.getElementById("signUpNowBtn").style.display = "inline";
+		document.getElementById("memberTxt").innerHTML = "Not a member?";
+	})
+
+	document.getElementById("signUpBtn").addEventListener('click', function() {
+		let email = document.getElementById("emailIn").value;
+		let password = document.getElementById("passwordIn").value;
+		globalPassword = password;
+		createUserWithEmailAndPassword(auth, email, password).then(u => {})
+			.catch(error => {
+				switch (error.code) {
+					case 'auth/email-already-in-use':
+					alert(`Email address ${email} already in use.`);
+					break;
+					case 'auth/invalid-email':
+					alert(`Email address ${email} is invalid.`);
+					break;
+					case 'auth/operation-not-allowed':
+					alert(`Error during sign up.`);
+					break;
+					case 'auth/weak-password':
+					alert('Password is not strong enough. Add additional characters including special characters and numbers.');
+					break;
+					default:
+					console.log(error.message);
+					alert("something went wrong, try again")
+					break;
+				}
+			});
+		auth.onAuthStateChanged(function() {
+			if(auth.currentUser != null){
+				loggedIn();
+			}
+		})
+	})	
+
+	document.getElementById("signInBtn").addEventListener('click', function() {
+		let email = document.getElementById("emailIn").value;
+		let password = document.getElementById("passwordIn").value;
+		globalPassword = password;
+		signInWithEmailAndPassword(auth, email, password).then(u => {})
+			.catch(error => {
+				switch (error.code) {
+					case 'auth/invalid-password':
+					alert(`Wrong password, try again.`);
+					break;
+					case 'auth/invalid-email':
+					alert(`Email address ${email} is invalid.`);
+					break;
+					case 'auth/invalid-credential':
+					alert(`Do you already have an account? if no try signing up :)`);
+					break;
+					case 'auth/operation-not-allowed':
+					alert(`Error during sign up.`);
+					break;
+					case 'auth/auth/user-not-found':
+					alert('Do you already have an account? if no try signing up :)');
+					break;
+					default:
+					console.log(error.message);
+					alert("Something went wrong, try again")
+					break;
+				}
+			});
+		auth.onAuthStateChanged(function() {
+			if(auth.currentUser != null){
+				loggedIn();
+			}
+		})
+	})	
+
+
+	function loggedIn() {
+		document.getElementById("logInForm").reset();
+
+		const encrypt = cipher("test");
+		var globalPasswordEn = encrypt(globalPassword);
+
+		localStorage.setItem("user", auth.currentUser.email);
+		localStorage.setItem("pass", globalPasswordEn);
+
+        window.open("file:///C:/Users/matgo/Documents/GitHub/mattigoofy.github.io/bookshelf/bookshelf.html","_self");
+	}
+
+
+	const cipher = salt => {
+		const textToChars = text => text.split('').map(c => c.charCodeAt(0));
+		const byteHex = n => ("0" + Number(n).toString(16)).substr(-2);
+		const applySaltToChar = code => textToChars(salt).reduce((a,b) => a ^ b, code);
+		
+		return text => text.split('')
+		.map(textToChars)
+		.map(applySaltToChar)
+		.map(byteHex)
+		.join('');
+	}
+  </script>
+</html>

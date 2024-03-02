@@ -10,8 +10,9 @@
 </head>
 
 <body>
+	<button id="logOut">Log Out</button>
 	<div class="boeken" id="boeken">
-		<h1>BOOKSHELF</h1>
+		<h1>MY BOOKSHELF</h1>
 		<input id="searchField" placeholder="search..."></input>
 		<select id="genreSelectFilter" class="genreSelect">
 			<option value="no genre">no genre</option>
@@ -68,7 +69,7 @@
 		import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 		import { getDatabase, onValue, ref, set, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 		// import { getAuth } from "firebase/auth";
-		import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+		import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 	  
 		// Your web app's Firebase configuration
 		const firebaseConfig = {
@@ -88,10 +89,47 @@
 		// firebase authentiaction
 		//----------------------------------------------------------------------------------------------------------------------------------
 
+		const decipher = salt => {
+			const textToChars = text => text.split('').map(c => c.charCodeAt(0));
+			const applySaltToChar = code => textToChars(salt).reduce((a,b) => a ^ b, code);
+			return encoded => encoded.match(/.{1,2}/g)
+			.map(hex => parseInt(hex, 16))
+			.map(applySaltToChar)
+			.map(charCode => String.fromCharCode(charCode))
+			.join('');
+		}
+
 		// Initialize Firebase Authentication and get a reference to the service
 		const auth = getAuth(app);
 
+		var email = localStorage.getItem("user");
+		var password = localStorage.getItem("pass");
 
+		var passwordDe = "";
+		if(password != null){
+			const decrypt = decipher("test");
+			passwordDe = decrypt(password);
+		}
+		signInWithEmailAndPassword(auth, email, passwordDe).then(u => {}).catch(error => {console.log("error has occured")});
+
+
+		auth.onAuthStateChanged(function() {
+			if(auth.currentUser != null){
+				console.log(auth.currentUser.uid);
+				document.getElementById("boeken").style.display = "block";
+				readBooks();
+				readGenres();
+				readColors();
+			} else {
+				document.getElementById("boeken").style.display = "none";
+				window.open("file:///C:/Users/matgo/Documents/GitHub/mattigoofy.github.io/bookshelf/bookshelfLogin.html","_self");
+			}
+		})
+
+		document.getElementById("logOut").addEventListener('click',function() {
+			auth.signOut();
+			localStorage.clear();
+		})
 
 
 		//----------------------------------------------------------------------------------------------------------------------------------
@@ -104,7 +142,7 @@
 		function writeBook(titel, author, read, genre, score, extra, color){
 			const db = getDatabase();
 			var key = createKey(titel, author);
-			const reference = ref(db,'books/' + key);
+			const reference = ref(db,auth.currentUser.uid + '/books/' + key);
 
 			set(reference, {
 				key: key,
@@ -121,7 +159,7 @@
 		function readBooks(){
 			// console.log("reading")
 			const db = getDatabase();
-			const distanceRef = ref(db,"books");
+			const distanceRef = ref(db,auth.currentUser.uid + "/books");
 			onValue(distanceRef, (snapchot) => {
 				snapchot.forEach(book => {
 					addToTable(book.val());
@@ -131,7 +169,7 @@
 
 		function changeBook(key, titel, author, read, genre, score, extra, color) {
 			const db = getDatabase();
-			const reference = ref(db,'books/' + key);
+			const reference = ref(db,auth.currentUser.uid + '/books/' + key);
 	
 			set(reference, {
 				key: key,
@@ -148,7 +186,7 @@
 
 		function burnBook(key) {
 			const db = getDatabase();
-			let reference = ref(db,'books/' + key);
+			let reference = ref(db,auth.currentUser.uid + '/books/' + key);
 			remove(reference);
 		}
 
@@ -191,7 +229,7 @@
 		function searchBooks(term) {
 			// console.log("searching")
 			const db = getDatabase();
-			const distanceRef = ref(db,"books");
+			const distanceRef = ref(db,auth.currentUser.uid + "/books");
 			onValue(distanceRef, (snapchot) => {
 				snapchot.forEach(book => {
 					if(book.val().titel.toLowerCase().includes(term.toLowerCase())){
@@ -206,7 +244,7 @@
 		function filterBooksGenre(genre) {
 			// console.log("filtering")
 			const db = getDatabase();
-			const distanceRef = ref(db,"books");
+			const distanceRef = ref(db,auth.currentUser.uid + "/books");
 			onValue(distanceRef, (snapchot) => {
 				snapchot.forEach(book => {
 					if(book.val().genre.toLowerCase() == genre){
@@ -319,9 +357,6 @@
 			}
 		})
 		
-		readBooks();
-		readGenres();
-		readColors();
 
 
 
