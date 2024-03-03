@@ -15,7 +15,7 @@
 		<h1>MY BOOKSHELF</h1>
 		<input id="searchField" placeholder="search..."></input>
 		<select id="genreSelectFilter" class="genreSelect">
-			<option value="no genre">no genre</option>
+			<option value="no filter">no filter</option>
 		</select>
 		<button id="addBtn">+</button>
 		<br>
@@ -227,30 +227,13 @@
 			return colors[Math.round(Math.random() * (colors.length-1))]
 		}
 
-		// function searchBooks(term) {
-		// 	// console.log("searching")
-		// 	const db = getDatabase();
-		// 	const distanceRef = ref(db,auth.currentUser.uid + "/books");
-		// 	onValue(distanceRef, (snapchot) => {
-		// 		snapchot.forEach(book => {
-		// 			if(book.val().titel.toLowerCase().includes(term.toLowerCase())){
-		// 				addToTable(book.val());
-		// 			} else if(book.val().author.toLowerCase().includes(term.toLowerCase())) {
-		// 				addToTable(book.val());
-		// 			} else if(book.val().extra.toLowerCase().includes(term.toLowerCase())) {
-		// 				addToTable(book.val());
-		// 			}
-		// 		});
-		// 	})
-		// }
-
 		function filterBooksGenre(genre, term) {
 			// console.log("filtering")
 			const db = getDatabase();
 			const distanceRef = ref(db,auth.currentUser.uid + "/books");
 			onValue(distanceRef, (snapchot) => {
 				snapchot.forEach(book => {
-					if((book.val().genre.toLowerCase() == genre || genre == "no genre") && 
+					if((book.val().genre.toLowerCase() == genre || genre == "no filter") && 
 						(book.val().titel.toLowerCase().includes(term.toLowerCase()) 
 						|| book.val().author.toLowerCase().includes(term.toLowerCase()) 
 						||book.val().extra.toLowerCase().includes(term.toLowerCase())	
@@ -268,6 +251,23 @@
 			onValue(distanceRef, (snapchot) => {
 				snapchot.forEach(book => {
 					if((book.val().read.toString() == filter) && 
+						(book.val().titel.toLowerCase().includes(term.toLowerCase()) 
+						|| book.val().author.toLowerCase().includes(term.toLowerCase()) 
+						||book.val().extra.toLowerCase().includes(term.toLowerCase())	
+						||term == "")){
+							addToTable(book.val());
+					}
+				});
+			})
+		}
+
+		function filterBooksScore(filter, term) {
+			// console.log("filtering")
+			const db = getDatabase();
+			const distanceRef = ref(db,auth.currentUser.uid + "/books");
+			onValue(distanceRef, (snapchot) => {
+				snapchot.forEach(book => {
+					if((book.val().score.toString() == filter) && 
 						(book.val().titel.toLowerCase().includes(term.toLowerCase()) 
 						|| book.val().author.toLowerCase().includes(term.toLowerCase()) 
 						||book.val().extra.toLowerCase().includes(term.toLowerCase())	
@@ -369,7 +369,6 @@
 		document.getElementById("searchField").addEventListener('keyup', function() {
 			var genre =  document.getElementById("genreSelectFilter").value;
 			var term = document.getElementById("searchField").value;
-			console.log(genre + ", " + term);
 			clearBooks();
 			filterBooksGenre(genre, term);
 		})
@@ -377,11 +376,12 @@
 		document.getElementById("genreSelectFilter").addEventListener('change', function() {
 			var filter =  document.getElementById("genreSelectFilter").value;
 			var term = document.getElementById("searchField").value;
-			console.log(filter + ", " + term);
 			clearBooks();
 			if(filter == "true" || filter == "false"){
 				filterBooksRead(filter, term);
-			} else {
+			} else if(!isNaN(filter)) {
+				filterBooksScore(filter, term);
+			}else {
 				filterBooksGenre(filter, term);
 			}
 		})
@@ -484,10 +484,25 @@
 
 			var spanTitel = document.createElement("span");
 			spanTitel.setAttribute("class","titel");
+			spanTitel.setAttribute("style","margin-top: 5px");
 			spanTitel.appendChild(document.createTextNode(key.titel));
 
+			var spanOpvulling = document.createElement("span");
+			spanOpvulling.setAttribute("class","opvulling");
+			spanOpvulling.setAttribute("style", "color: " + key.color + ";")
+			// spanOpvulling.appendChild(document.createTextNode("___"));
+
+			var spanAuthor = document.createElement("span");
+			spanAuthor.setAttribute("class","author");
+			spanAuthor.setAttribute("style","margin-bottom: 5px");
+			spanAuthor.appendChild(document.createTextNode(key.author.split(" ").map(i => i.charAt(0)).join(".") + "."));
+			
+
 			book.appendChild(spanTitel);
+			book.appendChild(spanOpvulling);
+			book.appendChild(spanAuthor);
 			document.getElementById("booklist").appendChild(book);
+
 
 			if(cntr == 10){
 				cntr = 0;
@@ -523,6 +538,18 @@
 			unread.setAttribute("class","genreSelectOption");
 			unread.setAttribute("value", false);
 			document.getElementById("genreSelectFilter").appendChild(unread);
+
+			for(var i=5; i>=0; i--) {
+				addSelectFilterScore(i);
+			}
+		}
+
+		function addSelectFilterScore(intScore) {
+			var score = document.createElement("option");
+			score.appendChild(document.createTextNode(intScore + "/5"));
+			score.setAttribute("class","genreSelectOption");
+			score.setAttribute("value", intScore);
+			document.getElementById("genreSelectFilter").appendChild(score);
 		}
 
 		function addColorSelect(color) {

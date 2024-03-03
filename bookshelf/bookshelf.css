@@ -376,13 +376,23 @@ input {
 .titel {
 	float: left;
 	color: 	#D4AF37;
+	/* margin-top: 5px; */
+}
+.opvulling {
+	width: 20px;
+	margin: 10px;
 }
 .author {
-	margin: auto;
+	float: right;
+	/* margin: auto; */
 	color: 	#D4AF37;
 	/* font-size: 50%; */
+	/* margin-bottom: 5px; */
+	/* margin-bottom: 5px; */
+	/* padding: 0px 0px 5px 5px; */
 } 
-.score {float:right;
+.score {
+	float:right;
 	color: 	#D4AF37;
 }
 
