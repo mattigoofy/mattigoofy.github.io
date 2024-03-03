@@ -115,11 +115,12 @@
 
 		auth.onAuthStateChanged(function() {
 			if(auth.currentUser != null){
-				console.log(auth.currentUser.uid);
+				// console.log(auth.currentUser.uid);
 				document.getElementById("boeken").style.display = "block";
 				readBooks();
 				readGenres();
 				readColors();
+				addSelectFilter();
 			} else {
 				document.getElementById("boeken").style.display = "none";
 				window.open("/bookshelfLogin.html","_self");
@@ -226,29 +227,52 @@
 			return colors[Math.round(Math.random() * (colors.length-1))]
 		}
 
-		function searchBooks(term) {
-			// console.log("searching")
-			const db = getDatabase();
-			const distanceRef = ref(db,auth.currentUser.uid + "/books");
-			onValue(distanceRef, (snapchot) => {
-				snapchot.forEach(book => {
-					if(book.val().titel.toLowerCase().includes(term.toLowerCase())){
-						addToTable(book.val());
-					} else if(book.val().author.toLowerCase().includes(term.toLowerCase())) {
-						addToTable(book.val());
-					}
-				});
-			})
-		}
+		// function searchBooks(term) {
+		// 	// console.log("searching")
+		// 	const db = getDatabase();
+		// 	const distanceRef = ref(db,auth.currentUser.uid + "/books");
+		// 	onValue(distanceRef, (snapchot) => {
+		// 		snapchot.forEach(book => {
+		// 			if(book.val().titel.toLowerCase().includes(term.toLowerCase())){
+		// 				addToTable(book.val());
+		// 			} else if(book.val().author.toLowerCase().includes(term.toLowerCase())) {
+		// 				addToTable(book.val());
+		// 			} else if(book.val().extra.toLowerCase().includes(term.toLowerCase())) {
+		// 				addToTable(book.val());
+		// 			}
+		// 		});
+		// 	})
+		// }
 
-		function filterBooksGenre(genre) {
+		function filterBooksGenre(genre, term) {
 			// console.log("filtering")
 			const db = getDatabase();
 			const distanceRef = ref(db,auth.currentUser.uid + "/books");
 			onValue(distanceRef, (snapchot) => {
 				snapchot.forEach(book => {
-					if(book.val().genre.toLowerCase() == genre){
-						addToTable(book.val());
+					if((book.val().genre.toLowerCase() == genre || genre == "no genre") && 
+						(book.val().titel.toLowerCase().includes(term.toLowerCase()) 
+						|| book.val().author.toLowerCase().includes(term.toLowerCase()) 
+						||book.val().extra.toLowerCase().includes(term.toLowerCase())	
+						||term == "")){
+							addToTable(book.val());
+					}
+				});
+			})
+		}
+
+		function filterBooksRead(filter, term) {
+			// console.log("filtering")
+			const db = getDatabase();
+			const distanceRef = ref(db,auth.currentUser.uid + "/books");
+			onValue(distanceRef, (snapchot) => {
+				snapchot.forEach(book => {
+					if((book.val().read.toString() == filter) && 
+						(book.val().titel.toLowerCase().includes(term.toLowerCase()) 
+						|| book.val().author.toLowerCase().includes(term.toLowerCase()) 
+						||book.val().extra.toLowerCase().includes(term.toLowerCase())	
+						||term == "")){
+							addToTable(book.val());
 					}
 				});
 			})
@@ -343,17 +367,22 @@
 		});
 
 		document.getElementById("searchField").addEventListener('keyup', function() {
+			var genre =  document.getElementById("genreSelectFilter").value;
+			var term = document.getElementById("searchField").value;
+			console.log(genre + ", " + term);
 			clearBooks();
-			searchBooks(document.getElementById("searchField").value);
+			filterBooksGenre(genre, term);
 		})
 
 		document.getElementById("genreSelectFilter").addEventListener('change', function() {
-			var genre =  document.getElementById("genreSelectFilter").value;
+			var filter =  document.getElementById("genreSelectFilter").value;
+			var term = document.getElementById("searchField").value;
+			console.log(filter + ", " + term);
 			clearBooks();
-			if(genre != "no genre"){
-				filterBooksGenre(genre);
+			if(filter == "true" || filter == "false"){
+				filterBooksRead(filter, term);
 			} else {
-				readBooks();
+				filterBooksGenre(filter, term);
 			}
 		})
 		
@@ -482,6 +511,20 @@
 			document.getElementById("genreSelectFilter").appendChild(option);
 		}
 
+		function addSelectFilter() {
+			var read = document.createElement("option");
+			read.appendChild(document.createTextNode("read"));
+			read.setAttribute("class","genreSelectOption");
+			read.setAttribute("value", true);
+			document.getElementById("genreSelectFilter").appendChild(read);
+
+			var unread = document.createElement("option");
+			unread.appendChild(document.createTextNode("unread"));
+			unread.setAttribute("class","genreSelectOption");
+			unread.setAttribute("value", false);
+			document.getElementById("genreSelectFilter").appendChild(unread);
+		}
+
 		function addColorSelect(color) {
 			var option = document.createElement("option");
 			option.appendChild(document.createTextNode(color.name));
@@ -525,6 +568,15 @@
 			booklist.setAttribute("id", "booklist");
 			document.getElementById("boeken").append(booklist);
 			// readBooks();
+		}
+
+		document.getElementById("scoreIn").addEventListener('keyup', function(){limit(this)})
+		function limit(element) {
+			var max_chars = 1;
+				
+			if(element.value.length > max_chars) {
+				element.value = element.value.substr(0, max_chars);
+			}
 		}
 	</script>
 
