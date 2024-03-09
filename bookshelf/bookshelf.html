@@ -10,7 +10,6 @@
 </head>
 
 <body>
-	<button id="logOut">Log Out</button>
 	<div class="boeken" id="boeken">
 		<h1>MY BOOKSHELF</h1>
 		<input id="searchField" placeholder="search..."></input>
@@ -24,8 +23,9 @@
 
 	<div class="addDiv" id="addDiv">
 		<form class="addForm" id="addForm" name="addForm">
-			<button id="backAddBtn">&lt-</button>
+			<button id="backAddBtn">X</button>
 			<button id="removeBtn">-</button>
+			<button id="AddGroupBtn">group</button>
 			<h3 id="h3Form"></h3>
 			
 			<label>title</label><br>
@@ -56,6 +56,23 @@
 		<button id="burnBtn">Burn book</button>
 	</div>
 
+	<div id="settingSideBar" class="settingSideBar">
+		<a href="javascript:void(0)" class="closebtn" id="closeSettingsBtn">&times;</a>
+		<p>Settings</p>
+		<span>amount of books per shelf</span><button id="lessBooks">-</button><input id="amountOfBooksInput"><button id="moreBooks">+</button>
+		<span>minimum height</span><input type="range" min="1" max="500" id="minHeightIn" oninput="this.nextElementSibling.value = this.value"><output id="minHeightOut" class="heightOut">50</output>
+		<span>maximum height</span><input type="range" min="1" max="500" id="maxHeightIn" oninput="this.nextElementSibling.value = this.value"><output id="maxHeightOut" class="heightOut">50</output>
+		<button id="saveSettings" class="form-btn dx">Save</button>
+		<button id="logOut">Log Out</button>
+	</div>
+	<span id="settingsOpener">settings &#9776;</span>
+
+	<div id="friendSideBar" class="friendSideBar">
+		<a href="javascript:void(0)" class="closebtn" id="closeFriendBtn">&times;</a>
+		<p>Friends</p>
+	</div>
+	<span id="friendsOpener">&#9776; friends</span>
+
 
 
 
@@ -84,7 +101,8 @@
 		
 		// Initialize Firebase
 		const app = initializeApp(firebaseConfig);
-	  
+
+
 		//----------------------------------------------------------------------------------------------------------------------------------
 		// firebase authentiaction
 		//----------------------------------------------------------------------------------------------------------------------------------
@@ -117,6 +135,7 @@
 			if(auth.currentUser != null){
 				// console.log(auth.currentUser.uid);
 				document.getElementById("boeken").style.display = "block";
+				readSettings();
 				readBooks();
 				readGenres();
 				readColors();
@@ -133,12 +152,12 @@
 		})
 
 
+
+
 		//----------------------------------------------------------------------------------------------------------------------------------
 		// functions with direct Firebasde acces
 		//----------------------------------------------------------------------------------------------------------------------------------
 
-
-	
 	
 		function writeBook(titel, author, read, genre, score, extra, color){
 			const db = getDatabase();
@@ -153,7 +172,8 @@
 				genre: genre,
 				score: score,
 				extra: extra,
-				color: color
+				color: color,
+				type: "book"
 			});
 		}
 
@@ -163,7 +183,11 @@
 			const distanceRef = ref(db,auth.currentUser.uid + "/books");
 			onValue(distanceRef, (snapchot) => {
 				snapchot.forEach(book => {
-					addToTable(book.val());
+					if(book.val().type == "book" || book.val().type == null){
+						addBookToShelf(book.val());
+					} else {
+						
+					}
 				});
 			})
 		}
@@ -216,15 +240,21 @@
 		function randomColor() {
 			// const db = getDatabase();
 			// const distanceRef = ref(db,"colors");
+			// var stop = Math.round(Math.random() * (10-1));
+			// var cntr = 0;
 			// onValue(distanceRef, (snapchot) => {
 			// 	snapchot.forEach(i => {
 			// 		var color = i.val();
-			// 		console.log(color.color);
-			// 		genList(color.color);
+			// 		if(cntr == stop){
+			// 			console.log(color.color.toString());
+			// 			// genList(color.color);
+			// 			return color.color.toString();
+			// 		}
+			// 		cntr++;
 			// 	});
 			// })
 			var colors = ["#000080", "black", "white", "#046307", "#7B1FA2", "#800020", "#36454F", "#FFFDD0", "#008080", "#0028ff"];
-			return colors[Math.round(Math.random() * (colors.length-1))]
+			return colors[Math.round(Math.random() * (colors.length-1))];
 		}
 
 		function filterBooksGenre(genre, term) {
@@ -238,7 +268,7 @@
 						|| book.val().author.toLowerCase().includes(term.toLowerCase()) 
 						||book.val().extra.toLowerCase().includes(term.toLowerCase())	
 						||term == "")){
-							addToTable(book.val());
+							addBookToShelf(book.val());
 					}
 				});
 			})
@@ -255,7 +285,7 @@
 						|| book.val().author.toLowerCase().includes(term.toLowerCase()) 
 						||book.val().extra.toLowerCase().includes(term.toLowerCase())	
 						||term == "")){
-							addToTable(book.val());
+							addBookToShelf(book.val());
 					}
 				});
 			})
@@ -272,11 +302,79 @@
 						|| book.val().author.toLowerCase().includes(term.toLowerCase()) 
 						||book.val().extra.toLowerCase().includes(term.toLowerCase())	
 						||term == "")){
-							addToTable(book.val());
+							addBookToShelf(book.val());
 					}
 				});
 			})
 		}
+
+				
+		var amountPerShelf = "10";
+		var initials = "true";
+		var maxHeight = "250px"; var minHeight = "150px";
+		var orientation = "upright";
+	  
+		function readSettings() {
+			const db = getDatabase();
+			const distanceRef = ref(db,auth.currentUser.uid + "/settings");
+			var cntr = 0;
+			onValue(distanceRef, (snapchot) => {
+				snapchot.forEach(i => {
+					switch(cntr) {
+						case 0:
+							amountPerShelf = i.val();
+							document.getElementById("amountOfBooksInput").value = amountPerShelf;
+							break;	
+						case 1:
+							initials = i.val();
+							break;
+						case 2:
+							maxHeight = i.val();
+							var elements = document.getElementsByClassName('book');
+							for(let j = 0; j < elements.length; j++) {
+								elements[j].style.maxHeight = maxHeight;
+							}
+							document.getElementById("maxHeightIn").value = maxHeight.slice(0, maxHeight.length-2);
+							document.getElementById("maxHeightOut").value = document.getElementById("maxHeightIn").value;
+							break;
+						case 3:
+							minHeight = i.val();
+							var elements = document.getElementsByClassName('book');
+							for(let j = 0; j < elements.length; j++) {
+								elements[j].style.minHeight = minHeight;
+							}
+							document.getElementById("minHeightIn").value = minHeight.slice(0, minHeight.length-2);
+							document.getElementById("minHeightOut").value = document.getElementById("minHeightIn").value;
+							break;
+						case 4:
+							orientation = i.val();
+							break;
+						case 5:
+							return;
+							break;
+						default:
+							console.log("help bij reading settings");
+							break;
+					}
+					cntr++;
+				});
+			})
+		}
+
+		function writeSettings() {
+			const db = getDatabase();
+			const distanceRef = ref(db,auth.currentUser.uid + "/settings");
+
+			set(distanceRef, {
+				amountPerShelf: amountPerShelf,
+				minHeight: minHeight,
+				maxHeight: maxHeight,
+				orientation: orientation,
+				initials: initials
+			});
+		}
+
+
 
 
 
@@ -289,8 +387,7 @@
 		document.forms.addForm.onsubmit = function(e) {
 			e = e || event;
 			e.preventDefault();
-		}
-	
+		}	
 
 		document.getElementById('btnAddForm').addEventListener('click', function() {
 			addBook();
@@ -367,13 +464,14 @@
 		});
 
 		document.getElementById("searchField").addEventListener('keyup', function() {
-			var genre =  document.getElementById("genreSelectFilter").value;
-			var term = document.getElementById("searchField").value;
-			clearBooks();
-			filterBooksGenre(genre, term);
+			selectBookFilter();
 		})
 
 		document.getElementById("genreSelectFilter").addEventListener('change', function() {
+			selectBookFilter();
+		})
+
+		function selectBookFilter() {
 			var filter =  document.getElementById("genreSelectFilter").value;
 			var term = document.getElementById("searchField").value;
 			clearBooks();
@@ -384,8 +482,26 @@
 			}else {
 				filterBooksGenre(filter, term);
 			}
-		})
+
+		}
 		
+		document.getElementById("saveSettings").addEventListener('click', function() {
+			amountPerShelf = document.getElementById("amountOfBooksInput").value;
+			minHeight = document.getElementById("minHeightIn").value + "px";
+			maxHeight = document.getElementById("maxHeightIn").value + "px";
+			writeSettings();
+			clearBooks();
+			readBooks();
+		})
+
+		document.getElementById("lessBooks").addEventListener('click', function() {
+			if(document.getElementById("amountOfBooksInput").value-1 > "0"){
+				document.getElementById("amountOfBooksInput").value--;
+			}
+		})
+		document.getElementById("moreBooks").addEventListener('click', function() {
+			document.getElementById("amountOfBooksInput").value++;
+		})
 
 
 
@@ -408,6 +524,7 @@
 				document.getElementById("btnEditForm").style.display = "none";
 				document.getElementById("btnSaveForm").style.display = "none";
 				document.getElementById("removeBtn").style.display = "none";
+				document.getElementById("AddGroupBtn").style.display = "block";
 
 				document.getElementById("titel").readOnly = false;
 				document.getElementById("author").readOnly = false;
@@ -423,6 +540,7 @@
 				document.getElementById("btnEditForm").style.display = "none";
 				document.getElementById("btnSaveForm").style.display = "block";
 				document.getElementById("addDiv").style.display = "block";
+				document.getElementById("AddGroupBtn").style.display = "none";
 
 				document.getElementById("h3Form").innerHTML = "EDIT A BOOK";
 				document.getElementById("removeBtn").style.display = "block";							
@@ -438,6 +556,7 @@
 				globalKey = key.key;
 				document.getElementById("addDiv").style.display = "block";
 				document.getElementById("removeBtn").style.display = "block";
+				document.getElementById("AddGroupBtn").style.display = "none";
 
 				document.getElementById("titel").value = key.titel;
 				document.getElementById("author").value = key.author;
@@ -468,7 +587,7 @@
 		}
 
 		var cntr = 0;
-		function addToTable(key){
+		function addBookToShelf(key){
 			cntr++;
 
 			var book = document.createElement("div");
@@ -504,12 +623,13 @@
 			document.getElementById("booklist").appendChild(book);
 
 
-			if(cntr == 10){
+			if(cntr == amountPerShelf){
 				cntr = 0;
 				var shelf = document.createElement("div");
 				shelf.setAttribute("class","shelf");
 				document.getElementById("booklist").appendChild(shelf);
 			}
+			readSettings();
 		}
 		
 		function addGenreSelect(genre) {
@@ -604,8 +724,43 @@
 			if(element.value.length > max_chars) {
 				element.value = element.value.substr(0, max_chars);
 			}
+			if(element.value > "5") {
+				element.value = "5";
+			}
+		}
+
+		document.getElementById("amountOfBooksInput").addEventListener('keyup', function(){
+			if(this.value != ""){
+				amountPerShelf = this.value;
+				console.log(amountPerShelf);
+			}
+		})
+
+
+		document.getElementById("settingsOpener").addEventListener('click', function() {openSettingNav();})
+		function openSettingNav() {
+			document.getElementById("settingSideBar").style.width = "250px";
+			document.getElementById("settingsOpener").style.width = "0px";
+		}
+		
+		document.getElementById("closeSettingsBtn").addEventListener('click', function() {closeSettingNav();})
+		function closeSettingNav() {
+			document.getElementById("settingSideBar").style.width = "0";
+			document.getElementById("settingsOpener").style.width = "20px";
+			readSettings();
+		}
+
+		document.getElementById("friendsOpener").addEventListener('click', function() {openFriendNav();})
+		function openFriendNav() {
+			document.getElementById("friendSideBar").style.width = "250px";
+			document.getElementById("friendsOpener").style.width = "0%";
+		}
+		
+		document.getElementById("closeFriendBtn").addEventListener('click', function() {closeFriendNav();})
+		function closeFriendNav() {
+			document.getElementById("friendSideBar").style.width = "0";
+			document.getElementById("friendsOpener").style.width = "10%";
 		}
 	</script>
-
 </body>
 </html>

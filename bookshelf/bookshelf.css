@@ -1,4 +1,9 @@
 @import 'https://fonts.googleapis.com/css?family=Dosis|Roboto:300,400';
+
+/* ---------------------------------------------------------------------------------------------------------------------------------- */
+/* algemeen */
+/* ---------------------------------------------------------------------------------------------------------------------------------- */
+
 * {
 	margin: 0;
 	padding: 0;
@@ -6,25 +11,16 @@
 
 body {
 	background: #ffc185;
-}
-
-.container{
-	position:absolute;
-	width: auto;
-	height:auto;
-	top: calc(50% - 240px);
-	left: calc(50% - 160px);
-}
-
-#boeken {
-	position:absolute;
-	width: auto;
-	height:auto;
-	top: calc(20% - 120px);
-	left: calc(45% - 160px);
 	text-align: center;
-	z-index: 0;
-	display: none;
+    /* vertical-align: center; */
+}
+
+h1 {
+	font-family: 'Dosis';
+	font-size: 50px;
+	text-transform: uppercase;
+	color: #87613d;
+	margin-bottom: 30px;
 }
 
 form {
@@ -84,17 +80,17 @@ h3 {
 	color: #87613d;
 	margin-bottom: 30px;
 }
-h1 {
-	font-family: 'Dosis';
-	font-size: 50px;
-	text-transform: uppercase;
-	color: #87613d;
-	margin-bottom: 30px;
+
+input {
+	outline: none !important;
 }
 
-input,
 button{
-	outline: none !important; 
+	outline: none !important;
+	border: none;
+	border-radius: 30em;
+	font-family: 'Dosis';
+	padding: 5px;
 }
 
 button.fb {
@@ -112,6 +108,7 @@ button.fb {
 	margin-bottom: 20px;
 	transition:all 0.3s linear;
 }
+
 button.fb:hover {
 	background: #fff;
 	color: #3b5998;
@@ -155,6 +152,16 @@ button.form-btn.dx {
 	right: 0;
 	border-radius: 0 0 5px 0;
 	background-color: #ff7d00;
+	color: #fff;
+	margin: auto;
+	width: 100%;
+	padding: 10px;
+}
+
+button.form-btn.dx:hover {
+	right: 0;
+	border-radius: 0 0 5px 0;
+	background-color: rgba(255, 123, 0, 0.668);
 	color: #fff;
 	margin: auto;
 	width: 100%;
@@ -208,10 +215,6 @@ input {
 	opacity: 0.5;
 }
 
-.addForm {
-	z-index: 2;
-}
-
 .active-dx{
 	animation-name: foregrounding-dx;
 	animation-duration: 0.9s;
@@ -236,11 +239,271 @@ input {
 	animation-fill-mode: forwards;
 }
 
-#scoreIn {
-	width: 10%;
+select {
+	border-radius: 30em;
+	font-family: 'Dosis';
+}
+
+
+
+/* ---------------------------------------------------------------------------------------------------------------------------------- */
+/* boeken */
+/* ---------------------------------------------------------------------------------------------------------------------------------- */
+
+#boeken {
+	/* display: flex;
+	justify-content: center; */
+    /* vertical-align: center; */
+	position:absolute;
+	width: auto;
+	/* min-width: 100px; */
+	height:auto;
+	top: calc(20% - 120px);
+	left: calc(45% - 160px);
+	/* text-align: center; */
+	z-index: 0;
+	display: none;
+}
+
+#searchField {
+	color: black;
+	/* height: 50%; */
+	border-radius: 30px;
+	/* padding: 5px 10px 5px 10px; */
+	border: none;
+	padding: 5px 0px 5px 0px;
+	/* border: solid;
+	border-color: #f4f0ec;
+	border-width: 5px; */
+	font-size: 100%;
+	/* float: left; */
+	background-color: #f4f0ec;
+	/* box-sizing: content-box; */
+	left:0%;
+	width: auto;
+	display: inline;
+	font-family: 'Dosis';
+	overflow: hidden;
+	/* position: absolute; */
+}
+	
+#searchField:hover {
+	color: black;
+	border-radius: 30px;
+	border: none;
+	padding: 5px 0px 5px 0px;
+	font-size: 100%;
+	background-color: rgba(244, 240, 236, 0.7);
+	left:0%;
+	width: auto;
+	display: inline;
+	font-family: 'Dosis';
+	overflow: hidden;
+	/* position: absolute; */
+
+}
+
+#searchField::placeholder {
+	color: black;
+}
+
+#genreSelectFilter {
+	/* display: inline-block; */
+	border: none;
+	/* overflow: hidden; */
+
+    /* text-align: center; */
+	font-size: 100%;
+	/* border: none; */
+	padding: 5px 5px 5px 5px;
+	margin: 0px 5px 0px 5px;
+	right: 10%;
+	background-color: #f4f0ec;
+}
+
+#genreSelectFilter:hover {
+	border: none;
+	font-size: 100%;
+	padding: 5px 5px 5px 5px;
+	margin: 0px 5px 0px 5px;
+	right: 10%;
+	background-color: rgba(244, 240, 236, 0.7);
+}
+
+#addBtn {
+	border-radius: 50%;
+	padding: 5px 10px 5px 10px;
+	border: none;
+	font-size: 100%;
+	background-color: #f4f0ec;
 	/* float: right; */
-	position: absolute;
-	right: 12%;
+}
+
+#addBtn:hover {
+	border-radius: 50%;
+	padding: 5px 10px 5px 10px;
+	border: none;
+	font-size: 100%;
+	/* float: right; */
+	background-color: rgba(244, 240, 236, 0.5);
+}
+
+
+#booklist { 
+	/* display: block; */
+	background-color: #704F32; 
+	color: white;
+    text-align: center;
+	border-style: solid;
+	border-width: 10px;
+	border-color: #513924;
+	min-width: 60%;
+	padding: 15px 0px 0px 0px;
+	/* width: 60%; */
+}
+
+	.shelf {
+		background-color: #513924; 
+		height: 10px;
+		width: 100%;
+	}
+
+	.book {
+		/* margin-right: 15px;
+		margin-left: 15px; */
+		padding: 5px 5px 5px 5px;
+		border-style: solid;
+		border-color:black ;
+		border-radius: 5px;
+		writing-mode: vertical-rl;
+		transform: rotate(180deg);
+		display: inline;
+		/* height: 150px; */
+		min-height: 150px;
+		max-height: 250px;
+		animation: fadeIn 500ms;
+	}
+
+	.book:hover {
+		/* margin-right: 15px;
+		margin-left: 15px; */
+		padding: 5px 5px 5px 5px;
+		border-style: solid;
+		border-color:black ;
+		border-radius: 5px;
+		writing-mode: vertical-rl;
+		transform: rotate(180deg);
+		display: inline;
+		/* height: 150px; */
+		min-height: 150px;
+		max-height: 250px;
+		animation: fadeIn 500ms;
+		opacity: 0.7;
+	}
+
+	@keyframes fadeIn {
+		0% {opacity: 0;}
+		100% {opacity: 1;}
+	}
+
+		.titel {
+			float: left;
+			color: 	#D4AF37;
+			/* margin-top: 5px; */
+		}
+		.opvulling {
+			width: 20px;
+			margin: 10px;
+		}
+		.author {
+			float: right;
+			/* margin: auto; */
+			color: 	#D4AF37;
+			/* font-size: 50%; */
+			/* margin-bottom: 5px; */
+			/* margin-bottom: 5px; */
+			/* padding: 0px 0px 5px 5px; */
+		} 
+		.score {
+			float:right;
+			color: 	#D4AF37;
+		}
+
+
+
+/* ---------------------------------------------------------------------------------------------------------------------------------- */
+/* add form */
+/* ---------------------------------------------------------------------------------------------------------------------------------- */
+
+#addDiv {
+	position:absolute;
+	width: auto;
+	height:auto;
+	top: calc(10% - 120px);
+	left: calc(50% - 160px);
+	display: none;
+	z-index: 1;
+	top: 10px;
+	/* position:absolute; */
+    /* vertical-align: center; */
+}
+
+.addForm {
+	z-index: 2;
+}
+
+#backAddBtn {
+	border-radius: 50%;
+	padding: 5px 10px 5px 10px;
+	/* padding: 5px; */
+	border: none;
+	background-color: darkgray;
+	font-size: 100%;
+	float: left;
+	/* font-weight: bold; */
+	/* font-size: 30px; */
+}
+
+#backAddBtn:hover {
+	border-radius: 50%;
+	padding: 5px 10px 5px 10px;
+	/* padding: 5px; */
+	border: none;
+	background-color: rgba(169, 169, 169, 0.432);
+	font-size: 100%;
+	float: left;
+	/* font-weight: bold; */
+	/* font-size: 30px; */
+}
+
+#removeBtn {
+	border-radius: 50%;
+	padding: 5px 10px 5px 10px;
+	border: none;
+	background-color: #f44336;
+	font-size: 100%;
+	float: right;
+}
+
+#removeBtn:hover {
+	border-radius: 50%;
+	padding: 5px 10px 5px 10px;
+	border: none;
+	background-color: #f4433688;
+	font-size: 100%;
+	float: right;
+}
+
+#AddGroupBtn {
+	background-color: darkgray;
+	float: right;
+	padding: 7px;
+}
+
+#AddGroupBtn:hover {
+	background-color: rgba(169, 169, 169, 0.403);
+	float: right;
+	padding: 7px;
 }
 
 #lblScore {
@@ -252,6 +515,30 @@ input {
 #lblGenre {
 	position: absolute;
 	left: 37%;
+}
+
+/* .checkbox {
+	border-style: none;
+	border-radius: 50%;
+} */
+
+#checkRead {
+	position: absolute;
+	left: 5%;
+	width: 25%;
+	/* position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0; */
+	/* float: left; */
+}
+
+#scoreIn {
+	width: 10%;
+	/* float: right; */
+	position: absolute;
+	right: 12%;
 }
 
 #spanScorePrct {
@@ -282,132 +569,20 @@ input {
 	border: 1px solid #ffc185;
 }
 
-/* .checkbox {
-	border-style: none;
-	border-radius: 50%;
-} */
-
-#checkRead {
-	position: absolute;
-	left: 5%;
-	width: 25%;
-	/* position: absolute;
-	opacity: 0;
-	cursor: pointer;
-	height: 0;
-	width: 0; */
-	/* float: left; */
-}
-
-/* #checkVisual {	
-	position: absolute;
-	left: 5%;
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 25px;
-	width: 25px;
-	background-color: #eee;
-} */
-
-#addBtn {
-	border-radius: 50%;
-	padding: 5px 10px 5px 10px;
-	border: none;
-	font-size: 100%;
-	float: right;
-}
-#backAddBtn {
-	border-radius: 50%;
-	padding: 5px 5px 5px 5px;
-	border: none;
-	background-color: darkgray;
-	font-size: 100%;
-	float: left;
-}
-
-#removeBtn {
-	border-radius: 50%;
-	padding: 5px 10px 5px 10px;
-	border: none;
-	background-color: #f44336;
-	font-size: 100%;
-	float: right;
-}
-
-#burnBtn {
-	border-radius: 5px;
-	border: none;
-	padding: 5px;
-}
-
-#booklist { 
-	background-color: #704F32; 
-	color: white;
-    text-align: center;
-	border-style: solid;
-	border-width: 10px;
-	border-color: #513924;
-	/* min-width: 60%; */
-	/* width: 60%; */
-}
-
-.shelf {
-	background-color: #513924; 
-	height: 10px;
-	width: 100%;
-}
-
-.book {
-	/* margin-right: 15px;
-	margin-left: 15px; */
-	padding: 5px 5px 5px 5px;
-	border-style: solid;
-	border-color:black ;
-	border-radius: 5px;
-	writing-mode: vertical-lr;
-	transform: rotate(180deg);
-	display: inline;
-	/* height: 150px; */
-	min-height: 150px;
-	max-height: 250px;
-}
-
-.titel {
-	float: left;
-	color: 	#D4AF37;
-	/* margin-top: 5px; */
-}
-.opvulling {
-	width: 20px;
-	margin: 10px;
-}
-.author {
-	float: right;
-	/* margin: auto; */
-	color: 	#D4AF37;
-	/* font-size: 50%; */
-	/* margin-bottom: 5px; */
-	/* margin-bottom: 5px; */
-	/* padding: 0px 0px 5px 5px; */
-} 
-.score {
-	float:right;
-	color: 	#D4AF37;
-}
-
-#addDiv {
-	position:absolute;
-	width: auto;
-	height:auto;
-	top: calc(10% - 120px);
-	left: calc(50% - 160px);
+#btnAddForm {
 	display: none;
-	z-index: 1;
-	top: 10px;
-	/* position:absolute; */
-    /* vertical-align: center; */
 }
+#btnEditForm {
+	display: none;
+}
+#btnSaveForm {
+	display: none;
+}
+
+
+/* ---------------------------------------------------------------------------------------------------------------------------------- */
+/* remove */
+/* ---------------------------------------------------------------------------------------------------------------------------------- */
 
 #removeDiv {
 	text-align: center;
@@ -431,15 +606,6 @@ input {
 	font-size: 12px;
 }
 
-#btnAddForm {
-	display: none;
-}
-#btnEditForm {
-	display: none;
-}
-#btnSaveForm {
-	display: none;
-}
 
 #removeBurnBtn {
 	border-radius: 50%;
@@ -449,51 +615,180 @@ input {
 	float: left;
 }
 
-#searchField {
-	color: black;
-	/* height: 50%; */
-	border-radius: 30px;
-	/* padding: 5px 10px 5px 10px; */
+#burnBtn {
+	border-radius: 5px;
 	border: none;
-	padding: 5px 0px 5px 0px;
-	/* border: solid;
-	border-color: #f4f0ec;
-	border-width: 5px; */
-	font-size: 100%;
-	/* float: left; */
-	background-color: #f4f0ec;
-	/* box-sizing: content-box; */
-	left:0%;
-	width: auto;
-	display: inline;
+	padding: 5px;
+}
+
+
+
+
+/* ---------------------------------------------------------------------------------------------------------------------------------- */
+/* settings */
+/* ---------------------------------------------------------------------------------------------------------------------------------- */
+
+.settingSideBar {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	right: 0;
+	/* background-color: #111; */
+	/* opacity: 10%; */
+	background-color:rgba(255, 255, 255, 0.5);
+	overflow-x: hidden;
+	transition: 0.5s;
+	padding-top: 60px;
+  }
+  
+  .settingSideBar a,p {
+	padding: 8px 8px 8px 32px;
+	text-decoration: none;
+	font-size: 25px;
+	color: #818181;
+	display: block;
+	transition: 0.3s;
+  }
+
+  .settingSideBar span {
+	padding: 8px 8px 8px 32px;
+	text-decoration: none;
+	/* font-size: 25px; */
+	color: #818181;
+	display: block;
+	transition: 0.3s;
 	font-family: 'Dosis';
-	overflow: hidden;
-	/* position: absolute; */
+	font-size: 17px;
+	text-transform: uppercase;
+  }
+  
+  .settingSideBar a:hover {
+	color: #f1f1f1;
+  }
+  
+  .settingSideBar .closebtn {
+	position: absolute;
+	top: 0;
+	/* left: 10px; */
+	font-size: 36px;
+	/* margin-left: 50px; */
+  }
 
-}
+  #settingsOpener {
+  	transition: 0.3s;
+	font-size:30px;
+	cursor:pointer;
+	float:right;
+	overflow-x: hidden;
+  }
 
-#searchField::placeholder {
-	color: black;
-}
+  #amountOfBooksInput {
+	width: 10%;	
+	color: #818181;
+	border-radius: 10px;
+	margin: 0px 5px 0px 5px;	
+  }
 
-#genreSelectFilter {
-	/* display: inline-block; */
-	border: none;
-	/* overflow: hidden; */
+  #saveSettings {
+	background-color: #818181;
+	border-radius: 5%;
+	bottom: 20%;
+  }
 
-    /* text-align: center; */
-	font-size: 100%;
-	/* border: none; */
-	padding: 5px 5px 5px 5px;
-	margin: 0px 5px 0px 5px;
-	right: 10%;
-	background-color: #f4f0ec;
-}
+  /* #minheightIn {
+	width: 70%;
+  } */
 
-select {
-	border-radius: 30em;
+  /* #minHeightIn::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 25px; 
+	height: 25px; 
+	background: #04AA6D; 
+	cursor: pointer;
+  }
+  
+  #minHeightIn::-moz-range-thumb {
+	width: 25px; 
+	height: 25px; 
+	background: #04AA6D; 
+	cursor: pointer; 
+  } */
+
+  .heightOut{
 	font-family: 'Dosis';
+	color: #818181;
+  }
+
+  #logOut {
+	position: absolute;
+	bottom: 10%;
+  }
+  
+  @media screen and (max-height: 450px) {
+	.settingSideBar {padding-top: 15px;}
+	.settingSideBar a {font-size: 18px;}
+  }
+
+
+
+
+/* ---------------------------------------------------------------------------------------------------------------------------------- */
+/* friends side bar */
+/* ---------------------------------------------------------------------------------------------------------------------------------- */
+
+.friendSideBar {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color:rgba(255, 255, 255, 0.5);
+	overflow-x: hidden;
+	transition: 0.5s;
+	padding-top: 60px;
+  }
+  
+  .friendSideBar a,p {
+	padding: 8px 8px 8px 32px;
+	text-decoration: none;
+	font-size: 25px;
+	color: #818181;
+	display: block;
+	transition: 0.3s;
+  }
+  
+  .friendSideBar a:hover {
+	color: #f1f1f1;
+  }
+  
+  .friendSideBar .closebtn {
+	position: absolute;
+	top: 0;
+	right: 25px;
+	font-size: 36px;
+	margin-left: 50px;
+  }
+
+#friendsOpener {
+	transition: 0.3s;
+	font-size:30px;
+	cursor:pointer;
+	float:left;
+	overflow-x: hidden;
 }
+  
+  @media screen and (max-height: 450px) {
+	.friendSideBar {padding-top: 15px;}
+	.friendSideBar a {font-size: 18px;}
+  }
+
+
+
+  
 
 @keyframes overshadowing-dx {
 	0%{

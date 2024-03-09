@@ -110,8 +110,25 @@
 					break;
 				}
 			});
-		auth.onAuthStateChanged(function() {
+
+		auth.onAuthStateChanged(async function() {
 			if(auth.currentUser != null){
+				const db = getDatabase();
+				const reference = ref(db,auth.currentUser.uid);
+				console.log(email);
+				await set(reference, {
+					username: email,
+				});
+
+				const reference2 = ref(db,auth.currentUser.uid + "/settings");
+				console
+				await set(reference2, {
+					amountPerShelf: "10",
+					minHeight: "150px",
+					maxHeight: "250px",
+					orientation: "upright",
+					initials: "true"
+				});
 				loggedIn();
 			}
 		})
