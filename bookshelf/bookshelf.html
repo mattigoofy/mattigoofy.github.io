@@ -60,8 +60,8 @@
 		<a href="javascript:void(0)" class="closebtn" id="closeSettingsBtn">&times;</a>
 		<p>Settings</p>
 		<span>amount of books per shelf</span><button id="lessBooks">-</button><input id="amountOfBooksInput"><button id="moreBooks">+</button>
-		<span>minimum height</span><input type="range" min="1" max="500" id="minHeightIn" oninput="this.nextElementSibling.value = this.value"><output id="minHeightOut" class="heightOut">50</output>
-		<span>maximum height</span><input type="range" min="1" max="500" id="maxHeightIn" oninput="this.nextElementSibling.value = this.value"><output id="maxHeightOut" class="heightOut">50</output>
+		<span>minimum height</span><input type="range" min="1" max="500" step="25" id="minHeightIn" oninput="this.nextElementSibling.value = this.value"><output id="minHeightOut" class="heightOut">50</output>
+		<span>maximum height</span><input type="range" min="1" max="500" step="25" id="maxHeightIn" oninput="this.nextElementSibling.value = this.value"><output id="maxHeightOut" class="heightOut">50</output>
 		<button id="saveSettings" class="form-btn dx">Save</button>
 		<button id="logOut">Log Out</button>
 	</div>
