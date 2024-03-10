@@ -264,16 +264,12 @@ select {
 /* ---------------------------------------------------------------------------------------------------------------------------------- */
 
 #boeken {
-	/* display: flex;
-	justify-content: center; */
-    /* vertical-align: center; */
 	position:absolute;
 	width: auto;
-	/* min-width: 100px; */
 	height:auto;
 	top: calc(20% - 120px);
-	left: calc(45% - 160px);
-	/* text-align: center; */
+	left: 50%;
+	transform: translate(-50%);
 	z-index: 0;
 	display: none;
 }
