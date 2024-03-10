@@ -11,7 +11,7 @@
 
 <body>
 	<div class="boeken" id="boeken">
-		<h1>MY BOOKSHELF</h1>
+		<h1 id="h1">MY BOOKSHELF</h1>
 		<input id="searchField" placeholder="search..."></input>
 		<select id="genreSelectFilter" class="genreSelect">
 			<option value="no filter">no filter</option>
@@ -59,9 +59,12 @@
 	<div id="settingSideBar" class="settingSideBar">
 		<a href="javascript:void(0)" class="closebtn" id="closeSettingsBtn">&times;</a>
 		<p>Settings</p>
+		<span>username</span><input id="usernameIn">
 		<span>amount of books per shelf</span><button id="lessBooks">-</button><input id="amountOfBooksInput"><button id="moreBooks">+</button>
-		<span>minimum height</span><input type="range" min="1" max="500" step="25" id="minHeightIn" oninput="this.nextElementSibling.value = this.value"><output id="minHeightOut" class="heightOut">50</output>
-		<span>maximum height</span><input type="range" min="1" max="500" step="25" id="maxHeightIn" oninput="this.nextElementSibling.value = this.value"><output id="maxHeightOut" class="heightOut">50</output>
+		<span>minimum height</span><input type="range" min="25" max="500" step="25" id="minHeightIn"><output id="minHeightOut" class="heightOut">50</output>
+		<span>maximum height</span><input type="range" min="25" max="500" step="25" id="maxHeightIn" ><output id="maxHeightOut" class="heightOut">50</output>
+		<span id="initialsInSpan">show initials</span><input type="checkbox" id="initialsIn">
+		<span id="flatInSpan">books flat</span><input type="checkbox" id="flatIn">
 		<button id="saveSettings" class="form-btn dx">Save</button>
 		<button id="logOut">Log Out</button>
 	</div>
@@ -69,7 +72,9 @@
 
 	<div id="friendSideBar" class="friendSideBar">
 		<a href="javascript:void(0)" class="closebtn" id="closeFriendBtn">&times;</a>
-		<p>Friends</p>
+		<button id="backHomeBtn">back Home</button> <p>Friends</p>
+		<span id="friendUserID">friend user-id</span><input id="friendUserIDIn" placeholder=""><button id="viewFriendBtn">00</button>
+		<span id="userID"></span>
 	</div>
 	<span id="friendsOpener">&#9776; friends</span>
 
@@ -84,7 +89,7 @@
 	
 	<script type="module">
 		import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-		import { getDatabase, onValue, ref, set, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+		import { getDatabase, onValue, ref, set, remove, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 		// import { getAuth } from "firebase/auth";
 		import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 	  
@@ -101,6 +106,8 @@
 		
 		// Initialize Firebase
 		const app = initializeApp(firebaseConfig);
+
+		const db = getDatabase();
 
 
 		//----------------------------------------------------------------------------------------------------------------------------------
@@ -134,6 +141,7 @@
 		auth.onAuthStateChanged(function() {
 			if(auth.currentUser != null){
 				// console.log(auth.currentUser.uid);
+				document.getElementById("userID").innerHTML = "your user-ID: " + auth.currentUser.uid; 
 				document.getElementById("boeken").style.display = "block";
 				readSettings();
 				readBooks();
@@ -160,7 +168,6 @@
 
 	
 		function writeBook(titel, author, read, genre, score, extra, color){
-			const db = getDatabase();
 			var key = createKey(titel, author);
 			const reference = ref(db,auth.currentUser.uid + '/books/' + key);
 
@@ -179,7 +186,6 @@
 
 		function readBooks(){
 			// console.log("reading")
-			const db = getDatabase();
 			const distanceRef = ref(db,auth.currentUser.uid + "/books");
 			onValue(distanceRef, (snapchot) => {
 				snapchot.forEach(book => {
@@ -190,10 +196,11 @@
 					}
 				});
 			})
+			
+			document.getElementById("h1").innerHTML ="my bookshelf";
 		}
 
 		function changeBook(key, titel, author, read, genre, score, extra, color) {
-			const db = getDatabase();
 			const reference = ref(db,auth.currentUser.uid + '/books/' + key);
 	
 			set(reference, {
@@ -210,13 +217,11 @@
 		}
 
 		function burnBook(key) {
-			const db = getDatabase();
 			let reference = ref(db,auth.currentUser.uid + '/books/' + key);
 			remove(reference);
 		}
 
 		function readGenres() {
-			const db = getDatabase();
 			const distanceRef = ref(db,"genres");
 			onValue(distanceRef, (snapchot) => {
 				snapchot.forEach(i => {
@@ -227,7 +232,6 @@
 		}
 
 		function readColors() {
-			const db = getDatabase();
 			const distanceRef = ref(db,"colors");
 			onValue(distanceRef, (snapchot) => {
 				snapchot.forEach(i => {
@@ -238,7 +242,6 @@
 		}
 
 		function randomColor() {
-			// const db = getDatabase();
 			// const distanceRef = ref(db,"colors");
 			// var stop = Math.round(Math.random() * (10-1));
 			// var cntr = 0;
@@ -259,7 +262,6 @@
 
 		function filterBooksGenre(genre, term) {
 			// console.log("filtering")
-			const db = getDatabase();
 			const distanceRef = ref(db,auth.currentUser.uid + "/books");
 			onValue(distanceRef, (snapchot) => {
 				snapchot.forEach(book => {
@@ -276,7 +278,6 @@
 
 		function filterBooksRead(filter, term) {
 			// console.log("filtering")
-			const db = getDatabase();
 			const distanceRef = ref(db,auth.currentUser.uid + "/books");
 			onValue(distanceRef, (snapchot) => {
 				snapchot.forEach(book => {
@@ -293,7 +294,6 @@
 
 		function filterBooksScore(filter, term) {
 			// console.log("filtering")
-			const db = getDatabase();
 			const distanceRef = ref(db,auth.currentUser.uid + "/books");
 			onValue(distanceRef, (snapchot) => {
 				snapchot.forEach(book => {
@@ -312,66 +312,90 @@
 		var amountPerShelf = "10";
 		var initials = "true";
 		var maxHeight = "250px"; var minHeight = "150px";
-		var orientation = "upright";
+		var flat = false;
+		var username = "";
 	  
 		function readSettings() {
-			const db = getDatabase();
 			const distanceRef = ref(db,auth.currentUser.uid + "/settings");
 			var cntr = 0;
 			onValue(distanceRef, (snapchot) => {
-				snapchot.forEach(i => {
-					switch(cntr) {
-						case 0:
-							amountPerShelf = i.val();
-							document.getElementById("amountOfBooksInput").value = amountPerShelf;
-							break;	
-						case 1:
-							initials = i.val();
-							break;
-						case 2:
-							maxHeight = i.val();
-							var elements = document.getElementsByClassName('book');
-							for(let j = 0; j < elements.length; j++) {
-								elements[j].style.maxHeight = maxHeight;
-							}
-							document.getElementById("maxHeightIn").value = maxHeight.slice(0, maxHeight.length-2);
-							document.getElementById("maxHeightOut").value = document.getElementById("maxHeightIn").value;
-							break;
-						case 3:
-							minHeight = i.val();
-							var elements = document.getElementsByClassName('book');
-							for(let j = 0; j < elements.length; j++) {
-								elements[j].style.minHeight = minHeight;
-							}
-							document.getElementById("minHeightIn").value = minHeight.slice(0, minHeight.length-2);
-							document.getElementById("minHeightOut").value = document.getElementById("minHeightIn").value;
-							break;
-						case 4:
-							orientation = i.val();
-							break;
-						case 5:
-							return;
-							break;
-						default:
-							console.log("help bij reading settings");
-							break;
-					}
-					cntr++;
-				});
+				amountPerShelf = snapchot.val().amountPerShelf;
+				document.getElementById("amountOfBooksInput").value = amountPerShelf;
+
+				flat = snapchot.val().flat;
+				document.getElementById("flatIn").checked = flat;
+				
+				initials = snapchot.val().initials;
+				document.getElementById("initialsIn").checked = initials;
+				
+				maxHeight = snapchot.val().maxHeight;
+				var elements = document.getElementsByClassName('bookUpright');
+				for(let j = 0; j < elements.length; j++) {
+					elements[j].style.maxHeight = maxHeight;
+				}
+				var elements = document.getElementsByClassName('bookFlat');
+				for(let j = 0; j < elements.length; j++) {
+					elements[j].style.maxWidth = maxHeight;
+				}
+				document.getElementById("maxHeightIn").value = maxHeight.slice(0, maxHeight.length-2);
+				document.getElementById("maxHeightOut").value = document.getElementById("maxHeightIn").value;
+
+				minHeight = snapchot.val().minHeight;
+				var elements = document.getElementsByClassName('bookUpright');
+				for(let j = 0; j < elements.length; j++) {
+					elements[j].style.minHeight = minHeight;
+				}
+				var elements = document.getElementsByClassName('bookFlat');
+				for(let j = 0; j < elements.length; j++) {
+					elements[j].style.minWidth = minHeight;
+				}
+				document.getElementById("minHeightIn").value = minHeight.slice(0, minHeight.length-2);
+				document.getElementById("minHeightOut").value = document.getElementById("minHeightIn").value;
+
+			})
+			var cntr = 0;
+			const reference = ref(db, auth.currentUser.uid + "/username")
+			onValue(reference, (snapchot) => {
+				// console.log(snapchot.val())
+				username = snapchot.val();
+				document.getElementById("usernameIn").value = username;
 			})
 		}
 
 		function writeSettings() {
-			const db = getDatabase();
 			const distanceRef = ref(db,auth.currentUser.uid + "/settings");
 
 			set(distanceRef, {
 				amountPerShelf: amountPerShelf,
 				minHeight: minHeight,
 				maxHeight: maxHeight,
-				orientation: orientation,
+				flat: flat,
 				initials: initials
 			});
+
+			const reference = ref(db, auth.currentUser.uid);
+			update(reference, {
+				username: username
+			})
+		}
+
+		function readFriendsBooks(friendUID){
+			// console.log("reading friends")
+			const distanceRef = ref(db,friendUID + "/books");
+			onValue(distanceRef, (snapchot) => {
+				snapchot.forEach(book => {
+					if(book.val().type == "book" || book.val().type == null){
+						addBookToShelf(book.val());
+					} else {
+						
+					}
+				});
+			})
+
+			const reference = ref(db,friendUID + "/username");
+			onValue(reference, (snapchot) => {
+				document.getElementById("h1").innerHTML = snapchot.val() + "'s bookshelf";
+			})
 		}
 
 
@@ -489,6 +513,9 @@
 			amountPerShelf = document.getElementById("amountOfBooksInput").value;
 			minHeight = document.getElementById("minHeightIn").value + "px";
 			maxHeight = document.getElementById("maxHeightIn").value + "px";
+			username = document.getElementById("usernameIn").value;
+			initials = document.getElementById("initialsIn").checked;
+			flat = document.getElementById("flatIn").checked;
 			writeSettings();
 			clearBooks();
 			readBooks();
@@ -503,7 +530,21 @@
 			document.getElementById("amountOfBooksInput").value++;
 		})
 
+		document.getElementById("viewFriendBtn").addEventListener('click', function() {
+			closeFriendNav();
+			clearBooks();
+			if(document.getElementById("friendUserIDIn").value == auth.currentUser.uid){
+				readBooks();
+			} else {
+				readFriendsBooks(document.getElementById("friendUserIDIn").value);
+			}
+		})
 
+		document.getElementById("backHomeBtn").addEventListener('click', function() {
+			closeFriendNav();
+			clearBooks();
+			readBooks();
+		})
 
 
 
@@ -581,7 +622,6 @@
 			}
 		}
 		
-
 		function createKey(titel, author){
 			return titel + "_" + author;
 		}
@@ -591,7 +631,11 @@
 			cntr++;
 
 			var book = document.createElement("div");
-			book.setAttribute("class","book");
+			if(flat){
+				book.setAttribute("class","bookFlat");
+			} else {
+				book.setAttribute("class","bookUpright");
+			}
 			book.addEventListener('click',function(){
 				showAddDiv(key)
 			});
@@ -611,18 +655,19 @@
 			spanOpvulling.setAttribute("style", "color: " + key.color + ";")
 			// spanOpvulling.appendChild(document.createTextNode("___"));
 
-			var spanAuthor = document.createElement("span");
-			spanAuthor.setAttribute("class","author");
-			spanAuthor.setAttribute("style","margin-bottom: 5px");
-			spanAuthor.appendChild(document.createTextNode(key.author.split(" ").map(i => i.charAt(0)).join(".") + "."));
-			
 
 			book.appendChild(spanTitel);
 			book.appendChild(spanOpvulling);
-			book.appendChild(spanAuthor);
+
+			if(initials == "true" || initials){
+				var spanAuthor = document.createElement("span");
+				spanAuthor.setAttribute("class","author");
+				spanAuthor.setAttribute("style","margin-bottom: 5px");
+				spanAuthor.appendChild(document.createTextNode(key.author.split(" ").map(i => i.charAt(0)).join(".") + "."));
+				book.appendChild(spanAuthor);
+			}
+
 			document.getElementById("booklist").appendChild(book);
-
-
 			if(cntr == amountPerShelf){
 				cntr = 0;
 				var shelf = document.createElement("div");
@@ -730,9 +775,28 @@
 		}
 
 		document.getElementById("amountOfBooksInput").addEventListener('keyup', function(){
-			if(this.value != ""){
-				amountPerShelf = this.value;
-				console.log(amountPerShelf);
+			if(parseInt(Number(this.value)) == this.value /*Number.isInteger(this.value)*/ || this.value == ""){	
+				if(this.value.includes(".")){
+					this.value = this.value.slice(0, this.value.length-1);
+				}
+			} else {
+				this.value = amountPerShelf;
+			}
+		})
+
+		document.getElementById("minHeightIn").addEventListener('input', function() {
+			document.getElementById("minHeightOut").value = this.value;
+			if(this.value > document.getElementById("maxHeightIn").value) {
+				document.getElementById("maxHeightIn").value = this.value;
+				document.getElementById("maxHeightOut").value = this.value;
+			}
+		})
+
+		document.getElementById("maxHeightIn").addEventListener('input', function() {
+			document.getElementById("maxHeightOut").value = this.value;
+			if(this.value < document.getElementById("minHeightIn").value) {
+				document.getElementById("minHeightIn").value = this.value;
+				document.getElementById("minHeightOut").value = this.value;
 			}
 		})
 
@@ -746,7 +810,7 @@
 		document.getElementById("closeSettingsBtn").addEventListener('click', function() {closeSettingNav();})
 		function closeSettingNav() {
 			document.getElementById("settingSideBar").style.width = "0";
-			document.getElementById("settingsOpener").style.width = "250px";
+			document.getElementById("settingsOpener").style.width = "150px";
 			readSettings();
 		}
 
@@ -759,7 +823,7 @@
 		document.getElementById("closeFriendBtn").addEventListener('click', function() {closeFriendNav();})
 		function closeFriendNav() {
 			document.getElementById("friendSideBar").style.width = "0";
-			document.getElementById("friendsOpener").style.width = "250px";
+			document.getElementById("friendsOpener").style.width = "150px";
 		}
 	</script>
 </body>

@@ -23,6 +23,10 @@ h1 {
 	margin-bottom: 30px;
 }
 
+#h1{
+	text-transform: initial;
+}
+
 form {
 	position: absolute;
 	text-align: center;
@@ -91,6 +95,15 @@ button{
 	border-radius: 30em;
 	font-family: 'Dosis';
 	padding: 5px;
+}
+
+button:hover {
+	outline: none !important;
+	border: none;
+	border-radius: 30em;
+	font-family: 'Dosis';
+	padding: 5px;
+	opacity: 0.7;
 }
 
 button.fb {
@@ -368,7 +381,7 @@ select {
 		width: 100%;
 	}
 
-	.book {
+	.bookUpright {
 		/* margin-right: 15px;
 		margin-left: 15px; */
 		padding: 5px 5px 5px 5px;
@@ -382,9 +395,10 @@ select {
 		min-height: 150px;
 		max-height: 250px;
 		animation: fadeIn 500ms;
+		overflow: hidden;
 	}
 
-	.book:hover {
+	.bookUpright:hover {
 		/* margin-right: 15px;
 		margin-left: 15px; */
 		padding: 5px 5px 5px 5px;
@@ -399,6 +413,42 @@ select {
 		max-height: 250px;
 		animation: fadeIn 500ms;
 		opacity: 0.7;
+		overflow: hidden;
+	}
+
+	.bookFlat {
+		margin-right: 15px;
+		margin-left: 15px;
+		padding: 5px 5px 5px 5px;
+		border-style: solid;
+		border-color:black ;
+		border-radius: 5px;
+		/* writing-mode: vertical-rl;
+		transform: rotate(180deg); */
+		/* display: inline; */
+		/* height: 150px; */
+		min-width: 150px;
+		max-width: 250px;
+		animation: fadeIn 500ms;
+		overflow: hidden;
+	}
+
+	.bookFlat:hover {
+		margin-right: 15px;
+		margin-left: 15px;
+		padding: 5px 5px 5px 5px;
+		border-style: solid;
+		border-color:black ;
+		border-radius: 5px;
+		/* writing-mode: vertical-rl;
+		transform: rotate(180deg); */
+		/* display: inline; */
+		/* height: 150px; */
+		min-width: 150px;
+		max-width: 250px;
+		animation: fadeIn 500ms;
+		opacity: 0.7;
+		overflow: hidden;
 	}
 
 	@keyframes fadeIn {
@@ -684,17 +734,16 @@ select {
 	overflow-x: hidden;
   }
 
+  #usernameIn {
+	color: #818181;
+	border-radius: 10px;
+  }
+
   #amountOfBooksInput {
 	width: 10%;	
 	color: #818181;
 	border-radius: 10px;
 	margin: 0px 5px 0px 5px;	
-  }
-
-  #saveSettings {
-	background-color: #818181;
-	border-radius: 5%;
-	bottom: 20%;
   }
 
   /* #minheightIn {
@@ -717,6 +766,22 @@ select {
 	cursor: pointer; 
   } */
 
+  #initialsIn {
+	display: inline;
+	/* float: right;
+	right: 5px; */
+  }
+
+  #initialsInSpan {
+	display: inline;
+  }
+
+  #saveSettings {
+	background-color: #818181;
+	border-radius: 5%;
+	bottom: 17%;
+  }
+
   .heightOut{
 	font-family: 'Dosis';
 	color: #818181;
@@ -724,7 +789,8 @@ select {
 
   #logOut {
 	position: absolute;
-	bottom: 10%;
+	bottom: 12%;
+	left: 40%;
   }
   
   @media screen and (max-height: 450px) {
@@ -760,6 +826,18 @@ select {
 	display: block;
 	transition: 0.3s;
   }
+
+  .friendSideBar span {
+	padding: 8px 8px 8px 32px;
+	text-decoration: none;
+	/* font-size: 25px; */
+	color: #818181;
+	display: block;
+	transition: 0.3s;
+	font-family: 'Dosis';
+	font-size: 17px;
+	text-transform: uppercase;
+  }
   
   .friendSideBar a:hover {
 	color: #f1f1f1;
@@ -772,6 +850,39 @@ select {
 	font-size: 36px;
 	margin-left: 50px;
   }
+
+/* #friendUserID {
+	position: absolute;
+	bottom: 21%;
+} */
+
+#friendUserIDIn {
+	/* position: absolute; */
+	color: #818181;
+	border-radius: 10px 0px 0px 10px;
+	/* bottom: 15%; */
+	left: 5%;
+	font-size: 15px;
+	padding: 3px 0px 3px 0px;
+}
+
+#viewFriendBtn {
+	border-radius: 0px 10px 10px 0px;
+}
+
+#viewFriendBtn:hover {
+	border-radius: 0px 10px 10px 0px;
+	opacity: 0.5;
+}
+
+#userID {
+	position: absolute;
+	font-size: 15px;
+	bottom: 10%;
+	left: 5%;
+	padding-left: 0px;
+	text-transform: initial;
+}
 
 #friendsOpener {
 	transition: 0.3s;
