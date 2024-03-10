@@ -637,7 +637,7 @@ select {
 	right: 0;
 	/* background-color: #111; */
 	/* opacity: 10%; */
-	background-color:rgba(255, 255, 255, 0.5);
+	background-color:rgba(255, 255, 255, 0.7);
 	overflow-x: hidden;
 	transition: 0.5s;
 	padding-top: 60px;
