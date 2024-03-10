@@ -740,20 +740,20 @@
 		document.getElementById("settingsOpener").addEventListener('click', function() {openSettingNav();})
 		function openSettingNav() {
 			document.getElementById("settingSideBar").style.width = "250px";
-			document.getElementById("settingsOpener").style.width = "0px";
+			document.getElementById("settingsOpener").style.width = "0";
 		}
 		
 		document.getElementById("closeSettingsBtn").addEventListener('click', function() {closeSettingNav();})
 		function closeSettingNav() {
 			document.getElementById("settingSideBar").style.width = "0";
-			document.getElementById("settingsOpener").style.width = "20px";
+			document.getElementById("settingsOpener").style.width = "100%";
 			readSettings();
 		}
 
 		document.getElementById("friendsOpener").addEventListener('click', function() {openFriendNav();})
 		function openFriendNav() {
 			document.getElementById("friendSideBar").style.width = "250px";
-			document.getElementById("friendsOpener").style.width = "0%";
+			document.getElementById("friendsOpener").style.width = "0";
 		}
 		
 		document.getElementById("closeFriendBtn").addEventListener('click', function() {closeFriendNav();})
