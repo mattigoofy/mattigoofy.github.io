@@ -560,6 +560,9 @@
 
 		function showAddDiv(key){
 			if(key == "add"){
+				document.getElementById("h3Form").innerHTML = "ADD A BOOK";
+				var input = false;
+
 				document.getElementById("addDiv").style.display = "block";
 				document.getElementById("btnAddForm").style.display = "block";
 				document.getElementById("btnEditForm").style.display = "none";
@@ -567,35 +570,26 @@
 				document.getElementById("removeBtn").style.display = "none";
 				document.getElementById("AddGroupBtn").style.display = "block";
 
-				document.getElementById("titel").readOnly = false;
-				document.getElementById("author").readOnly = false;
-				document.getElementById("checkRead").disabled = false;
-				document.getElementById("genreSelect").disabled = false;
-				document.getElementById("scoreIn").readOnly = false;
-				document.getElementById("extraTxt").readOnly = false;
-				document.getElementById("colorSelect").disabled = false;
-
-				document.getElementById("h3Form").innerHTML = "ADD A BOOK";
 			} else if(key == "edit") {
+				document.getElementById("h3Form").innerHTML = "EDIT A BOOK";
+				var input = false;
+
+				document.getElementById("addDiv").style.display = "block";
 				document.getElementById("btnAddForm").style.display = "none";
 				document.getElementById("btnEditForm").style.display = "none";
 				document.getElementById("btnSaveForm").style.display = "block";
-				document.getElementById("addDiv").style.display = "block";
-				document.getElementById("AddGroupBtn").style.display = "none";
-
-				document.getElementById("h3Form").innerHTML = "EDIT A BOOK";
-				document.getElementById("removeBtn").style.display = "block";							
-				document.getElementById("titel").readOnly = false;
-				document.getElementById("author").readOnly = false;
-				document.getElementById("checkRead").disabled = false;
-				document.getElementById("genreSelect").disabled = false;
-				document.getElementById("scoreIn").readOnly = false;
-				document.getElementById("extraTxt").readOnly = false;
-				document.getElementById("colorSelect").disabled = false;
+				document.getElementById("removeBtn").style.display = "block";	
+				document.getElementById("AddGroupBtn").style.display = "none";						
 			}
 			else{
 				globalKey = key.key;
+				document.getElementById("h3Form").innerHTML = "read A BOOK";
+				var input = true;
+
 				document.getElementById("addDiv").style.display = "block";
+				document.getElementById("btnAddForm").style.display = "none";
+				document.getElementById("btnEditForm").style.display = "block";
+				document.getElementById("btnSaveForm").style.display = "none";
 				document.getElementById("removeBtn").style.display = "block";
 				document.getElementById("AddGroupBtn").style.display = "none";
 
@@ -606,20 +600,15 @@
 				document.getElementById("scoreIn").value = key.score;
 				document.getElementById("extraTxt").value = key.extra;
 				document.getElementById("colorSelect").value = key.color;
-
-				document.getElementById("titel").readOnly = true;
-				document.getElementById("author").readOnly = true;
-				document.getElementById("checkRead").disabled = true;
-				document.getElementById("genreSelect").disabled = true;
-				document.getElementById("scoreIn").readOnly = true;
-				document.getElementById("extraTxt").readOnly = true;
-				document.getElementById("colorSelect").disabled = true;
-
-				document.getElementById("btnAddForm").style.display = "none";
-				document.getElementById("btnEditForm").style.display = "block";
-				document.getElementById("btnSaveForm").style.display = "none";
-				document.getElementById("h3Form").innerHTML = "read A BOOK";
 			}
+
+			document.getElementById("titel").readOnly = input;
+			document.getElementById("author").readOnly = input;
+			document.getElementById("checkRead").disabled = input;
+			document.getElementById("genreSelect").disabled = input;
+			document.getElementById("scoreIn").readOnly = input;
+			document.getElementById("extraTxt").readOnly = input;
+			document.getElementById("colorSelect").disabled = input;
 		}
 		
 		function createKey(titel, author){

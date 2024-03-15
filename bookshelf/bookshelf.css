@@ -228,7 +228,7 @@ input {
 	opacity: 0.5;
 }
 
-.active-dx{
+/* .active-dx{
 	animation-name: foregrounding-dx;
 	animation-duration: 0.9s;
 	animation-fill-mode: forwards;
@@ -250,7 +250,7 @@ input {
 	animation-name: overshadowing-sx;
 	animation-duration: 0.9s;
 	animation-fill-mode: forwards;
-}
+} */
 
 select {
 	border-radius: 30em;
@@ -492,6 +492,13 @@ select {
 	top: 10px;
 	/* position:absolute; */
     /* vertical-align: center; */
+	animation: wideIn 500ms;
+}
+
+@keyframes wideIn {
+	0% {top: 0px;}
+	25% {opacity: 0.75;}
+	100% {top: calc(10% -120px);}
 }
 
 .addForm {
@@ -851,6 +858,10 @@ select {
 	position: absolute;
 	bottom: 21%;
 } */
+
+#backHomeBtn {
+	float: left;
+}
 
 #friendUserIDIn {
 	/* position: absolute; */
