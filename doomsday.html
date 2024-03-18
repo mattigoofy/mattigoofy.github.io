@@ -34,6 +34,9 @@
         
         <p id="ans"></p>
         <button id="next" onclick="next()" style="position: absolute; left: 50%; transform: translateX(-50%);">next</button>
+
+<br><br><br>
+<p id="showScore"></p>
         <p id="test2"></p>
     </div>
 
@@ -62,6 +65,8 @@
   function check(day){
     if(day == days[date.getDay()]){
       document.getElementById("ans").innerHTML = "correct";
+score++;
+document.getElementById("showScore").innerHTML = score;
     } else {
       document.getElementById("ans").innerHTML = "wrong, it's " + days[date.getDay()];
     }
@@ -75,7 +80,6 @@
     document.getElementById("Saturday").disabled = true;
     document.getElementById("Sunday").disabled = true;
     stopwatch();
-    score++;
   }
 
   function input() {
