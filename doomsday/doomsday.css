@@ -1,0 +1,54 @@
+html {
+    display: flex;
+    justify-content: center;
+}
+
+body {
+    text-align: center;
+    width: 250px;
+    background-color: rgb(100, 100, 100);
+    size: 150%;
+    -moz-transform: scale(1.5); /* for Firefox, default 1*/
+    zoom:150%; /* For Chrome, IE, default 100%*/
+}
+  
+button {
+    border: solid;
+    border-width: 3px;
+    border-radius: 5px;
+    border-color: white;
+    width: 70%;
+    height: 50px;
+    margin: 5%;
+    background-color: rgb(100, 100, 100);
+    color: white;
+}
+  
+button:hover {
+    opacity: 0.6;
+}
+  
+h1 {
+    color: white;
+    font-size: 300%
+} 
+  
+  
+  
+#training {
+    display: none;
+}
+  
+#training h2 {
+    color: white;
+}
+  
+#training .dayBtn {
+    border-radius: 50%;
+    /* width:17%;
+    height: 100%; */
+    width: 50px;
+    height: 50px;
+    padding: 3%;
+}
+  

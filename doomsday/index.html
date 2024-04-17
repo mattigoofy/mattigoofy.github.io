@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="doomsday.css"/>
+  <title>doomsdayy!</title>
+</head>
+<body>
+  <div id="menu">
+    <h1>Doomsday Trainer</h1>
+    <button onclick="showDiv('tutorial')">Tutorial</button><br>
+    <button onclick="showDiv('training')">Start Training</button><br>
+    <button onclick="showDiv('statistics')">Training Statistics</button><br>
+    <button onclick="showDiv('settings')">Settings</button>
+  </div>
+  
+  <div id="training">
+    <h2>which day is</h2>
+    <h2 id="dateH2"></h2>
+    <div id="circle">
+      <button class="dayBtn" onclick="check('Sunday')">Sun</button>
+      <button class="dayBtn" onclick="check('Monday')">Mon</button>
+      <button class="dayBtn" onclick="check('Tuesday')">Tue</button>
+      <button class="dayBtn" onclick="check('Wednesday')">Wed</button>
+      <button class="dayBtn" onclick="check('Thursday')">Thu</button>
+      <button class="dayBtn" onclick="check('Friday')">Fri</button>
+      <button class="dayBtn" onclick="check('Saturday')">Sat</button>
+    </div>
+    <div id="ans"></div>
+    <button onclick="next()">Next</button>
+    <button class="backBtn" onclick="showDiv('back')">Back</button>
+  </div>
+  
+</body>
+<script>
+  function showDiv(element) {
+    if(element == "tutorial") {
+      alert("under construction");
+    } else if(element == "training") {
+      document.getElementById("menu").style.display = "none";
+      document.getElementById("training").style.display = "block";
+    } else if(element == "statistics") {
+      alert("under construction");
+    } else if(element == "settings") {
+      alert("under construction");
+    } else if(element == "back"){
+      document.getElementById("menu").style.display = "block";
+      document.getElementById("training").style.display = "none";
+    } else {
+      alert("something went wrong");
+    }
+      
+    
+    
+    /*switch(element) {
+      case "tutorial":
+        alert("under construction");
+      break;
+      case default:
+        alert("help");
+      break;
+    }*/
+  }
+</script>
+<script type="text/javascript" src="training.js"></script>
+</html>
