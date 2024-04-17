@@ -2,23 +2,23 @@
 <html >
 <head>
   <meta charset="UTF-8">
-  <title>Bookshelf</title>
+  <title>gameshelf</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-	<link rel="stylesheet" href="bookshelf.css">
+	<link rel="stylesheet" href="gameshelf.css">
 	
 </head>
 
 <body>
 	<div class="boeken" id="boeken">
-		<h1 id="h1">MY BOOKSHELF</h1>
+		<h1 id="h1">MY gameSHELF</h1>
 		<input id="searchField" placeholder="search..."></input>
 		<select id="genreSelectFilter" class="genreSelect">
 			<option value="no filter">no filter</option>
 		</select>
 		<button id="addBtn">+</button>
 		<br>
-		<div id="booklist"></div>
+		<div id="gamelist"></div>
 	</div>
 
 	<div class="addDiv" id="addDiv">
@@ -53,18 +53,18 @@
 
 	<div class="removeDiv" id="removeDiv">
 		<button id="removeBurnBtn">&times</button><div>Alert</div><br>
-		<button id="burnBtn">Burn book</button>
+		<button id="burnBtn">Burn game</button>
 	</div>
 
 	<div id="settingSideBar" class="settingSideBar">
 		<a href="javascript:void(0)" class="closebtn" id="closeSettingsBtn">&times;</a>
 		<p>Settings</p>
 		<span>username</span><input id="usernameIn">
-		<span>amount of books per shelf</span><button id="lessBooks">-</button><input id="amountOfBooksInput"><button id="moreBooks">+</button>
+		<span>amount of games per shelf</span><button id="lessgames">-</button><input id="amountOfgamesInput"><button id="moregames">+</button>
 		<span>minimum height</span><input type="range" min="25" max="500" step="25" id="minHeightIn"><output id="minHeightOut" class="heightOut">50</output>
 		<span>maximum height</span><input type="range" min="25" max="500" step="25" id="maxHeightIn" ><output id="maxHeightOut" class="heightOut">50</output>
 		<span id="initialsInSpan">show initials</span><input type="checkbox" id="initialsIn">
-		<span id="flatInSpan">books flat</span><input type="checkbox" id="flatIn">
+		<span id="flatInSpan">games flat</span><input type="checkbox" id="flatIn">
 		<button id="saveSettings" class="form-btn dx">Save</button>
 		<button id="logOut">Log Out</button>
 	</div>
@@ -144,13 +144,13 @@
 				document.getElementById("userID").innerHTML = "your user-ID: " + auth.currentUser.uid; 
 				document.getElementById("boeken").style.display = "block";
 				readSettings();
-				readBooks();
+				readgames();
 				readGenres();
 				readColors();
 				addSelectFilter();
 			} else {
 				document.getElementById("boeken").style.display = "none";
-				window.open("bookshelfLogin.html","_self");
+				window.open("gameshelfLogin.html","_self");
 			}
 		})
 
@@ -167,9 +167,9 @@
 		//----------------------------------------------------------------------------------------------------------------------------------
 
 	
-		function writeBook(titel, author, read, genre, score, extra, color){
+		function writegame(titel, author, read, genre, score, extra, color){
 			var key = createKey(titel, author);
-			const reference = ref(db,auth.currentUser.uid + '/books/' + key);
+			const reference = ref(db,auth.currentUser.uid + '/games/' + key);
 
 			set(reference, {
 				key: key,
@@ -180,28 +180,28 @@
 				score: score,
 				extra: extra,
 				color: color,
-				type: "book"
+				type: "game"
 			});
 		}
 
-		function readBooks(){
+		function readgames(){
 			// console.log("reading")
-			const distanceRef = ref(db,auth.currentUser.uid + "/books");
+			const distanceRef = ref(db,auth.currentUser.uid + "/games");
 			onValue(distanceRef, (snapchot) => {
-				snapchot.forEach(book => {
-					if(book.val().type == "book" || book.val().type == null){
-						addBookToShelf(book.val());
+				snapchot.forEach(game => {
+					if(game.val().type == "game" || game.val().type == null){
+						addgameToShelf(game.val());
 					} else {
 						
 					}
 				});
 			})
 			
-			document.getElementById("h1").innerHTML ="my bookshelf";
+			document.getElementById("h1").innerHTML ="my gameshelf";
 		}
 
-		function changeBook(key, titel, author, read, genre, score, extra, color) {
-			const reference = ref(db,auth.currentUser.uid + '/books/' + key);
+		function changegame(key, titel, author, read, genre, score, extra, color) {
+			const reference = ref(db,auth.currentUser.uid + '/games/' + key);
 	
 			set(reference, {
 				key: key,
@@ -216,8 +216,8 @@
 
 		}
 
-		function burnBook(key) {
-			let reference = ref(db,auth.currentUser.uid + '/books/' + key);
+		function burngame(key) {
+			let reference = ref(db,auth.currentUser.uid + '/games/' + key);
 			remove(reference);
 		}
 
@@ -260,49 +260,49 @@
 			return colors[Math.round(Math.random() * (colors.length-1))];
 		}
 
-		function filterBooksGenre(genre, term) {
+		function filtergamesGenre(genre, term) {
 			// console.log("filtering")
-			const distanceRef = ref(db,auth.currentUser.uid + "/books");
+			const distanceRef = ref(db,auth.currentUser.uid + "/games");
 			onValue(distanceRef, (snapchot) => {
-				snapchot.forEach(book => {
-					if((book.val().genre.toLowerCase() == genre || genre == "no filter") && 
-						(book.val().titel.toLowerCase().includes(term.toLowerCase()) 
-						|| book.val().author.toLowerCase().includes(term.toLowerCase()) 
-						||book.val().extra.toLowerCase().includes(term.toLowerCase())	
+				snapchot.forEach(game => {
+					if((game.val().genre.toLowerCase() == genre || genre == "no filter") && 
+						(game.val().titel.toLowerCase().includes(term.toLowerCase()) 
+						|| game.val().author.toLowerCase().includes(term.toLowerCase()) 
+						||game.val().extra.toLowerCase().includes(term.toLowerCase())	
 						||term == "")){
-							addBookToShelf(book.val());
+							addgameToShelf(game.val());
 					}
 				});
 			})
 		}
 
-		function filterBooksRead(filter, term) {
+		function filtergamesRead(filter, term) {
 			// console.log("filtering")
-			const distanceRef = ref(db,auth.currentUser.uid + "/books");
+			const distanceRef = ref(db,auth.currentUser.uid + "/games");
 			onValue(distanceRef, (snapchot) => {
-				snapchot.forEach(book => {
-					if((book.val().read.toString() == filter) && 
-						(book.val().titel.toLowerCase().includes(term.toLowerCase()) 
-						|| book.val().author.toLowerCase().includes(term.toLowerCase()) 
-						||book.val().extra.toLowerCase().includes(term.toLowerCase())	
+				snapchot.forEach(game => {
+					if((game.val().read.toString() == filter) && 
+						(game.val().titel.toLowerCase().includes(term.toLowerCase()) 
+						|| game.val().author.toLowerCase().includes(term.toLowerCase()) 
+						||game.val().extra.toLowerCase().includes(term.toLowerCase())	
 						||term == "")){
-							addBookToShelf(book.val());
+							addgameToShelf(game.val());
 					}
 				});
 			})
 		}
 
-		function filterBooksScore(filter, term) {
+		function filtergamesScore(filter, term) {
 			// console.log("filtering")
-			const distanceRef = ref(db,auth.currentUser.uid + "/books");
+			const distanceRef = ref(db,auth.currentUser.uid + "/games");
 			onValue(distanceRef, (snapchot) => {
-				snapchot.forEach(book => {
-					if((book.val().score.toString() == filter) && 
-						(book.val().titel.toLowerCase().includes(term.toLowerCase()) 
-						|| book.val().author.toLowerCase().includes(term.toLowerCase()) 
-						||book.val().extra.toLowerCase().includes(term.toLowerCase())	
+				snapchot.forEach(game => {
+					if((game.val().score.toString() == filter) && 
+						(game.val().titel.toLowerCase().includes(term.toLowerCase()) 
+						|| game.val().author.toLowerCase().includes(term.toLowerCase()) 
+						||game.val().extra.toLowerCase().includes(term.toLowerCase())	
 						||term == "")){
-							addBookToShelf(book.val());
+							addgameToShelf(game.val());
 					}
 				});
 			})
@@ -320,7 +320,7 @@
 			var cntr = 0;
 			onValue(distanceRef, (snapchot) => {
 				amountPerShelf = snapchot.val().amountPerShelf;
-				document.getElementById("amountOfBooksInput").value = amountPerShelf;
+				document.getElementById("amountOfgamesInput").value = amountPerShelf;
 
 				flat = snapchot.val().flat;
 				document.getElementById("flatIn").checked = flat;
@@ -329,11 +329,11 @@
 				document.getElementById("initialsIn").checked = initials;
 				
 				maxHeight = snapchot.val().maxHeight;
-				var elements = document.getElementsByClassName('bookUpright');
+				var elements = document.getElementsByClassName('gameUpright');
 				for(let j = 0; j < elements.length; j++) {
 					elements[j].style.maxHeight = maxHeight;
 				}
-				var elements = document.getElementsByClassName('bookFlat');
+				var elements = document.getElementsByClassName('gameFlat');
 				for(let j = 0; j < elements.length; j++) {
 					elements[j].style.maxWidth = maxHeight;
 				}
@@ -341,11 +341,11 @@
 				document.getElementById("maxHeightOut").value = document.getElementById("maxHeightIn").value;
 
 				minHeight = snapchot.val().minHeight;
-				var elements = document.getElementsByClassName('bookUpright');
+				var elements = document.getElementsByClassName('gameUpright');
 				for(let j = 0; j < elements.length; j++) {
 					elements[j].style.minHeight = minHeight;
 				}
-				var elements = document.getElementsByClassName('bookFlat');
+				var elements = document.getElementsByClassName('gameFlat');
 				for(let j = 0; j < elements.length; j++) {
 					elements[j].style.minWidth = minHeight;
 				}
@@ -379,13 +379,13 @@
 			})
 		}
 
-		function readFriendsBooks(friendUID){
+		function readFriendsgames(friendUID){
 			// console.log("reading friends")
-			const distanceRef = ref(db,friendUID + "/books");
+			const distanceRef = ref(db,friendUID + "/games");
 			onValue(distanceRef, (snapchot) => {
-				snapchot.forEach(book => {
-					if(book.val().type == "book" || book.val().type == null){
-						addBookToShelf(book.val());
+				snapchot.forEach(game => {
+					if(game.val().type == "game" || game.val().type == null){
+						addgameToShelf(game.val());
 					} else {
 						
 					}
@@ -394,7 +394,7 @@
 
 			const reference = ref(db,friendUID + "/username");
 			onValue(reference, (snapchot) => {
-				document.getElementById("h1").innerHTML = snapchot.val() + "'s bookshelf";
+				document.getElementById("h1").innerHTML = snapchot.val() + "'s gameshelf";
 			})
 		}
 
@@ -414,10 +414,10 @@
 		}	
 
 		document.getElementById('btnAddForm').addEventListener('click', function() {
-			addBook();
+			addgame();
 		});
 	
-		function addBook() {
+		function addgame() {
 			// Get values
 			let titel = document.getElementById("titel").value;
 			let author = document.getElementById("author").value;
@@ -432,25 +432,25 @@
 				// console.log(color)
 			}
 	
-			writeBook(titel, author, read, genre, score, extra, color);
+			writegame(titel, author, read, genre, score, extra, color);
 			document.getElementById('addForm').reset();
-			clearBooks();
-			readBooks();
+			cleargames();
+			readgames();
 		}
 
 		document.getElementById('btnEditForm').addEventListener('click', function() {
-			editBook();
+			editgame();
 		});
 
-		function editBook() {
+		function editgame() {
 			showAddDiv("edit");
 		}
 
 		document.getElementById('btnSaveForm').addEventListener('click', function() {
-			saveBook();
+			savegame();
 		});
 
-		function saveBook() {
+		function savegame() {
 			// Get values
 			let titel = document.getElementById("titel").value;
 			let author = document.getElementById("author").value;
@@ -461,89 +461,89 @@
 			let color = document.getElementById("colorSelect").value;
 
 			if(globalKey == createKey(titel,author)){
-				changeBook(globalKey, titel, author, read, genre, score, extra, color);
+				changegame(globalKey, titel, author, read, genre, score, extra, color);
 			} else {
-				writeBook(titel, author, read, genre, score, extra, color);
-				burnBook(globalKey);
+				writegame(titel, author, read, genre, score, extra, color);
+				burngame(globalKey);
 			}
 			document.getElementById('addForm').reset();
 			document.getElementById("addDiv").style.display = "none";
 			document.getElementById("boeken").style.display = "block";
-			clearBooks();
-			readBooks();
+			cleargames();
+			readgames();
 		}
 
 		document.getElementById('removeBtn').addEventListener('click', function() {
-			removeBook();
+			removegame();
 		});
 
-		function removeBook() {
+		function removegame() {
 			document.getElementById("removeDiv").style.display = "block";
 		}
 
 		document.getElementById('burnBtn').addEventListener('click', function() {
-			burnBook(globalKey);
-			clearBooks();
-			readBooks();
+			burngame(globalKey);
+			cleargames();
+			readgames();
 		});
 
 		document.getElementById("searchField").addEventListener('keyup', function() {
-			selectBookFilter();
+			selectgameFilter();
 		})
 
 		document.getElementById("genreSelectFilter").addEventListener('change', function() {
-			selectBookFilter();
+			selectgameFilter();
 		})
 
-		function selectBookFilter() {
+		function selectgameFilter() {
 			var filter =  document.getElementById("genreSelectFilter").value;
 			var term = document.getElementById("searchField").value;
-			clearBooks();
+			cleargames();
 			if(filter == "true" || filter == "false"){
-				filterBooksRead(filter, term);
+				filtergamesRead(filter, term);
 			} else if(!isNaN(filter)) {
-				filterBooksScore(filter, term);
+				filtergamesScore(filter, term);
 			}else {
-				filterBooksGenre(filter, term);
+				filtergamesGenre(filter, term);
 			}
 
 		}
 		
 		document.getElementById("saveSettings").addEventListener('click', function() {
-			amountPerShelf = document.getElementById("amountOfBooksInput").value;
+			amountPerShelf = document.getElementById("amountOfgamesInput").value;
 			minHeight = document.getElementById("minHeightIn").value + "px";
 			maxHeight = document.getElementById("maxHeightIn").value + "px";
 			username = document.getElementById("usernameIn").value;
 			initials = document.getElementById("initialsIn").checked;
 			flat = document.getElementById("flatIn").checked;
 			writeSettings();
-			clearBooks();
-			readBooks();
+			cleargames();
+			readgames();
 		})
 
-		document.getElementById("lessBooks").addEventListener('click', function() {
-			if(document.getElementById("amountOfBooksInput").value-1 > "0"){
-				document.getElementById("amountOfBooksInput").value--;
+		document.getElementById("lessgames").addEventListener('click', function() {
+			if(document.getElementById("amountOfgamesInput").value-1 > "0"){
+				document.getElementById("amountOfgamesInput").value--;
 			}
 		})
-		document.getElementById("moreBooks").addEventListener('click', function() {
-			document.getElementById("amountOfBooksInput").value++;
+		document.getElementById("moregames").addEventListener('click', function() {
+			document.getElementById("amountOfgamesInput").value++;
 		})
 
 		document.getElementById("viewFriendBtn").addEventListener('click', function() {
 			closeFriendNav();
-			clearBooks();
+			cleargames();
 			if(document.getElementById("friendUserIDIn").value == auth.currentUser.uid){
-				readBooks();
+				readgames();
 			} else {
-				readFriendsBooks(document.getElementById("friendUserIDIn").value);
+				readFriendsgames(document.getElementById("friendUserIDIn").value);
 			}
 		})
 
 		document.getElementById("backHomeBtn").addEventListener('click', function() {
 			closeFriendNav();
-			clearBooks();
-			readBooks();
+			cleargames();
+			readgames();
 		})
 
 
@@ -560,7 +560,7 @@
 
 		function showAddDiv(key){
 			if(key == "add"){
-				document.getElementById("h3Form").innerHTML = "ADD A BOOK";
+				document.getElementById("h3Form").innerHTML = "ADD A game";
 				var input = false;
 
 				document.getElementById("addDiv").style.display = "block";
@@ -571,7 +571,7 @@
 				document.getElementById("AddGroupBtn").style.display = "block";
 
 			} else if(key == "edit") {
-				document.getElementById("h3Form").innerHTML = "EDIT A BOOK";
+				document.getElementById("h3Form").innerHTML = "EDIT A game";
 				var input = false;
 
 				document.getElementById("addDiv").style.display = "block";
@@ -583,7 +583,7 @@
 			}
 			else{
 				globalKey = key.key;
-				document.getElementById("h3Form").innerHTML = "read A BOOK";
+				document.getElementById("h3Form").innerHTML = "read A game";
 				var input = true;
 
 				document.getElementById("addDiv").style.display = "block";
@@ -616,23 +616,23 @@
 		}
 
 		var cntr = 0;
-		function addBookToShelf(key){
+		function addgameToShelf(key){
 			cntr++;
 
-			var book = document.createElement("div");
+			var game = document.createElement("div");
 			if(flat){
-				book.setAttribute("class","bookFlat");
+				game.setAttribute("class","gameFlat");
 			} else {
-				book.setAttribute("class","bookUpright");
+				game.setAttribute("class","gameUpright");
 			}
-			book.addEventListener('click',function(){
+			game.addEventListener('click',function(){
 				showAddDiv(key)
 			});
 			var bgcolor = "background-color: " + key.color + ";";
 			if(cntr == 1){
 				bgcolor += "margin-top: 15px";
 			}
-			book.setAttribute("style",bgcolor);
+			game.setAttribute("style",bgcolor);
 
 			var spanTitel = document.createElement("span");
 			spanTitel.setAttribute("class","titel");
@@ -645,23 +645,23 @@
 			// spanOpvulling.appendChild(document.createTextNode("___"));
 
 
-			book.appendChild(spanTitel);
-			book.appendChild(spanOpvulling);
+			game.appendChild(spanTitel);
+			game.appendChild(spanOpvulling);
 
 			if(initials == "true" || initials){
 				var spanAuthor = document.createElement("span");
 				spanAuthor.setAttribute("class","author");
 				spanAuthor.setAttribute("style","margin-bottom: 5px");
 				spanAuthor.appendChild(document.createTextNode(key.author.split(" ").map(i => i.charAt(0)).join(".") + "."));
-				book.appendChild(spanAuthor);
+				game.appendChild(spanAuthor);
 			}
 
-			document.getElementById("booklist").appendChild(book);
+			document.getElementById("gamelist").appendChild(game);
 			if(cntr == amountPerShelf){
 				cntr = 0;
 				var shelf = document.createElement("div");
 				shelf.setAttribute("class","shelf");
-				document.getElementById("booklist").appendChild(shelf);
+				document.getElementById("gamelist").appendChild(shelf);
 			}
 			readSettings();
 		}
@@ -740,15 +740,15 @@
 			document.getElementById("removeDiv").style.display = "none";
 		}
 
-		function clearBooks() {
+		function cleargames() {
 			// console.log("clearing");
 			backAdd();
-			document.getElementById("booklist").remove(); 
+			document.getElementById("gamelist").remove(); 
 
-			var booklist = document.createElement("div");
-			booklist.setAttribute("id", "booklist");
-			document.getElementById("boeken").append(booklist);
-			// readBooks();
+			var gamelist = document.createElement("div");
+			gamelist.setAttribute("id", "gamelist");
+			document.getElementById("boeken").append(gamelist);
+			// readgames();
 		}
 
 		document.getElementById("scoreIn").addEventListener('keyup', function(){limit(this)})
@@ -763,7 +763,7 @@
 			}
 		}
 
-		document.getElementById("amountOfBooksInput").addEventListener('keyup', function(){
+		document.getElementById("amountOfgamesInput").addEventListener('keyup', function(){
 			if(parseInt(Number(this.value)) == this.value /*Number.isInteger(this.value)*/ || this.value == ""){	
 				if(this.value.includes(".")){
 					this.value = this.value.slice(0, this.value.length-1);
@@ -814,7 +814,7 @@
 			document.getElementById("friendSideBar").style.width = "0";
 			document.getElementById("friendsOpener").style.width = "150px";
 		}
-
+		
 		document.getElementById("h1").addEventListener('click', function() {
 			window.open("chooseShelf.html","_self");})
 	</script>

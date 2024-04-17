@@ -2,23 +2,23 @@
 <html >
 <head>
   <meta charset="UTF-8">
-  <title>Bookshelf</title>
+  <title>movieshelf</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-	<link rel="stylesheet" href="bookshelf.css">
+	<link rel="stylesheet" href="movieshelf.css">
 	
 </head>
 
 <body>
 	<div class="boeken" id="boeken">
-		<h1 id="h1">MY BOOKSHELF</h1>
+		<h1 id="h1">MY movieSHELF</h1>
 		<input id="searchField" placeholder="search..."></input>
 		<select id="genreSelectFilter" class="genreSelect">
 			<option value="no filter">no filter</option>
 		</select>
 		<button id="addBtn">+</button>
 		<br>
-		<div id="booklist"></div>
+		<div id="movielist"></div>
 	</div>
 
 	<div class="addDiv" id="addDiv">
@@ -53,18 +53,18 @@
 
 	<div class="removeDiv" id="removeDiv">
 		<button id="removeBurnBtn">&times</button><div>Alert</div><br>
-		<button id="burnBtn">Burn book</button>
+		<button id="burnBtn">Burn movie</button>
 	</div>
 
 	<div id="settingSideBar" class="settingSideBar">
 		<a href="javascript:void(0)" class="closebtn" id="closeSettingsBtn">&times;</a>
 		<p>Settings</p>
 		<span>username</span><input id="usernameIn">
-		<span>amount of books per shelf</span><button id="lessBooks">-</button><input id="amountOfBooksInput"><button id="moreBooks">+</button>
+		<span>amount of movies per shelf</span><button id="lessmovies">-</button><input id="amountOfmoviesInput"><button id="moremovies">+</button>
 		<span>minimum height</span><input type="range" min="25" max="500" step="25" id="minHeightIn"><output id="minHeightOut" class="heightOut">50</output>
 		<span>maximum height</span><input type="range" min="25" max="500" step="25" id="maxHeightIn" ><output id="maxHeightOut" class="heightOut">50</output>
 		<span id="initialsInSpan">show initials</span><input type="checkbox" id="initialsIn">
-		<span id="flatInSpan">books flat</span><input type="checkbox" id="flatIn">
+		<span id="flatInSpan">movies flat</span><input type="checkbox" id="flatIn">
 		<button id="saveSettings" class="form-btn dx">Save</button>
 		<button id="logOut">Log Out</button>
 	</div>
@@ -144,13 +144,13 @@
 				document.getElementById("userID").innerHTML = "your user-ID: " + auth.currentUser.uid; 
 				document.getElementById("boeken").style.display = "block";
 				readSettings();
-				readBooks();
+				readmovies();
 				readGenres();
 				readColors();
 				addSelectFilter();
 			} else {
 				document.getElementById("boeken").style.display = "none";
-				window.open("bookshelfLogin.html","_self");
+				window.open("movieshelfLogin.html","_self");
 			}
 		})
 
@@ -167,9 +167,9 @@
 		//----------------------------------------------------------------------------------------------------------------------------------
 
 	
-		function writeBook(titel, author, read, genre, score, extra, color){
+		function writemovie(titel, author, read, genre, score, extra, color){
 			var key = createKey(titel, author);
-			const reference = ref(db,auth.currentUser.uid + '/books/' + key);
+			const reference = ref(db,auth.currentUser.uid + '/movies/' + key);
 
 			set(reference, {
 				key: key,
@@ -180,28 +180,28 @@
 				score: score,
 				extra: extra,
 				color: color,
-				type: "book"
+				type: "movie"
 			});
 		}
 
-		function readBooks(){
+		function readmovies(){
 			// console.log("reading")
-			const distanceRef = ref(db,auth.currentUser.uid + "/books");
+			const distanceRef = ref(db,auth.currentUser.uid + "/movies");
 			onValue(distanceRef, (snapchot) => {
-				snapchot.forEach(book => {
-					if(book.val().type == "book" || book.val().type == null){
-						addBookToShelf(book.val());
+				snapchot.forEach(movie => {
+					if(movie.val().type == "movie" || movie.val().type == null){
+						addmovieToShelf(movie.val());
 					} else {
 						
 					}
 				});
 			})
 			
-			document.getElementById("h1").innerHTML ="my bookshelf";
+			document.getElementById("h1").innerHTML ="my movieshelf";
 		}
 
-		function changeBook(key, titel, author, read, genre, score, extra, color) {
-			const reference = ref(db,auth.currentUser.uid + '/books/' + key);
+		function changemovie(key, titel, author, read, genre, score, extra, color) {
+			const reference = ref(db,auth.currentUser.uid + '/movies/' + key);
 	
 			set(reference, {
 				key: key,
@@ -216,8 +216,8 @@
 
 		}
 
-		function burnBook(key) {
-			let reference = ref(db,auth.currentUser.uid + '/books/' + key);
+		function burnmovie(key) {
+			let reference = ref(db,auth.currentUser.uid + '/movies/' + key);
 			remove(reference);
 		}
 
@@ -260,49 +260,49 @@
 			return colors[Math.round(Math.random() * (colors.length-1))];
 		}
 
-		function filterBooksGenre(genre, term) {
+		function filtermoviesGenre(genre, term) {
 			// console.log("filtering")
-			const distanceRef = ref(db,auth.currentUser.uid + "/books");
+			const distanceRef = ref(db,auth.currentUser.uid + "/movies");
 			onValue(distanceRef, (snapchot) => {
-				snapchot.forEach(book => {
-					if((book.val().genre.toLowerCase() == genre || genre == "no filter") && 
-						(book.val().titel.toLowerCase().includes(term.toLowerCase()) 
-						|| book.val().author.toLowerCase().includes(term.toLowerCase()) 
-						||book.val().extra.toLowerCase().includes(term.toLowerCase())	
+				snapchot.forEach(movie => {
+					if((movie.val().genre.toLowerCase() == genre || genre == "no filter") && 
+						(movie.val().titel.toLowerCase().includes(term.toLowerCase()) 
+						|| movie.val().author.toLowerCase().includes(term.toLowerCase()) 
+						||movie.val().extra.toLowerCase().includes(term.toLowerCase())	
 						||term == "")){
-							addBookToShelf(book.val());
+							addmovieToShelf(movie.val());
 					}
 				});
 			})
 		}
 
-		function filterBooksRead(filter, term) {
+		function filtermoviesRead(filter, term) {
 			// console.log("filtering")
-			const distanceRef = ref(db,auth.currentUser.uid + "/books");
+			const distanceRef = ref(db,auth.currentUser.uid + "/movies");
 			onValue(distanceRef, (snapchot) => {
-				snapchot.forEach(book => {
-					if((book.val().read.toString() == filter) && 
-						(book.val().titel.toLowerCase().includes(term.toLowerCase()) 
-						|| book.val().author.toLowerCase().includes(term.toLowerCase()) 
-						||book.val().extra.toLowerCase().includes(term.toLowerCase())	
+				snapchot.forEach(movie => {
+					if((movie.val().read.toString() == filter) && 
+						(movie.val().titel.toLowerCase().includes(term.toLowerCase()) 
+						|| movie.val().author.toLowerCase().includes(term.toLowerCase()) 
+						||movie.val().extra.toLowerCase().includes(term.toLowerCase())	
 						||term == "")){
-							addBookToShelf(book.val());
+							addmovieToShelf(movie.val());
 					}
 				});
 			})
 		}
 
-		function filterBooksScore(filter, term) {
+		function filtermoviesScore(filter, term) {
 			// console.log("filtering")
-			const distanceRef = ref(db,auth.currentUser.uid + "/books");
+			const distanceRef = ref(db,auth.currentUser.uid + "/movies");
 			onValue(distanceRef, (snapchot) => {
-				snapchot.forEach(book => {
-					if((book.val().score.toString() == filter) && 
-						(book.val().titel.toLowerCase().includes(term.toLowerCase()) 
-						|| book.val().author.toLowerCase().includes(term.toLowerCase()) 
-						||book.val().extra.toLowerCase().includes(term.toLowerCase())	
+				snapchot.forEach(movie => {
+					if((movie.val().score.toString() == filter) && 
+						(movie.val().titel.toLowerCase().includes(term.toLowerCase()) 
+						|| movie.val().author.toLowerCase().includes(term.toLowerCase()) 
+						||movie.val().extra.toLowerCase().includes(term.toLowerCase())	
 						||term == "")){
-							addBookToShelf(book.val());
+							addmovieToShelf(movie.val());
 					}
 				});
 			})
@@ -320,7 +320,7 @@
 			var cntr = 0;
 			onValue(distanceRef, (snapchot) => {
 				amountPerShelf = snapchot.val().amountPerShelf;
-				document.getElementById("amountOfBooksInput").value = amountPerShelf;
+				document.getElementById("amountOfmoviesInput").value = amountPerShelf;
 
 				flat = snapchot.val().flat;
 				document.getElementById("flatIn").checked = flat;
@@ -329,11 +329,11 @@
 				document.getElementById("initialsIn").checked = initials;
 				
 				maxHeight = snapchot.val().maxHeight;
-				var elements = document.getElementsByClassName('bookUpright');
+				var elements = document.getElementsByClassName('movieUpright');
 				for(let j = 0; j < elements.length; j++) {
 					elements[j].style.maxHeight = maxHeight;
 				}
-				var elements = document.getElementsByClassName('bookFlat');
+				var elements = document.getElementsByClassName('movieFlat');
 				for(let j = 0; j < elements.length; j++) {
 					elements[j].style.maxWidth = maxHeight;
 				}
@@ -341,11 +341,11 @@
 				document.getElementById("maxHeightOut").value = document.getElementById("maxHeightIn").value;
 
 				minHeight = snapchot.val().minHeight;
-				var elements = document.getElementsByClassName('bookUpright');
+				var elements = document.getElementsByClassName('movieUpright');
 				for(let j = 0; j < elements.length; j++) {
 					elements[j].style.minHeight = minHeight;
 				}
-				var elements = document.getElementsByClassName('bookFlat');
+				var elements = document.getElementsByClassName('movieFlat');
 				for(let j = 0; j < elements.length; j++) {
 					elements[j].style.minWidth = minHeight;
 				}
@@ -379,13 +379,13 @@
 			})
 		}
 
-		function readFriendsBooks(friendUID){
+		function readFriendsmovies(friendUID){
 			// console.log("reading friends")
-			const distanceRef = ref(db,friendUID + "/books");
+			const distanceRef = ref(db,friendUID + "/movies");
 			onValue(distanceRef, (snapchot) => {
-				snapchot.forEach(book => {
-					if(book.val().type == "book" || book.val().type == null){
-						addBookToShelf(book.val());
+				snapchot.forEach(movie => {
+					if(movie.val().type == "movie" || movie.val().type == null){
+						addmovieToShelf(movie.val());
 					} else {
 						
 					}
@@ -394,7 +394,7 @@
 
 			const reference = ref(db,friendUID + "/username");
 			onValue(reference, (snapchot) => {
-				document.getElementById("h1").innerHTML = snapchot.val() + "'s bookshelf";
+				document.getElementById("h1").innerHTML = snapchot.val() + "'s movieshelf";
 			})
 		}
 
@@ -414,10 +414,10 @@
 		}	
 
 		document.getElementById('btnAddForm').addEventListener('click', function() {
-			addBook();
+			addmovie();
 		});
 	
-		function addBook() {
+		function addmovie() {
 			// Get values
 			let titel = document.getElementById("titel").value;
 			let author = document.getElementById("author").value;
@@ -432,25 +432,25 @@
 				// console.log(color)
 			}
 	
-			writeBook(titel, author, read, genre, score, extra, color);
+			writemovie(titel, author, read, genre, score, extra, color);
 			document.getElementById('addForm').reset();
-			clearBooks();
-			readBooks();
+			clearmovies();
+			readmovies();
 		}
 
 		document.getElementById('btnEditForm').addEventListener('click', function() {
-			editBook();
+			editmovie();
 		});
 
-		function editBook() {
+		function editmovie() {
 			showAddDiv("edit");
 		}
 
 		document.getElementById('btnSaveForm').addEventListener('click', function() {
-			saveBook();
+			savemovie();
 		});
 
-		function saveBook() {
+		function savemovie() {
 			// Get values
 			let titel = document.getElementById("titel").value;
 			let author = document.getElementById("author").value;
@@ -461,89 +461,89 @@
 			let color = document.getElementById("colorSelect").value;
 
 			if(globalKey == createKey(titel,author)){
-				changeBook(globalKey, titel, author, read, genre, score, extra, color);
+				changemovie(globalKey, titel, author, read, genre, score, extra, color);
 			} else {
-				writeBook(titel, author, read, genre, score, extra, color);
-				burnBook(globalKey);
+				writemovie(titel, author, read, genre, score, extra, color);
+				burnmovie(globalKey);
 			}
 			document.getElementById('addForm').reset();
 			document.getElementById("addDiv").style.display = "none";
 			document.getElementById("boeken").style.display = "block";
-			clearBooks();
-			readBooks();
+			clearmovies();
+			readmovies();
 		}
 
 		document.getElementById('removeBtn').addEventListener('click', function() {
-			removeBook();
+			removemovie();
 		});
 
-		function removeBook() {
+		function removemovie() {
 			document.getElementById("removeDiv").style.display = "block";
 		}
 
 		document.getElementById('burnBtn').addEventListener('click', function() {
-			burnBook(globalKey);
-			clearBooks();
-			readBooks();
+			burnmovie(globalKey);
+			clearmovies();
+			readmovies();
 		});
 
 		document.getElementById("searchField").addEventListener('keyup', function() {
-			selectBookFilter();
+			selectmovieFilter();
 		})
 
 		document.getElementById("genreSelectFilter").addEventListener('change', function() {
-			selectBookFilter();
+			selectmovieFilter();
 		})
 
-		function selectBookFilter() {
+		function selectmovieFilter() {
 			var filter =  document.getElementById("genreSelectFilter").value;
 			var term = document.getElementById("searchField").value;
-			clearBooks();
+			clearmovies();
 			if(filter == "true" || filter == "false"){
-				filterBooksRead(filter, term);
+				filtermoviesRead(filter, term);
 			} else if(!isNaN(filter)) {
-				filterBooksScore(filter, term);
+				filtermoviesScore(filter, term);
 			}else {
-				filterBooksGenre(filter, term);
+				filtermoviesGenre(filter, term);
 			}
 
 		}
 		
 		document.getElementById("saveSettings").addEventListener('click', function() {
-			amountPerShelf = document.getElementById("amountOfBooksInput").value;
+			amountPerShelf = document.getElementById("amountOfmoviesInput").value;
 			minHeight = document.getElementById("minHeightIn").value + "px";
 			maxHeight = document.getElementById("maxHeightIn").value + "px";
 			username = document.getElementById("usernameIn").value;
 			initials = document.getElementById("initialsIn").checked;
 			flat = document.getElementById("flatIn").checked;
 			writeSettings();
-			clearBooks();
-			readBooks();
+			clearmovies();
+			readmovies();
 		})
 
-		document.getElementById("lessBooks").addEventListener('click', function() {
-			if(document.getElementById("amountOfBooksInput").value-1 > "0"){
-				document.getElementById("amountOfBooksInput").value--;
+		document.getElementById("lessmovies").addEventListener('click', function() {
+			if(document.getElementById("amountOfmoviesInput").value-1 > "0"){
+				document.getElementById("amountOfmoviesInput").value--;
 			}
 		})
-		document.getElementById("moreBooks").addEventListener('click', function() {
-			document.getElementById("amountOfBooksInput").value++;
+		document.getElementById("moremovies").addEventListener('click', function() {
+			document.getElementById("amountOfmoviesInput").value++;
 		})
 
 		document.getElementById("viewFriendBtn").addEventListener('click', function() {
 			closeFriendNav();
-			clearBooks();
+			clearmovies();
 			if(document.getElementById("friendUserIDIn").value == auth.currentUser.uid){
-				readBooks();
+				readmovies();
 			} else {
-				readFriendsBooks(document.getElementById("friendUserIDIn").value);
+				readFriendsmovies(document.getElementById("friendUserIDIn").value);
 			}
 		})
 
 		document.getElementById("backHomeBtn").addEventListener('click', function() {
 			closeFriendNav();
-			clearBooks();
-			readBooks();
+			clearmovies();
+			readmovies();
 		})
 
 
@@ -560,7 +560,7 @@
 
 		function showAddDiv(key){
 			if(key == "add"){
-				document.getElementById("h3Form").innerHTML = "ADD A BOOK";
+				document.getElementById("h3Form").innerHTML = "ADD A movie";
 				var input = false;
 
 				document.getElementById("addDiv").style.display = "block";
@@ -571,7 +571,7 @@
 				document.getElementById("AddGroupBtn").style.display = "block";
 
 			} else if(key == "edit") {
-				document.getElementById("h3Form").innerHTML = "EDIT A BOOK";
+				document.getElementById("h3Form").innerHTML = "EDIT A movie";
 				var input = false;
 
 				document.getElementById("addDiv").style.display = "block";
@@ -583,7 +583,7 @@
 			}
 			else{
 				globalKey = key.key;
-				document.getElementById("h3Form").innerHTML = "read A BOOK";
+				document.getElementById("h3Form").innerHTML = "read A movie";
 				var input = true;
 
 				document.getElementById("addDiv").style.display = "block";
@@ -616,23 +616,23 @@
 		}
 
 		var cntr = 0;
-		function addBookToShelf(key){
+		function addmovieToShelf(key){
 			cntr++;
 
-			var book = document.createElement("div");
+			var movie = document.createElement("div");
 			if(flat){
-				book.setAttribute("class","bookFlat");
+				movie.setAttribute("class","movieFlat");
 			} else {
-				book.setAttribute("class","bookUpright");
+				movie.setAttribute("class","movieUpright");
 			}
-			book.addEventListener('click',function(){
+			movie.addEventListener('click',function(){
 				showAddDiv(key)
 			});
 			var bgcolor = "background-color: " + key.color + ";";
 			if(cntr == 1){
 				bgcolor += "margin-top: 15px";
 			}
-			book.setAttribute("style",bgcolor);
+			movie.setAttribute("style",bgcolor);
 
 			var spanTitel = document.createElement("span");
 			spanTitel.setAttribute("class","titel");
@@ -645,23 +645,23 @@
 			// spanOpvulling.appendChild(document.createTextNode("___"));
 
 
-			book.appendChild(spanTitel);
-			book.appendChild(spanOpvulling);
+			movie.appendChild(spanTitel);
+			movie.appendChild(spanOpvulling);
 
 			if(initials == "true" || initials){
 				var spanAuthor = document.createElement("span");
 				spanAuthor.setAttribute("class","author");
 				spanAuthor.setAttribute("style","margin-bottom: 5px");
 				spanAuthor.appendChild(document.createTextNode(key.author.split(" ").map(i => i.charAt(0)).join(".") + "."));
-				book.appendChild(spanAuthor);
+				movie.appendChild(spanAuthor);
 			}
 
-			document.getElementById("booklist").appendChild(book);
+			document.getElementById("movielist").appendChild(movie);
 			if(cntr == amountPerShelf){
 				cntr = 0;
 				var shelf = document.createElement("div");
 				shelf.setAttribute("class","shelf");
-				document.getElementById("booklist").appendChild(shelf);
+				document.getElementById("movielist").appendChild(shelf);
 			}
 			readSettings();
 		}
@@ -740,15 +740,15 @@
 			document.getElementById("removeDiv").style.display = "none";
 		}
 
-		function clearBooks() {
+		function clearmovies() {
 			// console.log("clearing");
 			backAdd();
-			document.getElementById("booklist").remove(); 
+			document.getElementById("movielist").remove(); 
 
-			var booklist = document.createElement("div");
-			booklist.setAttribute("id", "booklist");
-			document.getElementById("boeken").append(booklist);
-			// readBooks();
+			var movielist = document.createElement("div");
+			movielist.setAttribute("id", "movielist");
+			document.getElementById("boeken").append(movielist);
+			// readmovies();
 		}
 
 		document.getElementById("scoreIn").addEventListener('keyup', function(){limit(this)})
@@ -763,7 +763,7 @@
 			}
 		}
 
-		document.getElementById("amountOfBooksInput").addEventListener('keyup', function(){
+		document.getElementById("amountOfmoviesInput").addEventListener('keyup', function(){
 			if(parseInt(Number(this.value)) == this.value /*Number.isInteger(this.value)*/ || this.value == ""){	
 				if(this.value.includes(".")){
 					this.value = this.value.slice(0, this.value.length-1);
