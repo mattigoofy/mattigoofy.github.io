@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>Hello, World!</title>
+</head>
+<body>
+  <button style="left:0%; top:0%; background: #ffc185;">BOOKS</button>
+  <button style="left:50%; top:0%; background: #ffc185;">MOVIES</button>
+  <button style="left:0%; top:50%; background: #ffc185;">SERIES</button>
+  <button style="left:50%; top:50%; background: #ffc185;">GAMES</button>  
+</body>
+<style>
+  button {
+    width:50%;
+    height:50vh;
+    position: absolute;
+    font-family: 'Dosis';
+    font-size: 50px;
+    text-transform: uppercase;
+    color: #87613d;
+    margin-bottom: 30px;
+  }
+</style>
+</html>
