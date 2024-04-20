@@ -9,7 +9,7 @@ body {
     background-color: rgb(100, 100, 100);
     size: 150%;
     -moz-transform: scale(1.5); /* for Firefox, default 1*/
-    zoom:150%; /* For Chrome, IE, default 100%*/
+    zoom:140%; /* For Chrome, IE, default 100%*/
 }
   
 button {
@@ -31,17 +31,22 @@ button:hover {
 h1 {
     color: white;
     font-size: 300%
-} 
+}   
+
+h2 {
+    color: white;
+}
+
+div {
+    color: white;
+}
   
   
   
 #training {
     display: none;
 }
-  
-#training h2 {
-    color: white;
-}
+
   
 #training .dayBtn {
     border-radius: 50%;
@@ -51,4 +56,21 @@ h1 {
     height: 50px;
     padding: 3%;
 }
+
+#training #ans{
+    z-index: 2;
+    position: absolute;
+    /*top: 13%;
+    left: 30%;
+    width: 40%;
+    height: 120px;*/
+    border: 3px solid white;
+    border-radius: 5px;
+    background-color:  rgb(100, 100, 100);
+    display: none;
+}
   
+
+#statistics {
+    display: none;
+}

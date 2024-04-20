@@ -19,16 +19,33 @@
     <h2>which day is</h2>
     <h2 id="dateH2"></h2>
     <div id="circle">
-      <button class="dayBtn" onclick="check('Sunday')">Sun</button>
       <button class="dayBtn" onclick="check('Monday')">Mon</button>
       <button class="dayBtn" onclick="check('Tuesday')">Tue</button>
       <button class="dayBtn" onclick="check('Wednesday')">Wed</button>
       <button class="dayBtn" onclick="check('Thursday')">Thu</button>
       <button class="dayBtn" onclick="check('Friday')">Fri</button>
       <button class="dayBtn" onclick="check('Saturday')">Sat</button>
+      <button class="dayBtn" onclick="check('Sunday')">Sun</button>
     </div>
     <div id="ans"></div>
     <button onclick="next()">Next</button>
+    <button class="backBtn" onclick="showDiv('back')">Back</button>
+  </div>
+
+  <div id="statistics">
+    <h2>statistics</h2>
+    <div>times correct</div>
+    <div id="showScore"></div>
+    <br>
+    <div>times played</div>
+    <div id="showTimesPlayed"></div>
+    <br>
+    <div>current streak</div>
+    <div id="showCurrentStreak"></div>
+    <br>
+    <div>longest streak</div>
+    <div id="showLongestStreak"></div>
+    <br><br><br><br><br><br><br><br>
     <button class="backBtn" onclick="showDiv('back')">Back</button>
   </div>
   
@@ -37,16 +54,25 @@
   function showDiv(element) {
     if(element == "tutorial") {
       alert("under construction");
+
     } else if(element == "training") {
       document.getElementById("menu").style.display = "none";
       document.getElementById("training").style.display = "block";
+      next();
+
     } else if(element == "statistics") {
-      alert("under construction");
+      document.getElementById("menu").style.display = "none";
+      document.getElementById("statistics").style.display = "block";
+      showStats();
+
     } else if(element == "settings") {
       alert("under construction");
+
     } else if(element == "back"){
       document.getElementById("menu").style.display = "block";
       document.getElementById("training").style.display = "none";
+      document.getElementById("statistics").style.display = "none";
+
     } else {
       alert("something went wrong");
     }
@@ -61,7 +87,10 @@
         alert("help");
       break;
     }*/
+
+    
   }
 </script>
 <script type="text/javascript" src="training.js"></script>
+<script type="text/javascript" src="statistics.js"></script>
 </html>
