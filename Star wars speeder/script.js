@@ -171,5 +171,20 @@ document.getElementById("resetButton").addEventListener('click', function() {
 //
 document.getElementById("startButton").addEventListener('click', function() {
     document.getElementById("startGame").style.display = "none";
+    const audio = document.querySelector("audio");
+    audio.volume = 0.2;
+    audio.play();
     startGame();
 })
+
+
+
+
+//
+// music
+//
+// window.addEventListener("DOMContentLoaded", event => {
+//     const audio = document.querySelector("audio");
+//     audio.volume = 0.2;
+//     audio.play();
+// });
