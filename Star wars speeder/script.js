@@ -17,14 +17,16 @@ function main() {
         // console.log(cntr)
         if(running){
             isGameOver();
-            if(cntr == 300){
-                createObstacle();
+            if(cntr == 1000){
                 cntr = 0;
             }
             if(cntr%100 == 0){
                 score++;
                 // console.log(score);
                 document.getElementById("score").textContent = score;
+            }
+            if(cntr%100 == 0){
+                createObstacle();
             }
             main();
         }
@@ -47,7 +49,7 @@ function createObstacle() {
     obstacle.appendChild(rock);
 
     document.getElementById("game").appendChild(obstacle);
-    setTimeout(() => {document.getElementById("game").removeChild(obstacle)}, 4900);
+    setTimeout(() => {document.getElementById("game").removeChild(obstacle)}, 1900);
 }
 
 
@@ -87,7 +89,7 @@ function isGameOver() {
 //
 function gameOver() {
     running = false;
-    console.log("game over")
+    // console.log("game over")
     document.getElementById("gameOver").style.display = "block";
     
     var obstacles = document.getElementsByClassName("obstacle");
@@ -117,20 +119,20 @@ function gameOver() {
 function startGame() {
     running = true;
     speeder.style.bottom = "150px";
-
+    var gameSpeed = 15;
     var background1 = document.getElementsByClassName("background1");
     for(let i=0; i<background1.length; i++) {
-        background1[i].style.animation = "background1 15s linear infinite";
+        background1[i].style.animation = "background1 "+gameSpeed+"s linear infinite";
     }
     var background2 = document.getElementsByClassName("background2");
     for(let i=0; i<background2.length; i++) {
-        background2[i].style.animation = "background2 15s linear infinite";
+        background2[i].style.animation = "background2 "+gameSpeed+"s linear infinite";
     }
     var background3 = document.getElementsByClassName("background3");
     for(let i=0; i<background3.length; i++) {
-        background3[i].style.animation = "background3 15s linear infinite";
+        background3[i].style.animation = "background3 "+gameSpeed+"s linear infinite";
     }
-    console.log("started")
+    // console.log("started")
     main();
 }
 
@@ -140,7 +142,7 @@ function startGame() {
 //
 document.addEventListener('keydown', function(key) {
     // console.log(key.key);
-    var speeder = document.getElementById("speeder");
+    // var speeder = document.getElementById("speeder");
     var bottom = parseInt(speeder.style.bottom);
     // console.log(bottom)
     if(running){
@@ -188,3 +190,44 @@ document.getElementById("startButton").addEventListener('click', function() {
 //     audio.volume = 0.2;
 //     audio.play();
 // });
+
+
+//
+// swipen
+//
+var startX = null;
+var startY = null;
+window.addEventListener("touchstart",function(event){
+  if(event.touches.length === 1){
+    //just one finger touched
+    startX = event.touches.item(0).clientX;
+    startY = event.touches.item(0).clientY;
+  }else{
+    //a second finger hit the screen, abort the touch
+    startX = null;
+    startY = null;
+  }
+});
+
+window.addEventListener("touchend",function(event){
+  var offsetX = 100;//at least 100px are a swipe
+  var offsetY = 100;//at least 100px are a swipe
+  var bottom = parseInt(speeder.style.bottom);
+  if(startX){
+    //the only finger that hit the screen left it
+    var endX = event.changedTouches.item(0).clientX;
+    var endY = event.changedTouches.item(0).clientY;
+
+    // console.log(startY - endY);
+    if(endY > startY + offsetY && Math.abs(startX - endX) < offsetX){
+      //a left -> right swipe
+      console.log("swiped down");
+      speeder.style.bottom = bottom!=0? bottom - 150 + "px": bottom;
+    }
+    if(endY < startY - offsetY && Math.abs(startX - endX) < offsetX){
+    //a right -> left swipe
+      console.log("swiped up");
+      speeder.style.bottom = bottom!=300? bottom + 150 + "px": bottom;
+    }
+  }
+});

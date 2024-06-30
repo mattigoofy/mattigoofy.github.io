@@ -63,7 +63,7 @@
     margin: 15px;
     right: 0;
     background-color: grey;
-    animation: moveObstacle 5s linear;
+    animation: moveObstacle 2s linear;
     animation-fill-mode:forwards;
     mix-blend-mode: multiply;
     border: 0;
