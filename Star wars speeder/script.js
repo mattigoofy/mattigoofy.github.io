@@ -2,6 +2,8 @@ var speeder = document.getElementById("speeder");
 speeder.style.bottom = '150px';
 var running = false;
 var score = 0;
+const gameSpeedStart = 300;
+// var gameSpeed = 100;
 
 
 var cntr = 299;
@@ -24,8 +26,14 @@ function main() {
                 score++;
                 // console.log(score);
                 document.getElementById("score").textContent = score;
+                gameSpeed = Math.floor(100 + 200/Math.exp(score/25));
+                console.log(gameSpeed);
             }
-            if(cntr%100 == 0){
+            // if(cntr%50 == 0) {
+            //     gameSpeed--;
+            //     console.log(gameSpeed)
+            // }
+            if(cntr%gameSpeed == 0){
                 createObstacle();
             }
             main();
@@ -39,9 +47,12 @@ function main() {
 // create obstacle
 //
 function createObstacle() {
+    var obstacleSpeed = gameSpeed/100*2;
+
     var obstacle = document.createElement("div");
     obstacle.className = "obstacle"; 
     obstacle.style.bottom = Math.floor((Math.random() * 450)/150)*150 + "px";
+    obstacle.style.animation = "moveObstacle "+obstacleSpeed+"s linear";
     
     var rock = document.createElement("img");
     rock.setAttribute("src", "rock1.png");
@@ -49,7 +60,7 @@ function createObstacle() {
     obstacle.appendChild(rock);
 
     document.getElementById("game").appendChild(obstacle);
-    setTimeout(() => {document.getElementById("game").removeChild(obstacle)}, 1900);
+    setTimeout(() => {document.getElementById("game").removeChild(obstacle)}, obstacleSpeed*1000-100);
 }
 
 
@@ -110,6 +121,10 @@ function gameOver() {
     for(let i=0; i<backgroundBottom.length; i++) {
         backgroundBottom[i].style.animation = "none";
     }
+    
+    const audio = document.querySelector("audio");
+    // audio.volume = 0.2;
+    audio.pause();
 }
 
 
@@ -117,22 +132,30 @@ function gameOver() {
 // start game
 //
 function startGame() {
+    gameSpeed = gameSpeedStart;
+
     running = true;
     speeder.style.bottom = "150px";
-    var gameSpeed = 15;
+    // var gameSpeed = 15;
     var background1 = document.getElementsByClassName("background1");
     for(let i=0; i<background1.length; i++) {
-        background1[i].style.animation = "background1 "+gameSpeed+"s linear infinite";
+        background1[i].style.animation = "background1 "+gameSpeed/100*15+"s linear infinite";
     }
     var background2 = document.getElementsByClassName("background2");
     for(let i=0; i<background2.length; i++) {
-        background2[i].style.animation = "background2 "+gameSpeed+"s linear infinite";
+        background2[i].style.animation = "background2 "+gameSpeed/100*15+"s linear infinite";
     }
     var background3 = document.getElementsByClassName("background3");
     for(let i=0; i<background3.length; i++) {
-        background3[i].style.animation = "background3 "+gameSpeed+"s linear infinite";
+        background3[i].style.animation = "background3 "+gameSpeed/100*15+"s linear infinite";
     }
     // console.log("started")
+
+    const audio = document.querySelector("audio");
+    audio.currentTime = 0
+    audio.volume = 0.2;
+    audio.play();
+
     main();
 }
 
@@ -173,9 +196,6 @@ document.getElementById("resetButton").addEventListener('click', function() {
 //
 document.getElementById("startButton").addEventListener('click', function() {
     document.getElementById("startGame").style.display = "none";
-    const audio = document.querySelector("audio");
-    audio.volume = 0.2;
-    audio.play();
     startGame();
 })
 
