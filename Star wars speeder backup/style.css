@@ -122,6 +122,7 @@
 
 #startGame {
     background-color: rgb(216, 192, 94);
+    display: block;
 }
 
 .backgroundBottom {

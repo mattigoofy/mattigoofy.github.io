@@ -12,15 +12,15 @@ if(showHitBoxes){
 }
 
 
-
 //
 // main
 //
 var seconds = 0;
+var obstacleMade = false;
 function main() {
     cntr+=1;
     setTimeout(() =>{
-        console.log(cntr)
+        // console.log(cntr)
         if(running){
             isGameOver();
             if(cntr == 1000){
@@ -29,14 +29,20 @@ function main() {
             if(cntr%100 == 0){
                 score++;
                 seconds++;
+                // console.log(score);
+                document.getElementById("score").textContent = score;
                 gameSpeed = Math.floor(100 + 200/Math.exp(seconds/25));
                 // gameSpeed = Math.floor(100 + 200/Math.exp(seconds/25)) / screen.width * 1536;
-                document.getElementById("score").textContent = score;
                 speeder.style.transition = gameSpeed/gameSpeedStart + "s";
+                // console.log(gameSpeed);
+                // createObject("obstacle", 3);
             }
             if(cntr%( Math.floor(gameSpeed*4/3) ) == 0){
-                allFunctions[ Math.floor(Math.random() * (allFunctions.length-0.00000001)) ]();
-                // createObject("point", 1)
+                // console.log("next level\nspeed=" + gameSpeed + "\tcntr=" + cntr);
+                // allFunctions[ Math.floor(Math.random() * (allFunctions.length-0.00000001)) ]();
+                // console.log("");
+                // createObject("point", 1);
+                allFunctions[2]();
             }
             main();
         }
@@ -54,11 +60,12 @@ function createObject(type, position) {
 
     var object = document.createElement("div");
     object.className = type + " object"; 
-    // object.id = type + "_" + objectCntr;
-    // objectCntr++; 
-    // object.innerHTML = object.id;
+    object.id = type + "_" + objectCntr;
+    objectCntr++; 
+    object.innerHTML = object.id;
     // console.log(object.id);
-     object.style.bottom = (position-1)*150 + "px";
+    // object.style.bottom = Math.floor((Math.random() * 450)/150)*150 + "px";
+    object.style.bottom = (position-1)*150 + "px";
     object.style.animation = "moveObstacle "+objectSpeed+"s linear";
     if(showHitBoxes){
         object.style.backgroundColor = "grey";
@@ -72,6 +79,7 @@ function createObject(type, position) {
             break;
         case "point":
             img.setAttribute("src", "images/coin.png");
+            // console.log(object)
             break;
     }
     img.className = "objectImg";
@@ -102,26 +110,26 @@ function isGameOver() {
                 var speederBottom = Math.floor(speeder.getBoundingClientRect().bottom);
                 var speederTop = Math.floor(speeder.getBoundingClientRect().top);
 
-                if(objectLeft > -20 && objectLeft < 306 && 
-                    ((speederBottom >= objectTop && speederTop <= objectTop) ||
-                    (speederBottom >= objectBottom && speederTop <= objectBottom) || 
-                    (speederBottom <= objectBottom && speederTop >= objectTop ))
+                if(objectLeft > -20 && objectLeft < 400 && 
+                    ((speederBottom > objectTop && speederTop < objectTop) ||
+                    (speederBottom > objectBottom && speederTop < objectBottom) || 
+                    (speederBottom < objectBottom && speederTop > objectTop ))
                 ){
+                    console.log(objects[i].className);
                     if(objects[i].className.includes("obstacle")){
-                        // console.log(objects[i])
-                        // console.log(objectLeft > -20 && objectLeft < 400);
-                        // console.log(speederBottom > objectTop && speederTop < objectTop);
-                        // console.log(speederBottom > objectBottom && speederTop < objectBottom);
-                        // console.log(speederBottom < objectBottom && speederTop > objectTop);
-                        // console.log("speederBottom: " + speederBottom);
-                        // console.log("speederTop: " + speederTop);
-                        // console.log("objectBottom: " + objectBottom);
-                        // console.log("objectTop: " + objectTop);
-                        // console.log("objectLeft: " + objectLeft);
+                        console.log(objects[i])
+                        console.log(objectLeft > -20 && objectLeft < 400);
+                        console.log(speederBottom > objectTop && speederTop < objectTop);
+                        console.log(speederBottom > objectBottom && speederTop < objectBottom);
+                        console.log(speederBottom < objectBottom && speederTop > objectTop);
+                        console.log("speederBottom: " + speederBottom);
+                        console.log("speederTop: " + speederTop);
+                        console.log("objectBottom: " + objectBottom);
+                        console.log("objectTop: " + objectTop);
                         gameOver();
                     } else {
-                        // score++;
-                        // document.getElementById("score").textContent = score;
+                        score++;
+                        document.getElementById("score").textContent = score;
                         objects[i].remove();
                     }
                 }
@@ -142,15 +150,16 @@ function gameOver() {
     document.getElementById("gameOver").style.display = "block";
     
     var objects = document.getElementsByClassName("object");
-    var amountOfObjects = objects.length;
-    for(let i=0; i<amountOfObjects; i++){
+    var amountOfobjects = objects.length;
+    for(let i=0; i<amountOfobjects; i++){
+        // window.requestAnimationFrame(() => {
+        //     var objectLeft = objects[i]!=undefined? objects[i].getBoundingClientRect().left: -20;
+        //     objects[i].style.animation = "none";
+        //     objects[i].style.left = objectLeft;
+        //     objects[i].remove();
+        // })
         if(objects[i]!=undefined){
-            window.requestAnimationFrame(() => {
-                var objectLeft = objects[i]!=undefined? objects[i].getBoundingClientRect().left: -20;
-                objects[i].style.animation = "none";
-                objects[i].style.left = objectLeft;
-                objects[i].style.position = "absolute";
-            })
+            objects[i].remove();
         }
     }
 
@@ -162,10 +171,10 @@ function gameOver() {
     for(let i=0; i<backgroundBottom.length; i++) {
         backgroundBottom[i].style.animation = "none";
     }
-        
-    // const audio = document.querySelector("audio");
+    
+    const audio = document.querySelector("audio");
     // audio.volume = 0.2;
-    // audio.pause();
+    audio.pause();
 }
 
 
@@ -192,11 +201,11 @@ function startGame() {
         background3[i].style.animation = "background3 "+gameSpeed/100*15+"s linear infinite";
     }
     // console.log("started")
-    
-    // const audio = document.querySelector("audio");
-    // audio.currentTime = 0;
-    // audio.volume = 0.2;
-    // audio.play();
+
+    const audio = document.querySelector("audio");
+    audio.currentTime = 0
+    audio.volume = 0.2;
+    audio.play();
 
     main();
 }
@@ -216,7 +225,7 @@ document.addEventListener('keydown', function(key) {
             if(bottom!=300 && running){
                 speeder.style.bottom = bottom + 150 + "px";
                 speeder.style.transform = "rotate(-45deg)";
-                setTimeout(()=> {speeder.style.transform = "rotate(0deg)"}, ( Math.floor(gameSpeed*4/3) ));
+                setTimeout(()=> {speeder.style.transform = "rotate(0deg)"}, 300);
             }
             break;
         case 'ArrowDown':
@@ -224,7 +233,7 @@ document.addEventListener('keydown', function(key) {
             if(bottom!=0 && running){
                 speeder.style.bottom = bottom - 150 + "px";
                 speeder.style.transform = "rotate(45deg)";
-                setTimeout(()=> {speeder.style.transform = "rotate(0deg)"}, ( Math.floor(gameSpeed*4/3) ));
+                setTimeout(()=> {speeder.style.transform = "rotate(0deg)"}, 300);
             } 
             break;
         case ' ':
@@ -250,7 +259,7 @@ document.getElementById("resetButton").addEventListener('click', function() {
     score = 0;
     document.getElementById("score").textContent = score;
     
-    startGame();
+    startGame();      
 })
 
 //
