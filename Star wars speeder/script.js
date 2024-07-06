@@ -2,15 +2,48 @@ var speeder = document.getElementById("speeder");
 speeder.style.bottom = '150px';
 var running = false;
 var score = 0;
+var scorebord = ["-", "-", "-"];
 const gameSpeedStart = 200;
 var showHitBoxes = false;
+var place = "sandyRocks";
 
 
 var cntr = 299;
-if(showHitBoxes){
-    speeder.style.backgroundColor = "grey";
-}
+changePlace();
 
+var scorebord = localStorage.getItem("speederScorebord");
+if(scorebord == null) {
+    var scorebord = ["-", "-", "-"];
+} else {
+    scorebord = scorebord.split(",");
+}
+document.getElementById("scorebord").innerHTML = "<u>scorebord</u><br>1: " + scorebord[0] + "<br>2: " + scorebord[1] + "<br>3: " + scorebord[2];
+
+
+function changePlace() {
+    var imagesTop = document.getElementsByClassName("backgroundTop");
+    imagesTop[0].setAttribute("src", "images/"+ place +"/background.png");
+    imagesTop[1].setAttribute("src", "images/"+ place +"/background2.png");
+    imagesTop[2].setAttribute("src", "images/"+ place +"/background.png");
+    var imagesBottom = document.getElementsByClassName("backgroundBottom");
+    imagesBottom[0].setAttribute("src", "images/"+ place +"/background.png");
+    imagesBottom[1].setAttribute("src", "images/"+ place +"/background2.png");
+    imagesBottom[2].setAttribute("src", "images/"+ place +"/background.png");
+    var imageSpeeder = document.getElementById("speederImg");
+    imageSpeeder.setAttribute("src", "images/"+ place +"/vehicle.png");
+    switch (place) {
+        case "space":
+            document.getElementById("game").style.backgroundColor = "rgba(33, 6, 51, 0.57)";
+            document.getElementById("speeder").style.height = "115px";
+            document.getElementById("speeder").style.width = "220px";
+            break;
+        case "sandyRocks":
+            document.getElementById("game").style.backgroundColor = "cornsilk";
+            document.getElementById("speeder").style.height = "104px";
+            document.getElementById("speeder").style.width = "306px";
+            break;
+    }
+}
 
 
 //
@@ -20,7 +53,7 @@ var seconds = 0;
 function main() {
     cntr+=1;
     setTimeout(() =>{
-        console.log(cntr)
+        // console.log(cntr);
         if(running){
             isGameOver();
             if(cntr == 1000){
@@ -68,10 +101,10 @@ function createObject(type, position) {
     var img = document.createElement("img");
     switch(type) {
         case "obstacle":
-            img.setAttribute("src", "images/rock1.png");
+            img.setAttribute("src", "images/"+ place +"/rock1.png");
             break;
         case "point":
-            img.setAttribute("src", "images/coin.png");
+            img.setAttribute("src", "images/"+ place +"/coin.png");
             break;
     }
     img.className = "objectImg";
@@ -102,10 +135,11 @@ function isGameOver() {
                 var speederBottom = Math.floor(speeder.getBoundingClientRect().bottom);
                 var speederTop = Math.floor(speeder.getBoundingClientRect().top);
 
-                if(objectLeft > -20 && objectLeft < 306 && 
+                if( ( objectLeft > -20 && objectLeft < 306 && 
                     ((speederBottom >= objectTop && speederTop <= objectTop) ||
                     (speederBottom >= objectBottom && speederTop <= objectBottom) || 
-                    (speederBottom <= objectBottom && speederTop >= objectTop ))
+                    (speederBottom <= objectBottom && speederTop >= objectTop ) ) &&
+                    running)
                 ){
                     if(objects[i].className.includes("obstacle")){
                         // console.log(objects[i])
@@ -162,6 +196,19 @@ function gameOver() {
     for(let i=0; i<backgroundBottom.length; i++) {
         backgroundBottom[i].style.animation = "none";
     }
+
+    if(scorebord[0] < score || scorebord[0] == "-") {
+        scorebord[2] = scorebord[1];
+        scorebord[1] = scorebord[0];
+        scorebord[0] = score;
+    } else if(scorebord[1] < score || scorebord[1] == "-") {
+        scorebord[2] = scorebord[1];
+        scorebord[1] = score;
+    } else if(scorebord[2] < score || scorebord[2] == "-") {
+        scorebord[2] = score;
+    }
+    localStorage.setItem("speederScorebord", scorebord);
+    document.getElementById("scorebord").innerHTML = "<u>scorebord</u><br>1: " + scorebord[0] + "<br>2: " + scorebord[1] + "<br>3: " + scorebord[2];
         
     // const audio = document.querySelector("audio");
     // audio.volume = 0.2;
@@ -304,12 +351,52 @@ window.addEventListener("touchend",function(event){
     if(endY > startY + offsetY && Math.abs(startX - endX) < offsetX){
       //a left -> right swipe
       console.log("swiped down");
-      speeder.style.bottom = bottom!=0? bottom - 150 + "px": bottom;
+      if(bottom!=0 && running){
+          speeder.style.bottom = bottom - 150 + "px";
+          speeder.style.transform = "rotate(45deg)";
+          setTimeout(()=> {speeder.style.transform = "rotate(0deg)"}, ( Math.floor(gameSpeed*4/3) ));
+      } 
     }
     if(endY < startY - offsetY && Math.abs(startX - endX) < offsetX){
     //a right -> left swipe
       console.log("swiped up");
-      speeder.style.bottom = bottom!=300? bottom + 150 + "px": bottom;
+      if(bottom!=300 && running){
+          speeder.style.bottom = bottom + 150 + "px";
+          speeder.style.transform = "rotate(-45deg)";
+          setTimeout(()=> {speeder.style.transform = "rotate(0deg)"}, ( Math.floor(gameSpeed*4/3) ));
+      }
     }
   }
 });
+
+
+
+//
+// show hitbox input
+//
+document.getElementById("showHitBoxInput").addEventListener('change', function() {
+    if(document.getElementById("showHitBoxInput").checked) {
+        showHitBoxes = true;
+        speeder.style.backgroundColor = "grey";
+    } else {
+        showHitBoxes = false;
+        speeder.style.backgroundColor = "transparent";
+    }
+})
+
+
+
+//
+// change place
+//
+document.getElementById("changePlace").addEventListener('click', function() {
+    if(document.getElementById("changePlace").innerHTML == "sandyRocks") {
+        document.getElementById("changePlace").innerHTML = "space";
+        place = "space";
+        changePlace();
+    } else {
+        document.getElementById("changePlace").innerHTML = "sandyRocks";
+        place = "sandyRocks";
+        changePlace();
+    }
+})
