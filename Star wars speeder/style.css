@@ -83,6 +83,22 @@
     height: 100%;
 }
 
+#explosion {
+    position: absolute;
+    display: none;
+    z-index: 2;
+    opacity: 1;
+    width: 200px;
+    height: 200px;
+    left: 150px;
+}
+
+#explosionImg {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
 .objectImg {
     object-fit: cover;
     width: 100%;
@@ -104,27 +120,11 @@
     /* animation: none; */
 }
 
-/* #gameOver {
+.popup {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgb(189, 11, 46);
-    font-family: "Brush Script MT", Times, serif;
-    font-size: 500%;
-    padding: 5%;
-    display: none;
-    border: 5px solid black;
-    border-radius: 20px;
-    z-index: 1;
-
-} */
- .popup {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgb(189, 11, 46);
     font-family: "Brush Script MT", Times, serif;
     font-size: 500%;
     padding: 5%;
@@ -158,17 +158,28 @@
     background-color: rgb(216, 192, 94);
 }
 
+#continueGame {
+    background-color: rgb(216, 192, 94);
+    display: none;
+}
+
 #changePlace {
     position: absolute;
     left: 2%;
-    font-size: 200%;
+    font-size: 120%;
+    padding: 10px;
     /* font-weight: bold; */
-    width: 12%;
-    height: 9%;
+    /* width: 12%;
+    height: 9%; */
     z-index: 1;
     bottom: 5%;
     /* color: white; */
     background-image: url("/images/space/background.png");
+    cursor: pointer;
+}
+
+#changePlace:hover {
+    opacity: 50%;
 }
 
 /* #changePlaceImg {
