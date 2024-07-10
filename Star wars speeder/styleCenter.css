@@ -1,0 +1,88 @@
+#game {
+    position: absolute;
+    top: 50%;
+    height: 450px;
+    width: 100%;
+    /* background-color: cornsilk; */
+    /* background-color: rgba(50, 8, 149, 0.308); */
+    /* background-color: rgba(33, 6, 51, 0.57); */
+    /* background-color: rgba(6, 58, 19, 0.57); */
+    border: 1px solid black;
+    transform: translateY(-50%);
+} 
+
+#continueGame {
+    background-color: rgb(216, 192, 94);
+    display: none;
+}
+
+#infoBox {
+    background-color:  rgb(26, 6, 98);
+}
+
+#pressAnyButtonToContinueDiv {
+    font-size: 50%;
+}
+
+#speeder {
+    position: absolute;
+    /* bottom: 150; */
+    margin: 25px;
+    height: 115px;
+    width: 220px;
+    /* background-color: brown; */
+    /* transition: all 0.7 ease-out; */
+    transition: 1s;
+    mix-blend-mode: multiply;
+    /* object-fit: cover; */
+}
+
+#speederImg {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+#explosion {
+    position: absolute;
+    display: none;
+    z-index: 2;
+    opacity: 1;
+    width: 200px;
+    height: 200px;
+    left: 50px;
+}
+
+#explosionImg {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+#gameOver {
+    background-color:  rgb(189, 11, 46);
+    display: none;
+}
+
+
+
+.object {
+    position: absolute;
+    /* bottom: 150px; */
+    height: 125px;
+    width: 125px;
+    margin: 15px;
+    right: 0;
+    /* background-color: grey; */
+    /* animation: moveObstacle 2s linear; */
+    animation-fill-mode:forwards;
+    mix-blend-mode: multiply;
+    border: 0;
+    /* animation: none; */
+}
+
+.objectImg {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}

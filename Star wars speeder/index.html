@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speeder</title>
+    <link rel="stylesheet" href="styleTop.css">
+    <link rel="stylesheet" href="styleCenter.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,19 +13,41 @@
     <img src="images/space/background2.png" class="backgroundTop background2">
     <img src="images/space/background.png" class="backgroundTop background3">
 
-    <div id="scorebord"><u>scorebord</u><br>1: -<br>2: -<br>3: -</div>
-    <div id="showHitBoxText">show hitboxes</div>
-    <input id="showHitBoxInput" type="checkbox">
+    <div id="scorebord"></div>
+    <!-- <div id="showHitBoxText">show hitboxes</div> -->
+    <!-- <input id="showHitBoxInput" type="checkbox"> -->
     <div id="score">0</div>
 
-    <div id="game">
-        <div id="startGame" class="popup" style="display:block">
-            Start Game<br>
-            <button id="startButton">Start</button>
+    <div id="title"></div>
+    <button id="homeButton">HOME</button>
+
+    <div id="startGame" class="popup" style="display:block">
+        <br><br>
+        <div id="startGameText">Start Game</div><br>
+        <div id="chooseMode">
+            <button id="startEndlesRunButton" class="chooseMode">Start endless run</button><br>
+            <button id="startCampaignButton" class="chooseMode">Start campaign</button>
         </div>
+        <div id="choosePlace">
+            <button id="sandyRocksButton" class="choosePlace">Sandy rocks</button><br>
+            <button id="spaceButton" class="choosePlace">Space</button><br>
+            <button id="forestButton" class="choosePlace">Forest</button>
+        </div>
+        <div id="chooseDifficulty">
+            <button id="easyButton" class="chooseDifficulty">Easy</button><br>
+            <button id="mediumButton" class="chooseDifficulty">Medium</button><br>
+            <button id="hardButton" class="chooseDifficulty">Hard</button>
+        </div>
+    </div>
+
+    <div id="game">
         <div id="continueGame" class="popup">
             Continue game<br>
             <button id="continueButton">continue</button>
+        </div>
+        <div id="infoBox" class="popup">
+            <div id="infoBoxText"></div><br>
+            <div id="pressAnyButtonToContinueDiv">press any button to continue</div>
         </div>
         <div id="speeder">
             <img src="images/space/vehicle.png" id="speederImg">
@@ -38,10 +62,9 @@
     </div>
     
 
-    <button id="changePlace">
+    <!-- <button id="changePlace">
         sandyRocks
-        <!-- <img src="images/space/background.png" class="changePlaceImg"> -->
-    </button>
+    </button> -->
 
     <img src="images/space/background.png" class="backgroundBottom background1">
     <img src="images/space/background2.png" class="backgroundBottom background2">

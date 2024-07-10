@@ -5,11 +5,17 @@ var score = 0;
 var scorebord = ["-", "-", "-"];
 const gameSpeedStart = 200;
 var showHitBoxes = false;
-var place = "sandyRocks";
-
+var places = ["space", "sandyRocks", "forest"]
+var place;
+var prevPlace;
+var modes = ["endlessRun", "campaign"];
+var mode;
+// var neededScore = [100, 150, 200];
+// var neededScore = [10, 15, 20];          // vo te testen
+var neededScore;
 
 var cntr = 299;
-changePlace();
+// changePlace();
 
 var scorebord = localStorage.getItem("speederScorebord");
 if(scorebord == null) {
@@ -17,7 +23,6 @@ if(scorebord == null) {
 } else {
     scorebord = scorebord.split(",");
 }
-document.getElementById("scorebord").innerHTML = "<u>scorebord</u><br>1: " + scorebord[0] + "<br>2: " + scorebord[1] + "<br>3: " + scorebord[2];
 
 
 
@@ -36,15 +41,28 @@ function main() {
             }
             if(cntr%100 == 0){
                 score++;
+                document.getElementById("score").textContent = score;
                 seconds++;
                 gameSpeed = Math.floor(100 + 200/Math.exp(seconds/25));
                 // gameSpeed = Math.floor(100 + 200/Math.exp(seconds/25)) / screen.width * 1536;
-                document.getElementById("score").textContent = score;
                 speeder.style.transition = gameSpeed/gameSpeedStart + "s";
+
+                if(mode == modes[1]){
+                    if(score == neededScore[0] && place == places[0]){
+                        var index = places.indexOf(prevPlace);
+                        if(index!=places.length-1) {
+                            nextStage(places[index+1], "Get to the next spaceship");
+                        }
+                    } else if(score == neededScore[1] && place == places[1]) {
+                        nextStage(places[0], "Get to the next planet");
+                    } else if(score == neededScore[2] && place == places[2]){
+                        nextStage(places[0], "Get to the next planet");
+                    }
+                }
             }
             if(cntr%( Math.floor(gameSpeed*4/3) ) == 0){
                 allFunctions[ Math.floor(Math.random() * (allFunctions.length-0.00000001)) ]();
-                // createObject("point", 1)
+                // createObject("obstacle", 1)
             }
             main();
         }
@@ -87,7 +105,7 @@ function createObject(type, position) {
 
     document.getElementById("game").appendChild(object);
     setTimeout(() => {
-        if(document.getElementById("game").contains(object)) {
+        if(document.getElementById("game").contains(object) && running) {
             document.getElementById("game").removeChild(object);
         }
     }, objectSpeed*1000-100);
@@ -98,7 +116,9 @@ function createObject(type, position) {
 //
 // change place
 //
-function changePlace() {
+function changePlace(placeInput) {
+    prevPlace = place;
+    place = placeInput;
     var imagesTop = document.getElementsByClassName("backgroundTop");
     imagesTop[0].setAttribute("src", "images/"+ place +"/background.png");
     imagesTop[1].setAttribute("src", "images/"+ place +"/background2.png");
@@ -110,17 +130,24 @@ function changePlace() {
     var imageSpeeder = document.getElementById("speederImg");
     imageSpeeder.setAttribute("src", "images/"+ place +"/vehicle.png");
     switch (place) {
-        case "space":
+        case places[0]:
             document.getElementById("game").style.backgroundColor = "rgba(33, 6, 51, 0.57)";
             document.getElementById("speeder").style.height = "115px";
             document.getElementById("speeder").style.width = "220px";
             break;
-        case "sandyRocks":
+        case places[1]:
             document.getElementById("game").style.backgroundColor = "cornsilk";
             document.getElementById("speeder").style.height = "104px";
             document.getElementById("speeder").style.width = "306px";
             break;
+        case places[2]:
+            document.getElementById("game").style.backgroundColor = "rgba(6, 58, 19, 0.57)";
+            document.getElementById("speeder").style.height = "104px";
+            document.getElementById("speeder").style.width = "306px";
+            break;
     }
+
+    document.getElementById("title").innerHTML = place;
 }
 
 

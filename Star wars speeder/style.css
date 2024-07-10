@@ -4,120 +4,8 @@
     overflow: hidden;
 }
 
-.backgroundTop {
-    position: absolute;
-    width: 100%;
-    height: calc((100vh - 450px)/2);
-    /* background-color: green; */
-}
-
-#scorebord {
-    position: absolute;
-    z-index: 1;
-    color: white;
-    left: 2%;
-    font-size: 150%;
-}
-
-#score {
-    position: absolute;
-    right: 5%;
-    font-size: 300%;
-    font-weight: bold;
-    z-index: 1;
-    top: 5%;
-    color: white;
-}
-
-#showHitBoxText {
-    position: absolute;
-    right: 15%;
-    font-size: 200%;
-    /* font-weight: bold; */
-    z-index: 1;
-    top: 5%;
-    color: white;
-}
-
-#showHitBoxInput {
-    position: absolute;
-    right: 10%;
-    font-size: 300%;
-    /* font-weight: bold; */
-    width: 5%;
-    height: 5%;
-    z-index: 1;
-    top: 5%;
-    color: white;
-}
-
-#game {
-    position: absolute;
-    top: 50%;
-    height: 450px;
-    width: 100%;
-    /* background-color: cornsilk; */
-    /* background-color: rgba(50, 8, 149, 0.308); */
-    background-color: rgba(33, 6, 51, 0.57);
-    border: 1px solid black;
-    transform: translateY(-50%);
-} 
-
-#speeder {
-    position: absolute;
-    /* bottom: 150; */
-    margin: 25px;
-    height: 115px;
-    width: 220px;
-    /* background-color: brown; */
-    /* transition: all 0.7 ease-out; */
-    transition: 1s;
-
-    mix-blend-mode: multiply;
-    /* object-fit: cover; */
-}
-
-#speederImg {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-}
-
-#explosion {
-    position: absolute;
-    display: none;
-    z-index: 2;
-    opacity: 1;
-    width: 200px;
-    height: 200px;
-    left: 150px;
-}
-
-#explosionImg {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-}
-
-.objectImg {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-}
-
-.object {
-    position: absolute;
-    /* bottom: 150px; */
-    height: 125px;
-    width: 125px;
-    margin: 15px;
-    right: 0;
-    /* background-color: grey; */
-    /* animation: moveObstacle 2s linear; */
-    animation-fill-mode:forwards;
-    mix-blend-mode: multiply;
-    border: 0;
-    /* animation: none; */
+button:hover {
+    opacity: 0.7;
 }
 
 .popup {
@@ -131,10 +19,12 @@
     border: 5px solid black;
     border-radius: 20px;
     z-index: 1;
+    display: none;
  }
 
 .popup button {
     position: absolute;
+    /* position: relative; */
     left: 50%;
     transform: translateX(-50%);
     font-size: 30%;
@@ -142,43 +32,11 @@
     border: 3px solid black;
     border-radius: 10px;
     font-family: "Brush Script MT", Times, serif;
+    /* margin-top: 5%; */
 }
 
 .popup button:hover {
     cursor: pointer;
-    opacity: 50%;
-}
-
-#gameOver {
-    background-color:  rgb(189, 11, 46);
-    display: none;
-}
-
-#startGame {
-    background-color: rgb(216, 192, 94);
-}
-
-#continueGame {
-    background-color: rgb(216, 192, 94);
-    display: none;
-}
-
-#changePlace {
-    position: absolute;
-    left: 2%;
-    font-size: 120%;
-    padding: 10px;
-    /* font-weight: bold; */
-    /* width: 12%;
-    height: 9%; */
-    z-index: 1;
-    bottom: 5%;
-    /* color: white; */
-    background-image: url("/images/space/background.png");
-    cursor: pointer;
-}
-
-#changePlace:hover {
     opacity: 50%;
 }
 
@@ -239,3 +97,51 @@
         transform: rotate(-90deg);
     }
 } */
+
+
+
+/* ---------------- */
+/* NOT USED ANYMORE */
+/* ---------------- */
+
+
+#showHitBoxText {
+    position: absolute;
+    right: 15%;
+    font-size: 200%;
+    /* font-weight: bold; */
+    z-index: 1;
+    top: 5%;
+    color: white;
+}
+
+#showHitBoxInput {
+    position: absolute;
+    right: 10%;
+    font-size: 300%;
+    /* font-weight: bold; */
+    width: 5%;
+    height: 5%;
+    z-index: 1;
+    top: 5%;
+    color: white;
+}
+
+#changePlace {
+    position: absolute;
+    left: 2%;
+    font-size: 120%;
+    padding: 10px;
+    /* font-weight: bold; */
+    /* width: 12%;
+    height: 9%; */
+    z-index: 1;
+    bottom: 5%;
+    /* color: white; */
+    background-image: url("/images/space/background.png");
+    cursor: pointer;
+}
+
+#changePlace:hover {
+    opacity: 50%;
+}
