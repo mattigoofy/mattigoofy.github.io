@@ -13,24 +13,30 @@ body {
 .nameInputs {
   position: absolute;
   width: 25vw;
+  border-color: black;
 }
 
 #nameInput1 {
   left: 10vw;
+  border-color: yellow;
+  color: red;
 }
 
 #nameInput2 {
   right: 10vw;
+  color: blue;
 }
 
 #nameInput3 {
   left: 10vw;
-  top: 16vw
+  top: 16vw;
+  color: blue;
 }
 
 #nameInput4 {
   right: 10vw;
-  top: 16vw
+  top: 16vw;
+  color: red;
 }
 
 
@@ -70,11 +76,27 @@ body {
   background-color: grey;
 }
 
+
+table, td, th {
+  /*left: 25%;
+  transform: translateX(-50%);*/
+  border: 1px solid;
+}
+
+table {
+  position: absolute;
+  border-collapse: collapse;
+  text-align: center;
+  top: 5vw;
+  left: 25%;
+  transform: translateX(-50%);
+}
+
 #inputPointsDiv {
   position: absolute;
   top: 5vw;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 25%;
+  transform: translateX(50%);
 }
 
 #inputPoints {
@@ -85,9 +107,17 @@ body {
   color: blue;
 }
 
+#taipanWonLabel{
+  position: absolute;
+  top: 35%;
+  right: 25%;
+  transform: translateX(50%);
+}
+
 #addButton {
   position: absolute;
   bottom: 5vw;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 25%;
+  transform: translateX(50%);
+  font-size: 200%;
 }
