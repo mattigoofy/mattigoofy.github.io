@@ -84,7 +84,7 @@ document.getElementById("addButton").addEventListener('click', function(){
     const names = document.getElementsByClassName("nameInputs");
     for(let i=0; i<names.length; i++) {
         if(i == round) {
-            names.item(i).style.borderColor = "yellow";
+            names.item(i).style.borderColor = "green";
         } else {
             names.item(i).style.borderColor = "black";
         }
