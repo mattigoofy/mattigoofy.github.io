@@ -3,6 +3,12 @@ var scoreTeam2 = 0;
 var round = 0;
 
 
+scoreTeam1Div = document.getElementById("scoreTeam1");
+scoreTeam1Div.innerHTML = localStorage.getItem("taipanScoreTeam1") != null? localStorage.getItem("taipanScoreTeam1"): "Team 1";
+scoreTeam2Div = document.getElementById("scoreTeam2");
+scoreTeam2Div.innerHTML = localStorage.getItem("taipanScoreTeam2") != null? localStorage.getItem("taipanScoreTeam2"): "Team 2";
+
+
 document.getElementById("teamSwitch").addEventListener('click', function(){
     if(document.getElementById("teamSwitch").innerHTML === "Team 1") {
         document.getElementById("teamSwitch").innerHTML = "Team 2";
@@ -49,12 +55,31 @@ document.getElementById("addButton").addEventListener('click', function(){
         }
     }
     
+    for(let i=0; i<eentwees.length; i++) {
+        if(eentwees.item(i).checked) {
+            if(i == 0) {
+                scoreTeam1 += 200;
+            } else {
+                scoreTeam2 += 200;
+            }
+        }
+    }
+    
     scoreTeam1Div = document.getElementById("scoreTeam1");
     scoreTeam1Div.innerHTML = scoreTeam1Div.innerHTML + "<br>|<br>" + scoreTeam1;
     scoreTeam2Div = document.getElementById("scoreTeam2");
     scoreTeam2Div.innerHTML = scoreTeam2Div.innerHTML + "<br>|<br>" + scoreTeam2;
     
     document.getElementById("inputPoints").value = "";
+    for(let i=0; i<taipans.length; i++) {
+        taipans.item(i).checked = false;
+    }
+    for(let i=0; i<eentwees.length; i++) {
+        eentwees.item(i).checked = false;
+    }
+    document.getElementById("inputPoints").disabled = false;
+    document.getElementById("taipanWon").checked = false;
+    
     round = round == 3? 0 : round + 1;
     const names = document.getElementsByClassName("nameInputs");
     for(let i=0; i<names.length; i++) {
@@ -64,6 +89,12 @@ document.getElementById("addButton").addEventListener('click', function(){
             names.item(i).style.borderColor = "black";
         }
     }
+    
+    var scores = document.getElementById("scores");
+    scores.scrollTop = scores.scrollHeight;
+    
+    localStorage.setItem("taipanScoreTeam1", scoreTeam1Div.innerHTML);
+    localStorage.setItem("taipanScoreTeam2", scoreTeam2Div.innerHTML);
 })
 
 
@@ -101,7 +132,16 @@ function onlyOne1en2Selected(index) {
     }
     if(eentwees.item(0).checked || eentwees.item(1).checked) {
         document.getElementById("inputPoints").disabled = true;
+        document.getElementById("inputPoints").value = "";
     } else {
         document.getElementById("inputPoints").disabled = false;
     }
 }
+
+
+document.getElementById("endButton").addEventListener('click', function(){
+    document.getElementById("scoreTeam1").innerHTML = "Team 1";
+    document.getElementById("scoreTeam2").innerHTML = "Team 2";
+    localStorage.removeItem("taipanScoreTeam1");
+    localStorage.removeItem("taipanScoreTeam2");
+})
