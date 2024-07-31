@@ -3,7 +3,64 @@
 <html>
 <head>
   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=2">
+  <meta name="viewport" content="width=device-width, initial-scale=2"><!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles/style.css"/>
+  <title>Tai-pan</title>
+</head>
+<body>
+  <!-- <div id="names"> -->
+    <input id="nameInput1" class="nameInputs" type="text" placeholder="name 1">
+    <input id="nameInput2" class="nameInputs" type="text" placeholder="name 2">
+    <input id="nameInput4" class="nameInputs" type="text" placeholder="name 4">
+    <input id="nameInput3" class="nameInputs" type="text" placeholder="name 3">
+    
+    <div id="line1"  class="lines"></div>
+    <div id="line2"  class="lines"></div>
+  
+    <div id="scoreTeam1"><b>Team 1</b></div>
+    <div id="scoreTeam2"><b>Team 2</b></div>
+  <!-- </div> -->
+  
+  <div id="inputRound">
+    <table id="table">
+      <tr>
+        <th></th>
+        <th>Team 1</th>
+        <th>Team 2</th>
+      </tr>
+      <tr>
+        <td>Taipan</td>
+        <td><input class="taipanInput" type="checkbox"></td>
+        <td><input class="taipanInput" type="checkbox"></td>
+      </tr>
+      <tr>
+        <td><b>Taipan</b></td>        
+        <td><input class="taipanInput" type="checkbox"></td>
+        <td><input class="taipanInput" type="checkbox"></td>
+      </tr>
+      <tr>
+        <td>1 en 2</td>
+        <td><input class="1en2Input" type="checkbox"></td>
+        <td><input class="1en2Input" type="checkbox"></td>
+      </tr>
+    </table>
+    
+    <div id="inputPointsDiv">
+      <button id="teamSwitch">Team 1</button>
+      <input id="inputPoints" type="text" placeholder="Points">
+    </div>
+    <label id="taipanWonLabel">Taipan won <input id="taipanWon" type="checkbox"></label>
+    <button id="addButton">Add</button>
+  </div>
+</body>
+<script src="scripts/script.js"></script>
+</html>
+
   <link rel="stylesheet" href="styles/style.css"/>
   <title>Tai-pan</title>
 </head>
