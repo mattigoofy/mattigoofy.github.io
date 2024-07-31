@@ -1,0 +1,93 @@
+body {
+  padding: 0;
+  margin: 2vw 0 0 0;
+}
+
+
+
+#names {
+  position: absolute;
+  /*top: 25vh;*/
+}
+
+.nameInputs {
+  position: absolute;
+  width: 25vw;
+}
+
+#nameInput1 {
+  left: 10vw;
+}
+
+#nameInput2 {
+  right: 10vw;
+}
+
+#nameInput3 {
+  left: 10vw;
+  top: 16vw
+}
+
+#nameInput4 {
+  right: 10vw;
+  top: 16vw
+}
+
+
+
+
+#scoreTeam1 {
+  position: absolute;
+  top: 30vw;
+  left: 10vw;
+  width: 25vw;
+  /*background-color: green;*/
+  text-align: center;
+  color: blue;
+}
+
+#scoreTeam2 {
+  position: absolute;
+  top: 30vw;
+  right: 10vw;
+  width: 25vw;
+  /*background-color: green;*/
+  text-align: center;
+  color: red;
+}
+
+
+
+
+
+#inputRound {
+  position: absolute;
+  display: sticky;
+  bottom: 0;
+  height: 20vh;
+  min-height: 170px;
+  width: 100%;
+  background-color: grey;
+}
+
+#inputPointsDiv {
+  position: absolute;
+  top: 5vw;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#inputPoints {
+  width: 10vw;
+}
+
+#teamSwitch {
+  color: blue;
+}
+
+#addButton {
+  position: absolute;
+  bottom: 5vw;
+  left: 50%;
+  transform: translateX(-50%);
+}
