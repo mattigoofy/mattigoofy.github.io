@@ -1,0 +1,55 @@
+body {
+  background-color: #fac5a8; /* Light orange background */
+}
+
+#nameInput1 {
+  color: #6c9474; /* DarkGreen */
+}
+
+#nameInput2 {
+  color: #8f3f76; /* DarkBlue */
+}
+
+#nameInput3 {
+  color: #8f3f76; /* DarkBlue */
+}
+
+#nameInput4 {
+  color: #6c9474; /* DarkGreen */
+}
+
+#line1 {
+  background-color: #8f3f76; /* DarkBlue */
+}
+
+#line2 {
+  background-color: #6c9474; /* DarkGreen */
+}
+
+#scoreTeam1 {
+  color: #8f3f76; /* DarkBlue */
+}
+
+#scoreTeam2 {
+  color: #6c9474; /* DarkGreen */
+}
+
+.topButton {
+  background-color: #ff4500; /* OrangeRed */
+}
+
+#inputRound {
+  background-color: #f59d55; /* Gold */
+}
+
+table, td, th {
+  border-color: #ff4500; /* OrangeRed */
+}
+
+#teamSwitch {
+  color: #8f3f76; /* DarkBlue */
+}
+
+#addButton {
+    background-color: #ff4500; /* OrangeRed */
+}
