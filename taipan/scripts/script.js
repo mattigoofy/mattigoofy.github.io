@@ -25,7 +25,11 @@ var scoreTeam1 = localStorage.getItem("taipanScoreTeam1");
     scoreTeam1 = [0];
 }*/
 try {
-    scoreTeam1 = JSON.parse(scoreTeam1);
+    if(scoreTeam1 == null) {
+        throw "null";
+    } else {
+        scoreTeam1 = JSON.parse(scoreTeam1);
+    }
 } catch(e) {
     scoreTeam1 = [0];
 }
@@ -36,7 +40,11 @@ var scoreTeam2 = localStorage.getItem("taipanScoreTeam2");
     scoreTeam2 = [0];
 }*/
 try {
-    scoreTeam2 = JSON.parse(scoreTeam2);
+    if(scoreTeam2 == null) {
+        throw "null";
+    } else {
+        scoreTeam2 = JSON.parse(scoreTeam2);
+    }
 } catch(e) {
     scoreTeam2 = [0];
 }
