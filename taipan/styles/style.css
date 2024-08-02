@@ -3,7 +3,6 @@ body {
   margin: 2vw 0 0 0;
   -webkit-text-size-adjust: 100%;
   font-family: Arial, sans-serif;
-  background-color: #fac5a8; /* Light orange background */
 }
 
 .nameInputs {
@@ -15,26 +14,20 @@ body {
 
 #nameInput1 {
   left: 10vw;
-  /*border-color: #ff4500;*/ /* OrangeRed */
-  /*border-width: 5px;*/
-  color: #6c9474; /* DarkGreen */
 }
 
 #nameInput2 {
   right: 10vw;
-  color: #8f3f76; /* DarkBlue */
 }
 
 #nameInput3 {
   left: 10vw;
   top: 16vw;
-  color: #8f3f76; /* DarkBlue */
 }
 
 #nameInput4 {
   right: 10vw;
   top: 16vw;
-  color: #6c9474; /* DarkGreen */
 }
 
 .lines {
@@ -46,12 +39,10 @@ body {
 }
 
 #line1 {
-  background-color: #8f3f76; /* DarkBlue */
   transform: translateX(-50%) rotate(-35deg);
 }
 
 #line2 {
-  background-color: #6c9474; /* DarkGreen */
   transform: translateX(-50%) rotate(35deg);
 }
 
@@ -68,7 +59,6 @@ body {
   left: 10vw;
   width: 25vw;
   text-align: center;
-  color: #8f3f76; /* DarkBlue */
 }
 
 #scoreTeam2 {
@@ -76,7 +66,6 @@ body {
   right: 10vw;
   width: 25vw;
   text-align: center;
-  color: #6c9474; /* DarkGreen */
 }
 
 #logo {
@@ -93,7 +82,6 @@ body {
   position: absolute;
   top: -25px;
   height: 25px;
-  background-color: #ff4500; /* OrangeRed */
   border: none;
   border-radius: 10px 10px 0 0;
   color: white;
@@ -117,12 +105,10 @@ body {
   height: 20vh;
   min-height: 170px;
   width: 100%;
-  background-color: #f59d55; /* Gold */
 }
 
 table, td, th {
   border: 2px solid;
-  border-color: #ff4500; /* OrangeRed */
 }
 
 table {
@@ -150,7 +136,6 @@ table {
 }
 
 #teamSwitch {
-  color: #8f3f76; /* DarkBlue */
   border-radius: 10px 0 0 10px;
   border: none;
   padding: 5px;
@@ -208,4 +193,9 @@ table {
   border-color: #ffa5a5;
   border-radius: 5px;
   padding: 5px;
+}
+
+#finalScore {
+  display: inline-block;
+  font-size: 75%;
 }
