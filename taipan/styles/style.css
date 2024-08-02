@@ -15,8 +15,8 @@ body {
 
 #nameInput1 {
   left: 10vw;
-  border-color: #ff4500; /* OrangeRed */
-  border-width: 5px;
+  /*border-color: #ff4500;*/ /* OrangeRed */
+  /*border-width: 5px;*/
   color: #6c9474; /* DarkGreen */
 }
 
@@ -187,12 +187,25 @@ table {
   width: 70vw;
   height: 35vw;
   font-size: 200%;
-  background-color: grey;
-  border: 5px solid;
+  background-color: #dd612e; /*orang-brown*/
+  /*border: 5px solid;*/
   border-radius: 10px;
   text-align: center;
+  padding-top: 15px;
+  color: white;
 }
 
 #winningTeam {
   display: inline-block;
+}
+
+#newGame {
+  font-size: 50%;
+  font-weight: bold;
+  background-color: #ff4500; /* OrangeRed */
+  color: white;
+  border: 1px solid;
+  border-color: #ffa5a5;
+  border-radius: 5px;
+  padding: 5px;
 }
