@@ -18,15 +18,26 @@ console.log(localStorage.getItem("taipanScoreTeam1"));
 //scoreTeam1 = JSON.parse(scoreTeam1);
 //scoreTeam2 = JSON.parse(scoreTeam2);
 var scoreTeam1 = localStorage.getItem("taipanScoreTeam1");
-if(scoreTeam1 != null) {
+/*if(scoreTeam1 != null) {
     scoreTeam1 = JSON.parse(scoreTeam1);
+    //scoreTeam1 = JSON.parse("Tzam 1<br> bla blz bkzzzz")
 } else {
+    scoreTeam1 = [0];
+}*/
+try {
+    scoreTeam1 = JSON.parse(scoreTeam1);
+} catch(e) {
     scoreTeam1 = [0];
 }
 var scoreTeam2 = localStorage.getItem("taipanScoreTeam2");
-if(scoreTeam2 != null) {
+/*if(scoreTeam2 != null) {
     scoreTeam2 = JSON.parse(scoreTeam2);
 } else {
+    scoreTeam2 = [0];
+}*/
+try {
+    scoreTeam2 = JSON.parse(scoreTeam2);
+} catch(e) {
     scoreTeam2 = [0];
 }
 
@@ -239,8 +250,8 @@ document.getElementById("backButton").addEventListener('click', function() {
     //console.log(scoreTeam1);
     //console.log(scoreTeam2);
     
-    localStorage.setItem("taipanScoreTeam1", scoreTeam1Div.innerHTML);
-    localStorage.setItem("taipanScoreTeam2", scoreTeam2Div.innerHTML);
+    localStorage.setItem("taipanScoreTeam1", JSON.stringify(scoreTeam2));
+    localStorage.setItem("taipanScoreTeam2", JSON.stringify(scoreTeam2));
     
     round = round == 3? 0 : round + 1;
     const names = document.getElementsByClassName("nameInputs");
@@ -253,6 +264,8 @@ document.getElementById("backButton").addEventListener('click', function() {
             names.item(i).style.borderWidth = "2px";
         }
     }
+    
+    document.getElementById("gameDone").style.display = "none";
 })
 
 /*document.getElementById("inputPoints").addEventListener('input', function(){
