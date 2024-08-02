@@ -2,55 +2,62 @@ body {
   padding: 0;
   margin: 2vw 0 0 0;
   -webkit-text-size-adjust: 100%;
-}
-
-
-
-#names {
-  position: absolute;
-  /*top: 25vh;*/
+  font-family: Arial, sans-serif;
+  background-color: #fac5a8; /* Light orange background */
 }
 
 .nameInputs {
   position: absolute;
   width: 25vw;
   border-color: black;
+  border-radius: 5px;
 }
 
 #nameInput1 {
   left: 10vw;
-  border-color: green;
-  color: red;
+  border-color: #ff4500; /* OrangeRed */
+  border-width: 5px;
+  color: #6c9474; /* DarkGreen */
 }
 
 #nameInput2 {
   right: 10vw;
-  color: blue;
+  color: #8f3f76; /* DarkBlue */
 }
 
 #nameInput3 {
   left: 10vw;
   top: 16vw;
-  color: blue;
+  color: #8f3f76; /* DarkBlue */
 }
 
 #nameInput4 {
   right: 10vw;
   top: 16vw;
-  color: red;
+  color: #6c9474; /* DarkGreen */
 }
 
+.lines {
+  position: absolute;
+  width: 25%;
+  height: 5px;
+  left: 50%;
+  top: 11vw;
+}
 
+#line1 {
+  background-color: #8f3f76; /* DarkBlue */
+  transform: translateX(-50%) rotate(-35deg);
+}
+
+#line2 {
+  background-color: #6c9474; /* DarkGreen */
+  transform: translateX(-50%) rotate(35deg);
+}
 
 #scores {
   position: absolute;
-  /*height: 60vh;*/
-  /*min-height: 180px;*/
   width: 100%;
-  /*height: 300px;*/
-  /*background-color: green;*/
-  /*z-index: 200;*/
-  /*top: 30vw;*/
   top: 25vw;
   bottom: 25vh;
   overflow: auto;
@@ -58,66 +65,74 @@ body {
 
 #scoreTeam1 {
   position: absolute;
-  /*top: 30vw;*/
   left: 10vw;
   width: 25vw;
-  /*background-color: green;*/
   text-align: center;
-  color: blue;
-  /*padding-bottom: 20vh;*/
+  color: #8f3f76; /* DarkBlue */
 }
 
 #scoreTeam2 {
   position: absolute;
-  /*top: 30vw;*/
   right: 10vw;
   width: 25vw;
-  /*background-color: green;*/
   text-align: center;
-  color: red;
-  /*margin-bottom: 20vh;*/
+  color: #6c9474; /* DarkGreen */
+}
+
+#logo {
+  position: absolute;
+  left: 50%;
+  top: calc(50% - 10vh);
+  transform: translate(-50%, -50%);
+  width: 25%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.topButton {
+  position: absolute;
+  top: -25px;
+  height: 25px;
+  background-color: #ff4500; /* OrangeRed */
+  border: none;
+  border-radius: 10px 10px 0 0;
+  color: white;
+}
+
+.topButton:active {
+  opacity: 50%;
 }
 
 #endButton {
-  position: absolute;
-  top: -25px;
-  right: 2%;
-  height: 25px;
+  right: 0;
 }
 
-/*#emptySpace {
-  height: 20vh;
-  min-height: 170px;
-  background-color: green;
-}*/
-
-
+#backButton {
+  left: 0;
+}
 
 #inputRound {
   position: absolute;
-  /*display: sticky;*/
   bottom: 0;
-  /*top: 80vh;*/
   height: 20vh;
   min-height: 170px;
   width: 100%;
-  background-color: grey;
+  background-color: #f59d55; /* Gold */
 }
 
-
 table, td, th {
-  /*left: 25%;
-  transform: translateX(-50%);*/
-  border: 1px solid;
+  border: 2px solid;
+  border-color: #ff4500; /* OrangeRed */
 }
 
 table {
   position: absolute;
-  border-collapse: collapse;
+  border-collapse: collapse;
   text-align: center;
   top: 5vw;
   left: 25%;
   transform: translateX(-50%);
+  /*background-color: white;*/
 }
 
 #inputPointsDiv {
@@ -129,13 +144,20 @@ table {
 
 #inputPoints {
   width: 10vw;
+  border-radius: 0 10px 10px 0;
+  border: none;
+  padding: 5px;
 }
 
 #teamSwitch {
-  color: blue;
+  color: #8f3f76; /* DarkBlue */
+  border-radius: 10px 0 0 10px;
+  border: none;
+  padding: 5px;
+  background-color: white;
 }
 
-#taipanWonLabel{
+#taipanWonLabel {
   position: absolute;
   top: 35%;
   right: 25%;
@@ -148,4 +170,29 @@ table {
   right: 25%;
   transform: translateX(50%);
   font-size: 200%;
+  font-weight: bold;
+  background-color: #ff4500; /* OrangeRed */
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+#gameDone {
+  display: none;
+  z-index: 1;
+  position: absolute;
+  left: 50%;
+  top: calc(50% - 10vh);
+  transform: translate(-50%, -50%);
+  width: 70vw;
+  height: 35vw;
+  font-size: 200%;
+  background-color: grey;
+  border: 5px solid;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#winningTeam {
+  display: inline-block;
 }
