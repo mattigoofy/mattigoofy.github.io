@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=2">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles/style.css"/>
   <title>Tai-pan</title>
 </head>
@@ -23,10 +23,12 @@
   </div>
     <!-- </div> -->
   
-  <div id="emptySpace"></div>
+  <!-- <div id="emptySpace"></div> -->
+  <img id="logo" src="taipan.jpg" alt="logo">
   
   <div id="inputRound">
-    <button id="endButton">Finish</button>
+    <button id="endButton" class="topButton">Finish</button>
+    <button id="backButton" class="topButton">Next to shuffle</button>
     
     <table id="table">
       <tr>
@@ -53,11 +55,17 @@
     
     <div id="inputPointsDiv">
       <button id="teamSwitch">Team 1</button>
-      <input id="inputPoints" type="text" placeholder="Points">
+      <input id="inputPoints" type="tel" placeholder="Points">
     </div>
-    <label id="taipanWonLabel">Taipan won <input id="taipanWon" type="checkbox"></label>
+    <label id="taipanWonLabel">Taipan won <input id="taipanWon" type="checkbox" checked></label>
     <button id="addButton">Add</button>
   </div>
+  
+  <div id="gameDone">
+    Team <div id="winningTeam"></div> won <br>
+    <button id="newGame">New game</button>
+  </div>
+  
 </body>
 <script src="scripts/script.js"></script>
 </html>
