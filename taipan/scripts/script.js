@@ -1,13 +1,17 @@
+var team1Color = "#8f3f76";
+var team2Color = "#6c9474";
+var borderColor = "#ff4500";
+
 //
 // teamSwitch_handler
 //
 document.getElementById("teamSwitch").addEventListener('click', function(){
     if(document.getElementById("teamSwitch").innerHTML === "Team 1") {
         document.getElementById("teamSwitch").innerHTML = "Team 2";
-        document.getElementById("teamSwitch").style.color = "#6c9474";
+        document.getElementById("teamSwitch").style.color = team2Color;
     } else {
         document.getElementById("teamSwitch").innerHTML = "Team 1";
-        document.getElementById("teamSwitch").style.color = "#8f3f76";
+        document.getElementById("teamSwitch").style.color = team1Color;
     }
 })
 
@@ -86,7 +90,7 @@ document.getElementById("addButton").addEventListener('click', function(){
     const names = document.getElementsByClassName("nameInputs");
     for(let i=0; i<names.length; i++) {
         if(i == round) {
-            names.item(i).style.borderColor = "#ff4500";
+            names.item(i).style.borderColor = borderColor;
             names.item(i).style.borderWidth = "5px";
         } else {
             names.item(i).style.borderColor = "black";
@@ -101,21 +105,8 @@ document.getElementById("addButton").addEventListener('click', function(){
     localStorage.setItem("taipanScoreTeam2", JSON.stringify(scoreTeam2));
     
     document.getElementById("backButton").innerHTML = "back";
-    if(scoreTeam1[scoreTeam1.length-1] >= 1000 && scoreTeam2[scoreTeam2.length-1] >= 1000) {
-        if(scoreTeam1[scoreTeam1.length-1] == scoreTeam2[scoreTeam2.length-1]) {
-            document.getElementById("winningTeam").innerHTML = "1&2";
-        } else if(scoreTeam1[scoreTeam1.length-1] > scoreTeam2[scoreTeam2.length-1]) {
-            document.getElementById("winningTeam").innerHTML = "1";
-        } else {
-            document.getElementById("winningTeam").innerHTML = "2";
-        }
-        document.getElementById("gameDone").style.display = "block";
-    } else if(scoreTeam1[scoreTeam1.length-1] >= 1000) {
-        document.getElementById("winningTeam").innerHTML = "1"
-        document.getElementById("gameDone").style.display = "block";
-    } else if(scoreTeam2[scoreTeam2.length-1] >= 1000) {
-        document.getElementById("winningTeam").innerHTML = "2"
-        document.getElementById("gameDone").style.display = "block";
+    if(scoreTeam1[scoreTeam1.length-1] >= 1000 || scoreTeam2[scoreTeam2.length-1] >= 1000) {
+        finishGame();
     }
 })
 
@@ -164,7 +155,13 @@ function onlyOne1en2Selected(index) {
 //
 // endButton_handler
 //
-document.getElementById("endButton").addEventListener('click', function(){
+document.getElementById("endButton").addEventListener('click', finishGame);
+
+
+//
+// finishGame_functie
+//
+function finishGame() {
     if(scoreTeam1[scoreTeam1.length-1] == scoreTeam2[scoreTeam2.length-1]) {
         document.getElementById("winningTeam").innerHTML = "1&2";
     } else if(scoreTeam1[scoreTeam1.length-1] > scoreTeam2[scoreTeam2.length-1]) {
@@ -173,12 +170,16 @@ document.getElementById("endButton").addEventListener('click', function(){
         document.getElementById("winningTeam").innerHTML = "2";
     }
     document.getElementById("gameDone").style.display = "block";
-});
-document.getElementById("newGame").addEventListener('click', finishGame);
+    document.getElementById("finalScore").innerHTML = scoreTeam1[scoreTeam1.length-1] + " - " + scoreTeam2[scoreTeam2.length-1];
+    document.getElementById("backButton").innerHTML = "Next to shuffle";
+}
 
-function finishGame() {
-    document.getElementById("scoreTeam1").innerHTML = "<b>Team 1<b>";
-    document.getElementById("scoreTeam2").innerHTML = "<b>Team 2<b>";
+//
+// newGame_handler
+//
+document.getElementById("newGame").addEventListener('click', function() {
+    document.getElementById("scoreTeam1").innerHTML = "<b>Team 1</b>";
+    document.getElementById("scoreTeam2").innerHTML = "<b>Team 2</b>";
     localStorage.removeItem("taipanScoreTeam1");
     localStorage.removeItem("taipanScoreTeam2");
     
@@ -194,7 +195,7 @@ function finishGame() {
     }
     for(let i=0; i<names.length; i++) {
         if(i == round) {
-            names.item(i).style.borderColor = "#ff4500";
+            names.item(i).style.borderColor = borderColor;
             names.item(i).style.borderWidth = "5px";
         } else {
             names.item(i).style.borderColor = "black";
@@ -203,7 +204,7 @@ function finishGame() {
     }
     
     document.getElementById("gameDone").style.display = "none";
-}
+})
 
 
 //
@@ -216,6 +217,7 @@ document.getElementById("backButton").addEventListener('click', function() {
     var index1 = scoreTeam1Div.innerHTML.lastIndexOf('|');
     if(index1 != -1) {
         scoreTeam1Div.innerHTML = scoreTeam1Div.innerHTML.slice(0, index1 - 4);
+        console.log(scoreTeam1Div.innerHTML)
         if(scoreTeam1Div.innerHTML.length < 14) {
             document.getElementById("backButton").innerHTML = "Next to shuffle";
         }
@@ -243,7 +245,7 @@ document.getElementById("backButton").addEventListener('click', function() {
     const names = document.getElementsByClassName("nameInputs");
     for(let i=0; i<names.length; i++) {
         if(i == round) {
-            names.item(i).style.borderColor = "#ff4500";
+            names.item(i).style.borderColor = borderColor;
             names.item(i).style.borderWidth = "5px";
         } else {
             names.item(i).style.borderColor = "black";
@@ -267,7 +269,6 @@ document.getElementById("backButton").addEventListener('click', function() {
 //
 // inputNames_handler
 //
-
 const names = document.getElementsByClassName("nameInputs");
 for(let i=0; i<names.length; i++) {
     names.item(i).addEventListener('blur', ()=>{writePlayers(i)});
@@ -278,3 +279,22 @@ function writePlayers(i) {
     localStorage.setItem("taipanPlayers", JSON.stringify(players));
     console.log(localStorage.getItem("taipanPlayers"));
 }
+
+
+//
+// picture_handler
+//
+document.getElementById("logo").addEventListener('click', function() {
+    var logo = document.getElementById("logo");
+    if(logo.src.includes("taipan.jpg")) {
+        logo.setAttribute("src", "tichu.jpg");
+        document.getElementById("gameStyle").setAttribute("href", "styles/tichu.css");
+        document.getElementById("table").innerHTML = document.getElementById("table").innerHTML.replaceAll("Taipan", "Tichu");
+        document.getElementById("taipanWonLabel").innerHTML = document.getElementById("taipanWonLabel").innerHTML.replaceAll("Taipan", "Tichu");
+    } else {
+        logo.setAttribute("src", "taipan.jpg");
+        document.getElementById("gameStyle").setAttribute("href", "styles/taipan.css");
+        document.getElementById("table").innerHTML = document.getElementById("table").innerHTML.replaceAll("Tichu", "Taipan");
+        document.getElementById("taipanWonLabel").innerHTML = document.getElementById("taipanWonLabel").innerHTML.replaceAll("Tichu", "Taipan");
+    }
+})
