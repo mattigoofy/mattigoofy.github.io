@@ -413,7 +413,7 @@ function writePlayers(i) {
 document.getElementById("logo").addEventListener('click', function() {
     var logo = document.getElementById("logo");
     if(logo.src.includes("taipan.jpg")) {
-        logo.setAttribute("src", "Tichu.jpg");
+        logo.setAttribute("src", "tichu.jpg");
         document.getElementById("gameStyle").setAttribute("href", "styles/tichu.css");
         document.getElementById("taipan_table").innerHTML = document.getElementById("taipan_table").innerHTML.replaceAll("Taipan", "Tichu");
         document.getElementById("taipanWonLabel").innerHTML = document.getElementById("taipanWonLabel").innerHTML.replaceAll("Taipan", "Tichu");
