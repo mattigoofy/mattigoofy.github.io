@@ -5,6 +5,7 @@
   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles/style.css"/>
+  <link rel="stylesheet" href="styles/gameDoneStyle.css"/>
   <link id="gameStyle" rel="stylesheet" href="styles/taipan.css"/>
   <title>Tai-pan</title>
 </head>
@@ -31,7 +32,7 @@
     <button id="endButton" class="topButton">Finish</button>
     <button id="backButton" class="topButton">Next to shuffle</button>
     
-    <table id="table">
+    <table id="taipan_table">
       <tr>
         <th></th>
         <th>Team 1</th>
@@ -63,12 +64,48 @@
   </div>
   
   <div id="gameDone">
-    Team <div id="winningTeam"></div> won <br>
-    <div id="finalScore"></div><br>
-    <button id="newGame">New game</button>
+    <div id="rocket"></div>
+        <div id="explosion">
+            <h1>Bart & Geeraard <br>Won</h1>
+        </div>
+        <table id="results-table">
+            <tr>
+                <td></td>
+                <td>Bart &<br>Geeraard</td>
+                <td>Joost &<br>Tim</td>
+            </tr>
+            <tr>
+                <td>Taipan won</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Taipan lost</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><b>Taipan</b> won</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><b>Taipan</b> lost</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>een en twee uit</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    <div id="pressToContinue">Press to continue</div>
+    </div>
   </div>
   
 </body>
 <script src="scripts/script.js"></script>
 <script src="scripts/startUp.js"></script>
+<script src="scripts/gameDoneScript.js"></script>
 </html>
