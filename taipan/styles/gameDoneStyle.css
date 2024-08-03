@@ -1,0 +1,136 @@
+
+
+/* styles.css */
+/*body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fac5a8;
+    color: #000;
+    font-family: Arial, sans-serif;
+}*/
+
+#gameDone {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #fac5a8;
+    z-index: 1;
+    font-size: 100%;
+}
+
+#rocket {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 20px;
+    height: 60px;
+    background: red;
+    transform: translateX(-50%);
+    /*animation: launch 1s forwards linear;*/
+}
+
+#rocket::before {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    width: 10px;
+    height: 15px;
+    background: orange;
+    border-radius: 50%;
+    animation: flame 0.5s infinite alternate;
+    transform: translateX(-50%);
+}
+
+#rocket::after {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 15px solid red;
+    transform: translateX(-50%);
+}
+
+@keyframes flame {
+    0% { height: 15px; opacity: 1; }
+    100% { height: 25px; opacity: 0.7; }
+}
+
+#explosion {
+    display: none;
+    position: absolute;
+    left: 50%;
+    bottom: 80%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 100%;
+}
+
+#explosion .firework {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: yellow;
+    border-radius: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: explode 1s forwards;
+}
+
+#explosion h1 {
+    position: relative;
+    top: 50px;
+    animation: fadeIn 2s forwards;
+}
+
+#results-table {
+    position: absolute;
+    top: 40%;
+    display: none;
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#results-table td {
+    border: 1px solid;
+    padding: 10px;
+    text-align: center;
+}
+
+#pressToContinue {
+  display: none;
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: grey;
+}
+
+@keyframes launch {
+    0% { bottom: 0; }
+    100% { bottom: 75%; }
+}
+
+@keyframes explode {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(calc(200px * var(--x)), calc(200px * var(--y))) scale(0.1); opacity: 0; }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
