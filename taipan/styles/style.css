@@ -107,11 +107,11 @@ body {
   width: 100%;
 }
 
-table, td, th {
+#taipan_table, td, th {
   border: 2px solid;
 }
 
-table {
+#taipan_table {
   position: absolute;
   border-collapse: collapse;
   text-align: center;
@@ -162,7 +162,7 @@ table {
   border-radius: 5px;
 }
 
-#gameDone {
+/*#gameDone {
   display: none;
   z-index: 1;
   position: absolute;
@@ -173,12 +173,11 @@ table {
   height: 35vw;
   font-size: 200%;
   background-color: #dd612e; /*orang-brown*/
-  /*border: 5px solid;*/
-  border-radius: 10px;
+  /*border-radius: 10px;
   text-align: center;
   padding-top: 15px;
   color: white;
-}
+}*/
 
 #winningTeam {
   display: inline-block;
