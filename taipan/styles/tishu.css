@@ -54,3 +54,12 @@ table, td, th {
 #addButton {
     background-color: #a40800; /* OrangeRed */
 }
+
+#gameDone {
+  background-color: #fcf101;
+}
+
+#results-table td{
+  border-color: black;
+  /*border: 1px solid black;*/
+}
