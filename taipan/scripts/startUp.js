@@ -1,4 +1,4 @@
-var round = 0;
+8var round = 0;
 
 
 //
@@ -66,6 +66,8 @@ try {
     }
 } catch(e) {
     players = ["", "", "", "", round];
+    names.item(round).style.borderColor = "#ff4500";
+    names.item(round).style.borderWidth = "5px";
 }
 
 
