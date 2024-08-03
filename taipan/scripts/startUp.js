@@ -51,13 +51,13 @@ if(scoreTeam1.length > 1 && scoreTeam2.length > 1) {
 // players
 //
 var players = localStorage.getItem("taipanPlayers");
-const names = document.getElementsByClassName("nameInputs");
 try {
     if(players == null) {
         throw "null";
     } else {
         players = JSON.parse(players);
         round = players[4];
+        const names = document.getElementsByClassName("nameInputs");
         for(let i=0; i<names.length; i++) {
             names.item(i).value = players[i];
         }
