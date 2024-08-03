@@ -52,12 +52,10 @@ if(scoreTeam1.length > 1 && scoreTeam2.length > 1) {
 //
 var players = localStorage.getItem("taipanPlayers");
 try {
-    console.log(players)
     if(players == null) {
         throw "null";
     } else {
         players = JSON.parse(players);
-        console.log(players)
         round = players[4];
         const names = document.getElementsByClassName("nameInputs");
         for(let i=0; i<names.length; i++) {
@@ -68,5 +66,20 @@ try {
     }
 } catch(e) {
     players = ["", "", "", "", round];
+}
+
+
+//
+// statistics
+//
+var statistics = localStorage.getItem("taipanStatistics");
+try {
+    if(statistics == null) {
+        throw "null";
+    } else {
+        statistics = JSON.parse(statistics);
+    }
+} catch(e) {
+    statistics = [0,0,0,0, 0,0,0,0, 0,0];
 }
 
