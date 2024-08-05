@@ -1,23 +1,22 @@
-var team1Color = "#8f3f76";
-var team2Color = "#6c9474";
-var borderColor = "#ff4500";
+const team1Color = "#8f3f76";
+const team2Color = "#6c9474";
+const borderColor = "#ff4500";
 
-/*var taipansWon = [0,0,0,0];
-var taipansLost = [0,0,0,0];
-var eentweesWon = [0,0];*/
-//var statistics = [0,0,0,0,0,0,0,0,0,0];
 
 
 //
 // teamSwitch_handler
 //
+var currentTeamForPoints = 1
 document.getElementById("teamSwitch").addEventListener('click', function(){
-    if(document.getElementById("teamSwitch").innerHTML === "Team 1") {
-        document.getElementById("teamSwitch").innerHTML = "Team 2";
+    if(currentTeamForPoints === 1) {
+        document.getElementById("teamSwitch").innerHTML = team2Names.length>15? "Team 2": team2Names;
         document.getElementById("teamSwitch").style.color = team2Color;
+        currentTeamForPoints = 2;
     } else {
-        document.getElementById("teamSwitch").innerHTML = "Team 1";
+        document.getElementById("teamSwitch").innerHTML = team1Names.length>15? "Team 1": team1Names;
         document.getElementById("teamSwitch").style.color = team1Color;
+        currentTeamForPoints = 1;
     }
 })
 
@@ -28,7 +27,6 @@ document.getElementById("teamSwitch").addEventListener('click', function(){
 //
 document.getElementById("addButton").addEventListener('click', function(){
     var points = parseInt(document.getElementById("inputPoints").value);
-    //console.log(scoreTeam1)
     if(!isNaN(points) && document.getElementById("teamSwitch").innerHTML === "Team 1") {
             scoreTeam1.push(scoreTeam1[scoreTeam1.length-1] + points);
             scoreTeam2.push(scoreTeam2[scoreTeam2.length-1] + (100 - points));
@@ -48,20 +46,18 @@ document.getElementById("addButton").addEventListener('click', function(){
                 case 0:
                     scoreTeam1[scoreTeam1.length-1] += 100*won;
                     if(won == 1) {
-                        //taipansWon[0]++;
                         statistics[0]++;
+                        showDragon(1, false);
                     } else {
-                        //taipansLost[0]++;
                         statistics[2]++;
                     }
                     break;
                 case 1:
                     scoreTeam2[scoreTeam2.length-1] += 100*won;
                     if(won == 1) {
-                        //taipansWon[1]++;
                         statistics[1]++;
+                        showDragon(2, false);
                     } else {
-                        //taipansLost[1]++;
                         statistics[3]++;
                     }
                     
@@ -69,20 +65,18 @@ document.getElementById("addButton").addEventListener('click', function(){
                 case 2:
                     scoreTeam1[scoreTeam1.length-1] += 200*won;
                     if(won == 1) {
-                        //taipansWon[2]++;
                         statistics[4]++;
+                        showDragon(1, true);
                     } else {
-                        //taipansLost[2]++;
                         statistics[6]++;
                     }
                     break;
                 case 3:
                     scoreTeam2[scoreTeam2.length-1] += 200*won;
                     if(won == 1) {
-                        //taipansWon[3]++;
                         statistics[5]++;
+                        showDragon(2, true);
                     } else {
-                        //taipansLost[3]++;
                         statistics[7]++;
                     }
                     break;
@@ -96,12 +90,12 @@ document.getElementById("addButton").addEventListener('click', function(){
         if(eentwees.item(i).checked) {
             if(i == 0) {
                 scoreTeam1[scoreTeam1.length-1] += 200;
-                //eentweesWon[0]++;
                 statistics[8]++;
+                showDog(1);
             } else {
                 scoreTeam2[scoreTeam2.length-1] += 200;
-                //eentweesWon[1]++;
                 statistics[9]++;
+                showDog(2);
             }
         }
     }
@@ -121,6 +115,7 @@ document.getElementById("addButton").addEventListener('click', function(){
     }
     document.getElementById("inputPoints").disabled = false;
     document.getElementById("taipanWon").checked = true;
+    document.getElementById("taipanWon").disabled = false;
     
     // round setting
     round = round == 0? 3 : round - 1;
@@ -151,6 +146,59 @@ document.getElementById("addButton").addEventListener('click', function(){
 })
 
 
+
+//
+// showAnimals_functions
+//
+function showDragon(winningTeam, bigTaipan) {
+    var dragon = document.getElementById("dragon");
+    document.body.removeChild(dragon);
+    dragon.style.animation = "moveDragon 2s ease-out";
+    
+    if(winningTeam == 1) {
+        if(bigTaipan) {
+            dragon.style.left = "0";
+            dragon.style.width = "50%";
+            dragon.style.top = "-50%";
+        } else {
+            dragon.style.left = "14%";
+            dragon.style.width = "25%";
+            dragon.style.top = "-25%";
+        }
+        dragon.style.transform = "scaleX(-1)";
+    } else {
+        if(bigTaipan) {
+            dragon.style.left = "50%";
+            dragon.style.width = "50%";
+            dragon.style.top = "-50%";
+        } else {
+            dragon.style.left = "64%";
+            dragon.style.width = "25%";
+            dragon.style.top = "-25%";
+        }
+        dragon.style.transform = "scaleX(1)";
+    }
+    
+    document.body.appendChild(dragon);
+}
+
+function showDog(winningTeam) {
+    var dog = document.getElementById("dog");
+    document.body.removeChild(dog);
+    dog.style.animation = "moveDog 2s ease-out";
+    
+    if(winningTeam == 1) {
+        dog.style.left = "0";
+        dog.style.transform = "scaleX(-1)";
+    } else {
+        dog.style.left = "50%";
+        dog.style.transform = "scaleX(1)";
+    }
+    
+    document.body.appendChild(dog);
+}
+
+
 //
 // taipans_handlers
 //
@@ -166,6 +214,7 @@ function onlyOneTaipanSelected(index) {
             //alert(i)
         }
     }
+    eentwee_taipan_setting();
 }
 
 
@@ -189,6 +238,43 @@ function onlyOne1en2Selected(index) {
     } else {
         document.getElementById("inputPoints").disabled = false;
     }
+    eentwee_taipan_setting();
+}
+
+
+// eentwee_taipan_function
+function eentwee_taipan_setting() {
+        if(taipans.item(0).checked || taipans.item(2).checked) {  //team 1
+            switch(true) {
+                case eentwees.item(0).checked:
+                    taipanWon.checked = true;
+                    taipanWon.disabled = true;
+                    break;
+                case eentwees.item(1).checked:
+                    taipanWon.checked = false;
+                    taipanWon.disabled = true;
+                    break;
+                default:
+                    taipanWon.disabled = false;
+                    break;
+            }
+        } else if(taipans.item(1).checked || taipans.item(3).checked) {
+            switch(true) {
+                case eentwees.item(0).checked:
+                    taipanWon.checked = false;
+                    taipanWon.disabled = true;
+                    break;
+                case eentwees.item(1).checked:
+                    taipanWon.checked = true;
+                    taipanWon.disabled = true;
+                    break;
+                default:
+                    taipanWon.disabled = false;
+                    break;
+            }
+        } else {
+            taipanWon.disabled = false;
+        }
 }
 
 
@@ -208,21 +294,6 @@ function finishGame() {
     const info = document.getElementById("pressToContinue");
 
     
-    var team1Names;
-    if(document.getElementById("nameInput2").value=="" || document.getElementById("nameInput3").value=="") {
-        team1Names = "Team 1";
-    } else {
-        team1Names = document.getElementById("nameInput2").value + " & " + document.getElementById("nameInput3").value;
-    }
-    
-    var team2Names;
-    if(document.getElementById("nameInput1").value=="" || document.getElementById("nameInput4").value=="") {
-        team2Names = "Team 2";
-    } else {
-        team2Names = document.getElementById("nameInput1").value + " & " + document.getElementById("nameInput4").value;
-    }
-    
-    
     if(scoreTeam1[scoreTeam1.length-1] == scoreTeam2[scoreTeam2.length-1]) {
         document.querySelector("div#explosion h1").innerHTML = "It's a tie";
     } else if(scoreTeam1[scoreTeam1.length-1] > scoreTeam2[scoreTeam2.length-1]) {
@@ -230,6 +301,8 @@ function finishGame() {
     } else {
         document.querySelector("div#explosion h1").innerHTML = team2Names + "<br>won";
     }
+    
+    document.getElementById("finalScore").innerHTML = "<i>" + scoreTeam1[scoreTeam1.length-1] + " vs " + scoreTeam2[scoreTeam2.length-1] + "</i>";
     
     var rows = table.getElementsByTagName("tr");
     var cells0 = rows[0].getElementsByTagName("td");
@@ -240,22 +313,7 @@ function finishGame() {
         cells[1].innerHTML = statistics[2*i - 2];
         cells[2].innerHTML = statistics[2*i - 1];
     }
-    /*var cells1 = rows[1].getElementsByTagName("td");
-    cells1[1].innerHTML = statistics[0];
-    cells1[2].innerHTML = statistics[1];
-    var cells2 = rows[2].getElementsByTagName("td");
-    cells2[1].innerHTML = statistics[0];
-    cells2[2].innerHTML = statistics[1];
-    var cells3 = rows[3].getElementsByTagName("td");
-    cells3[1].innerHTML = statistics[2];
-    cells3[2].innerHTML = statistics[3];
-    var cells4 = rows[4].getElementsByTagName("td");
-    cells4[1].innerHTML = statistics[2];
-    cells4[2].innerHTML = statistics[3];
-    var cells5 = rows[5].getElementsByTagName("td");
-    cells5[1].innerHTML = statistics[0];
-    cells5[2].innerHTML = statistics[1];*/
-    
+        
     
     document.getElementById("gameDone").style.display = "block";
     //document.getElementById("finalScore").innerHTML = scoreTeam1[scoreTeam1.length-1] + " - " + scoreTeam2[scoreTeam2.length-1];
@@ -274,6 +332,11 @@ function finishGame() {
             explosion.querySelector('h1').style.animation = 'fadeIn 2s forwards';
         }, 100); // Slight delay to start fadeIn of text
 
+        setTimeout(()=>{
+            document.getElementById("finalScore").style.display = "block";
+            document.getElementById("finalScore").style.animation = "fadeIn 2s forwards";
+        }, 500)
+        
         setTimeout(() => {
             table.style.display = 'table';
             table.style.animation = 'fadeIn 2s forwards';
@@ -301,39 +364,6 @@ function createFirework() {
 
 
 //
-// newGame_handler
-//
-/*document.getElementById("newGame").addEventListener('click', function() {
-    document.getElementById("scoreTeam1").innerHTML = "<b>Team 1</b>";
-    document.getElementById("scoreTeam2").innerHTML = "<b>Team 2</b>";
-    localStorage.removeItem("taipanScoreTeam1");
-    localStorage.removeItem("taipanScoreTeam2");
-    
-    scoreTeam1 = [0];
-    scoreTeam2 = [0];
-    
-    round = 0; 
-    players = ["", "", "", "", round];
-    localStorage.setItem("taipanPlayers", JSON.stringify(players));
-    const names = document.getElementsByClassName("nameInputs");
-    for(let i=0; i<names.length; i++) {
-        names.item(i).value = players[i];
-    }
-    for(let i=0; i<names.length; i++) {
-        if(i == round) {
-            names.item(i).style.borderColor = borderColor;
-            names.item(i).style.borderWidth = "5px";
-        } else {
-            names.item(i).style.borderColor = "black";
-            names.item(i).style.borderWidth = "2px";
-        }
-    }
-    
-    document.getElementById("gameDone").style.display = "none";
-})*/
-
-
-//
 // backButton_handler
 //
 document.getElementById("backButton").addEventListener('click', function() {
@@ -343,7 +373,6 @@ document.getElementById("backButton").addEventListener('click', function() {
     var index1 = scoreTeam1Div.innerHTML.lastIndexOf('|');
     if(index1 != -1) {
         scoreTeam1Div.innerHTML = scoreTeam1Div.innerHTML.slice(0, index1 - 4);
-        console.log(scoreTeam1Div.innerHTML)
         if(scoreTeam1Div.innerHTML.length < 14) {
             document.getElementById("backButton").innerHTML = "Next to shuffle";
         }
@@ -403,7 +432,34 @@ for(let i=0; i<names.length; i++) {
 function writePlayers(i) {
     players[i] = names.item(i).value;
     localStorage.setItem("taipanPlayers", JSON.stringify(players));
-    console.log(localStorage.getItem("taipanPlayers"));
+    
+    if(players[1]=="" || players[3]=="") {
+        team1Names = "Team 1";
+    } else {
+        team1Names = players[1] + " & " + players[3];
+    }
+    
+    if(players[0]=="" || players[2]=="") {
+        team2Names = "Team 2";
+    } else {
+        team2Names = players[0] + " & " + players[2];
+    }
+    
+    var cells = document.getElementById("taipan_table").getElementsByTagName("th");
+    cells[1].innerHTML = team1Names.length>15? "Team 1": team1Names.replace("&", "&<br>");
+    cells[2].innerHTML = team2Names.length>15? "Team 2": team2Names.replace("&", "&<br>");
+    
+    const switchButton = document.getElementById("teamSwitch");
+    if(currentTeamForPoints === 1) {
+        switchButton.innerHTML = team1Names.length>15? "Team 1": team1Names;
+    } else {
+        switchButton.innerHTML = team2Names.length>15? "Team 2": team2Names
+    }
+    
+    //var cells = rows[0].getElementsByTagName("td");
+    
+    //console.log(localStorage.getItem("taipanPlayers"));
+    //console.log(team1Names + " - " + team2Names)
 }
 
 
@@ -411,16 +467,33 @@ function writePlayers(i) {
 // picture_handler
 //
 document.getElementById("logo").addEventListener('click', function() {
-    var logo = document.getElementById("logo");
+    const logo = document.getElementById("logo");
     if(logo.src.includes("taipan.jpg")) {
         logo.setAttribute("src", "Tichu.jpg");
         document.getElementById("gameStyle").setAttribute("href", "styles/tichu.css");
-        document.getElementById("taipan_table").innerHTML = document.getElementById("taipan_table").innerHTML.replaceAll("Taipan", "Tichu");
+        //document.getElementById("taipan_table").innerHTML = document.getElementById("taipan_table").innerHTML.replaceAll("Taipan", "Tichu");
+        var taipanRows = document.getElementById("taipan_table").getElementsByTagName("tr");
+        for(let i=1; i<taipanRows.length; i++) {
+            var cells = taipanRows[i].getElementsByTagName("td");
+            cells[0].innerHTML = cells[0].innerHTML.replaceAll("Taipan","Tichu")
+        }
         document.getElementById("taipanWonLabel").innerHTML = document.getElementById("taipanWonLabel").innerHTML.replaceAll("Taipan", "Tichu");
+        document.getElementById("dragon").setAttribute("src","tichuDragon.png");
+        document.getElementById("dog").setAttribute("src","tichuDog.png");
+        //document.getElementById("dog").style.bottom = "calc(20vh - 50%)";
     } else {
         logo.setAttribute("src", "taipan.jpg");
         document.getElementById("gameStyle").setAttribute("href", "styles/taipan.css");
-        document.getElementById("taipan_table").innerHTML = document.getElementById("taipan_table").innerHTML.replaceAll("Tichu", "Taipan");
+        //document.getElementById("taipan_table").innerHTML = document.getElementById("taipan_table").innerHTML.replaceAll("Tichu", "Taipan");
+        var taipanRows = document.getElementById("taipan_table").getElementsByTagName("tr");
+        for(let i=1; i<taipanRows.length; i++) {
+            var cells = taipanRows[i].getElementsByTagName("td");
+            cells[0].innerHTML = cells[0].innerHTML.replaceAll("Tichu", "Taipan");
+        }
+        
         document.getElementById("taipanWonLabel").innerHTML = document.getElementById("taipanWonLabel").innerHTML.replaceAll("Tichu", "Taipan");
+        document.getElementById("dragon").setAttribute("src","taipanDragon.png");
+        document.getElementById("dog").setAttribute("src","taipanDog.png");
+        //document.getElementById("dog").style.bottom = "calc(20vh - 20%)";
     }
 }) 
