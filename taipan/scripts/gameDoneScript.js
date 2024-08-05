@@ -53,6 +53,8 @@ document.getElementById("gameDone").addEventListener('click', function(){
     
     round = 0; 
     players = ["", "", "", "", round];
+    team1Names = "Team 1";
+    team2Names = "Team 2";
     localStorage.setItem("taipanPlayers", JSON.stringify(players));
     const names = document.getElementsByClassName("nameInputs");
     for(let i=0; i<names.length; i++) {
@@ -84,4 +86,12 @@ document.getElementById("gameDone").addEventListener('click', function(){
     table.style.animation = 'none';
     info.style.display = "none";
     info.style.animation = 'none';
+    document.getElementById("finalScore").style.display = "none";
+    document.getElementById("finalScore").style.animation = "none";
+        
+    document.getElementById("teamSwitch").innerHTML = "Team 1";
+    var cells = document.getElementById("taipan_table").getElementsByTagName("th");
+    cells[1].innerHTML = "Team 1";
+    cells[2].innerHTML = "Team 2";
+
 })
