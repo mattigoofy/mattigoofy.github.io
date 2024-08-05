@@ -51,6 +51,9 @@ if(scoreTeam1.length > 1 && scoreTeam2.length > 1) {
 // players
 //
 var players = localStorage.getItem("taipanPlayers");
+var team1Names;
+var team2Names;
+    
 try {
     if(players == null) {
         throw "null";
@@ -63,12 +66,33 @@ try {
         }
         names.item(round).style.borderColor = "#ff4500";
         names.item(round).style.borderWidth = "5px";
+        
+        if(players[1]=="" || players[3]=="") {
+            team1Names = "Team 1";
+        } else {
+            team1Names = players[1] + " & " + players[3];
+        }
+
+        if(players[0]=="" || players[2]=="") {
+            team2Names = "Team 2";
+        } else {
+            team2Names = players[0] + " & " + players[2];
+        }
+    
     }
 } catch(e) {
     players = ["", "", "", "", round];
     names.item(round).style.borderColor = "#ff4500";
     names.item(round).style.borderWidth = "5px";
+    team1Names = "Team 1";
+    team2Names = "Team 2";
 }
+
+document.getElementById("teamSwitch").innerHTML = team1Names.length>15? "Team 1": team1Names;
+var cells = document.getElementById("taipan_table").getElementsByTagName("th");
+cells[1].innerHTML = team1Names.length>15? "Team 1": team1Names.replace("&", "&<br>");
+cells[2].innerHTML = team2Names.length>15? "Team 2": team2Names.replace("&", "&<br>");
+
 
 
 //
