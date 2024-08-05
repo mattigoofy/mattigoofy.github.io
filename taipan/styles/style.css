@@ -3,6 +3,43 @@ body {
   margin: 2vw 0 0 0;
   -webkit-text-size-adjust: 100%;
   font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+#dragon {
+  position: absolute;
+  width: 50%;
+  height: auto;
+  top: -50%;
+  z-index: 2;
+  transform: scaleX(-1);
+  /*animation: moveDragon 2s ease-out;*/
+  visibility: hidden;
+}
+
+#dog {
+  position: absolute;
+  width: 50%;
+  height: auto;
+  bottom: calc(20vh - 50%);
+  z-index: 2;
+  transform: scaleX(-1);
+  /*animation: moveDog 2s ease-out;*/
+  visibility: hidden;
+}
+
+@keyframes moveDragon {
+  /*0% {top: -50%}*/
+  0% {visibility: visible;}
+  50% {top: 0; opacity: 100%; visibility: visible;}
+  100% {opacity: 0; top: 0; visibility: visible;}
+}
+
+@keyframes moveDog {
+  /*0% {bottom: calc(20vh - 50%);}*/
+  0% {visibility: visible;}
+  50% {bottom: 20vh; opacity: 100%; visibility: visible;}
+  100% {bottom: 20vh; opacity: 0; visibility: visible;}
 }
 
 .nameInputs {
@@ -105,14 +142,21 @@ body {
   height: 20vh;
   min-height: 170px;
   width: 100%;
+  z-index: 3;
 }
 
 #taipan_table, td, th {
   border: 2px solid;
+  /*max-width: 10%;
+  max-width: 50%;
+  overflow: hidden;
+  text-overflow: hidden;
+  height: 5%;*/
 }
 
 #taipan_table {
   position: absolute;
+  table-layout: fixed;
   border-collapse: collapse;
   text-align: center;
   top: 5vw;
