@@ -1,0 +1,35 @@
+<!doctype HTML>
+<html>
+<head>
+	<title>PINGUINSSS</title>
+</head>
+<body>
+	<div id="vraag"></div><input type="text" id="antwoord" placeholder="Antwoord"><button id="submit">Submit</button>
+</body>
+<script>
+	const pinguinBandjes = ["Groen links","Groen rechts", "Blauw links","Blauw rechts", "Paars links","Paars rechts", "Zwart links","Zwart rechts"];
+	const pinguinNamen = ["kiwi","radja", "winny","luuk", "happy","arnold", "veddet","patsy"];
+	const pinguinLetters = ["k","r", "w","l", "h","a", "v","p"];
+	var index;	
+
+	function createVraag() {
+		index = Math.floor( Math.random()*pinguinBandjes.length )
+		document.getElementById("vraag").innerHTML = pinguinBandjes[index]
+	}
+
+	createVraag();
+
+	document.getElementById("submit").addEventListener('click', function() {
+		if(pinguinNamen.indexOf(document.getElementById("antwoord").value.toLowerCase()) == index
+			|| pinguinLetters.indexOf(document.getElementById("antwoord").value.toLowerCase()) == index) {
+			alert("juisttt");
+			createVraag();
+			document.getElementById("antwoord").value = "";
+			document.getElementById("antwoord").focus();
+		} else  {
+			alert("fout, probeer opnieuw");
+			document.getElementById("antwoord").focus();
+		}
+	})
+</script>
+</html>
