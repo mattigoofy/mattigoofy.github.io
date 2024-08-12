@@ -1,0 +1,138 @@
+body, html {
+    padding: 0;
+    margin: 0;
+	background: #8ec4ff;
+}
+
+body {
+    /* display: none; */
+    visibility: hidden;
+}
+
+#mainScreen {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+#mainScreen h1 {
+    font-size: 400%;
+}
+
+#logoutButton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-bottom-right-radius: 5px;
+
+}
+
+#addButtonsDiv {
+    position: absolute;
+    right: 5%;
+    top: 15%;
+    /* border-radius: 10px; */
+}
+
+#addButtonsDiv #addGroup {
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#addButtonsDiv #addItem {
+    width: 100%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#case {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    border: 10px solid #704F32;
+    border-bottom: 20px solid #704F32;
+    background-color:  #513924;
+    overflow: visible;
+    /* text-align: center; */
+}
+
+.caseFewShelfs {
+    bottom: 0;
+}
+
+.caseLotsOfShelfs {
+    top: 22%;
+}
+
+.books {
+    display: flex;
+    width: 98%;
+    height: 18vh;
+    /* background-color: green; */
+    margin: auto;
+    vertical-align: bottom;
+}
+
+.shelf {
+    width: 100%;
+    height: 5px;
+    background-color: #704F32;
+}
+
+.dvd {
+    padding: 5px 5px 5px 5px;
+    border-style: solid;
+    border-color:black ;
+    border-radius: 5px;
+    background-color: #3e3e3e;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    display: inline;
+    /* height: 150px; */
+    /* min-height: 150px; */
+    padding: 10px 5px 10px 5px;
+    max-height: 18vh;
+    animation: fadeIn 500ms;
+    overflow: hidden;
+    margin-top: 1%;
+    margin-bottom: 1px;
+}
+
+.groupdvd {
+    /* background-color: rgb(191, 187, 187); */
+    border-color: rgb(146, 128, 30);
+}
+
+
+.closeButton {
+    position: absolute;
+    right: 1%;
+    top: 4%;
+    margin: 1%;
+    border-radius: 50%; /* Circular shape */
+    width: 3vw; /* Slightly larger size for better accessibility */
+    height: 3vw;
+    background-color: #3e3e3e; /* Matching dark grey background */
+    color: white; /* White color for contrast */
+    border: none; /* Remove default border */
+    font-size: 1.5rem; /* Large font size for visibility */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    z-index: 21; /* Keep it on top of other elements */
+}
+
+.closeButton:hover {
+    background-color: #2e2e2e; /* Darker grey on hover */
+    transform: scale(1.1); /* Slightly larger on hover */
+}
+
+.closeButton:active {
+    background-color: #1e1e1e; /* Even darker grey when active */
+    transform: scale(0.95); /* Slightly smaller on click */
+}

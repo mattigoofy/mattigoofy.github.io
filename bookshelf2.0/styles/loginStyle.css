@@ -1,0 +1,94 @@
+/* Full-screen background */
+#login-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #2e2e2e;
+    font-family: Arial, sans-serif;
+    color: white;
+    position: fixed;
+    top: 0;
+    z-index: 30;
+}
+
+.login-container, .signup-container {
+    background-color: #3e3e3e;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    text-align: center;
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.signup-container {
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+.login-container.active, .signup-container.active {
+    opacity: 1;
+    transform: translateY(0);
+    z-index: 31;
+}
+
+.login-title, .signup-title {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #4c9fff; /* Blue color for titles */
+}
+
+.login-input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #2e2e2e;
+    border: none;
+    border-bottom: 2px solid #4c9fff; /* Blue bottom border */
+    color: white; /* Ensure the text color is white */
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.login-input::placeholder {
+    color: #cccccc; /* Light grey placeholder for better visibility */
+}
+
+.login-button {
+    background-color: #4c9fff; /* Blue color for the button */
+    border: none;
+    border-radius: 12px;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.login-button:hover {
+    background-color: #1c78ff; /* Darker blue on hover */
+    transform: translateY(-2px);
+}
+
+.login-text {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: grey;
+}
+
+.signup-link {
+    color: #4c9fff; /* Blue color for links */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.signup-link:hover {
+    text-decoration: underline;
+}

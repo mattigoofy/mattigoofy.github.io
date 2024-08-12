@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookshelf</title>
+    <link rel="stylesheet" href="styles/loginStyle.css">
+    <link rel="stylesheet" href="styles/mainStyle.css">
+    <link rel="stylesheet" href="styles/itemStyle.css">
+    <link rel="stylesheet" href="styles/groupStyle.css">
+</head>
+<body>
+    <div id="login-screen">
+        <div class="login-container active">
+            <h2 class="login-title">Welcome Back</h2>
+            <form id="login-form">
+                <input type="text" placeholder="Email" class="login-input" required>
+                <input type="password" placeholder="Password" class="login-input" required>
+                <button type="submit" class="login-button">Log In</button>
+            </form>
+            <p class="login-text">Don't have an account? <a href="#" class="signup-link" id="show-signup">Sign Up</a></p>
+        </div>
+    
+        <div class="signup-container" id="signup-container">
+            <h2 class="signup-title">Create an Account</h2>
+            <form id="signup-form">
+                <!-- <input type="text" placeholder="Username" class="login-input" required> -->
+                <input type="email" placeholder="Email" class="login-input" required>
+                <input type="password" placeholder="Password" class="login-input" required>
+                <button type="submit" class="login-button">Sign Up</button>
+            </form>
+            <p class="login-text">Already have an account? <a href="#" class="signup-link" id="show-login">Log In</a></p>
+        </div>
+    </div>
+    
+
+
+    <div id="mainScreen">
+        <button id="logoutButton">Log out</button>
+        <h1>My movies</h1>
+        <div id="addButtonsDiv">
+            <button id="addGroup">Add group</button><br>
+            <button id="addItem">Add item</button>
+        </div>
+        <div id="case" class="caseFewShelfs">
+            <div class="books" id="books0">
+            </div>
+        </div>
+    </div>
+
+    
+
+    <div id="groupScreen" style="display:none;">
+        <div class="leftContainer">
+            <input type="text" id="groupTitleInput" class="titleInput" placeholder="Title"><br>
+            <input type="text" id="groupRegisseurInput" class="regisseurInput" placeholder="Regisseur"><br>
+            <div class="seenPlaytimeContainer">
+                <label class="seenLabel">
+                    Watched &nbsp &nbsp 
+                    <!-- <button id="seenMinus">-</button> -->
+                    <input type="num" id="groupSeenInput" class="SeenInput" value="0" disabled="true">
+                    <!-- <button id="seenPlus">+</button> -->
+                </label> 
+                <label class="playtimeLabel">Playtime: <input type="num" class="playtimeInput" id="groupPlaytimeInput" disabled="true"> min</label>
+            </div>
+            <br>
+
+            <div class="dropdown-container">
+                <label class="dropdownLabel">Select Genre:</label>
+                <div class="dropdown">
+                    <div class="dropdown-button" id="groupGenres">None</div>
+                </div>
+            </div>
+            <br>
+            
+            <label class="scoreLabel">Score <input type="num" id="groupScoreInput" class="scoreInput" disabled="true">/5</label>
+            
+            <div class="extraInfoContainer">
+                <label class="extraInfoLabel">Extra info</label>
+                <textarea class="extraInfoInput" id="groupExtraInfoInput" rows="6"></textarea>
+            </div>
+            <br>
+            <button class="addButton" id="groupAddButton">ADD</button>
+            <br>
+            <button class="delete-button" id="deleteGroupButton">Delete</button>
+        </div>
+
+        <div class="rightContainer">
+            <div id="moviesContainer">
+                <button id="addMoviesToGroupButton">+</button>
+                <div id="moviesInGroup">
+                </div>
+            </div>
+            
+        </div>
+        <button class="closeButton">X</button>
+    </div>
+
+
+
+    <div id="itemScreen">
+        <button class="closeButton">X</button>
+        <div class="leftContainer">
+            <input type="text" id="itemTitleInput" class="titleInput" placeholder="Title"><br>
+            <input type="text" id="itemRegisseurInput" class="regisseurInput" placeholder="Regisseur"><br>
+            <div class="seenPlaytimeContainer">
+                <label class="seenLabel">
+                    Watched &nbsp &nbsp 
+                    <button id="seenMinus">-</button>
+                    <input type="num" id="itemSeenInput" class="SeenInput" value="0">
+                    <button id="seenPlus">+</button>
+                </label> 
+                <label class="playtimeLabel">Playtime: <input type="num" class="playtimeInput" id="itemPlaytimeInput"> min</label>
+            </div>
+            <br>
+
+            <div class="dropdown-container">
+                <label class="dropdownLabel">Select Genre:</label>
+                <div class="dropdown">
+                    <button class="dropdown-button" id="dropdownButton">Options ▼</button>
+                    <div class="dropdown-content" id="genreSelect">
+                        <!-- <label>
+                            <input type="checkbox" value="Option 1"> Option 1
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Option 2"> Option 2
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Option 3"> Option 3
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Option 4"> Option 4
+                        </label> -->
+                    </div>
+                </div>
+            </div>
+            <br>
+            
+            <label class="scoreLabel">Score <input type="num" id="itemScoreInput" class="scoreInput">/5</label>
+            <br><br>
+        </div>
+
+        <div class="rightContainer">
+            <div class="extraInfoContainer">
+                <label class="extraInfoLabel">Actors</label>
+                <textarea id="actorsInput" rows="2"></textarea>
+            </div>
+            <div class="extraInfoContainer">
+                <label class="extraInfoLabel">Extra info</label>
+                <textarea class="extraInfoInput" id="itemExtraInfoInput" rows="6"></textarea>
+            </div>
+            <br><br>
+            <button class="addButton" id="itemAddButton">ADD</button>
+            <br><br>
+            <button class="delete-button" id="deleteItemButton">Delete</button>
+        </div>
+    </div>
+</body>
+
+<script type="module" src="scripts/firebase.js"></script>
+<script type="module">
+    import { signin, login, logout } from "./scripts/firebase.js";
+    firebase.signin = signin;
+    firebase.login = login;
+    firebase.logout = logout;
+</script>
+<script src="scripts/loginScript.js"></script>
+<script src="scripts/mainScript.js"></script>
+<script src="scripts/itemScript.js"></script>
+<script src="scripts/groupScript.js"></script>
+
+</html>

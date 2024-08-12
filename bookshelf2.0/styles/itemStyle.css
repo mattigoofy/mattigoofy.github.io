@@ -1,0 +1,343 @@
+#itemScreen {
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background-color: white; */
+    z-index: 20;
+}
+
+
+
+
+/*  */
+/* Left_container */
+/*  */
+.leftContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    right: 50%;
+    width: 45%; 
+    height: 66%;
+    top: 5%;    
+    text-align: center;
+    background-color: #2e2e2e; /* Darker grey to resemble inner case */
+    border-right: 3px solid #000; /* Emphasized border to resemble the spine */
+    padding: 10% 2% 2% 2%;
+    box-shadow: inset 0 0 10px #000; /* Adds a shadow to give it depth */
+}
+
+
+/* Title */
+.titleInput {
+    width: 80%; /* Adjusted for better placement */
+    margin-bottom: 0;
+    font-size: 200%;
+    color: white; /* White text for better contrast */
+    background-color: #3e3e3e; /* Slightly lighter background */
+    border: none;
+    padding: 3%;
+}
+
+
+/* Regisseur */
+.regisseurInput {
+    width: 80%;
+    margin-bottom: 5%;
+    color: white;
+    background-color: #3e3e3e;
+    border: none;
+    padding: 3%;
+}
+
+
+/* Seen_playtim */
+.seenPlaytimeContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 5%;
+}
+
+    /* Seen */
+    .seenLabel {
+        color: grey;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #seenMinus, #seenPlus, .SeenInput {
+        margin: 0;
+        height: 24px; /* Further reduced height */
+        border: none;
+        color: white;
+        background-color: grey;
+    }
+
+    #seenMinus, #seenPlus {
+        width: 24px; /* Further reduced width */
+        background-color: grey;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    #seenMinus {
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+    }
+
+    .SeenInput {
+        width: 36px; /* Further reduced width */
+        background-color: #3e3e3e;
+        text-align: center;
+        border-left: 1px solid grey;
+        border-right: 1px solid grey;
+        outline: none;
+        font-size: 0.8rem; /* Reduced font size */
+    }
+
+    #seenPlus {
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    /* playtime */
+    .playtimeLabel {
+        display: inline-block;
+        color: grey;
+    }
+
+    .playtimeInput {
+        color: white;
+        width: 36px;
+        height: 24px;
+        background-color: #3e3e3e;
+        text-align: center;
+        /* border-left: 1px solid grey;
+        border-right: 1px solid grey; */
+        border: none;
+        outline: none;
+        font-size: 0.8rem;
+    }
+
+
+
+/* genre */
+.dropdown-container {
+    display: inline-block;
+    position: relative;
+    margin-right: 20px;
+    color: grey;
+    margin-bottom: 3%;
+}
+
+.dropdownLabel {
+    margin-right: 10px;
+    color: grey;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-button {
+    background-color: #3e3e3e;
+    color: white;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dropdown-button:hover {
+    background-color: grey;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #3e3e3e;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 12px;
+    z-index: 1;
+    padding: 12px;
+}
+
+.dropdown-content label {
+    display: block;
+    color: white;
+    padding: 8px 0;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.dropdown-content label:hover {
+    background-color: grey;
+    border-radius: 8px;
+    padding-left: 8px;
+}
+
+.dropdown-content input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Score */
+.scoreLabel {
+    color: grey;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.scoreInput {
+    width: 20px; /* Small width to match the font size */
+    height: auto; /* Auto height to match the text line height */
+    color: white;
+    background-color: transparent; /* Transparent background to blend with the text */
+    border: none; /* No border to blend in with the text */
+    border-bottom: 1px solid grey; /* Thin underline to subtly indicate it's an input */
+    text-align: center;
+    outline: none;
+    font-size: 1rem; /* Same font size as the text */
+    padding: 0; /* No padding to keep it tight */
+    margin: 0 4px; /* Small margin to separate from the surrounding text */
+    line-height: 1rem; /* Match the line height to keep it aligned */
+}
+
+
+
+
+
+
+/*  */
+/* right_contaienr */
+/*  */
+.rightContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    left: 50%;
+    width: 45%; 
+    height: 66%;
+    top: 5%;    
+    text-align: center;
+    background-color: #2e2e2e; /* Darker grey to resemble inner case */
+    border-right: 3px solid #000; /* Emphasized border to resemble the spine */
+    padding: 10% 2% 2% 2%;
+    box-shadow: inset 0 0 10px #000; /* Adds a shadow to give it depth */
+}
+
+/* actors */
+#actorsInput {
+    width: 100%; /* Full width of the parent container */
+    height: auto;
+    color: white;
+    background-color: #3e3e3e; /* Matching background color for consistency */
+    border: none;
+    border-radius: 8px; /* Rounded corners for a modern look */
+    padding: 10px; /* Padding for text inside the textarea */
+    font-size: 1rem; /* Consistent font size */
+    outline: none;
+    resize: none; /* Allow vertical resizing */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); /* Subtle inner shadow for depth */
+}
+
+/* extra_info */
+.extraInfoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 80%;
+    margin-bottom: 10px;
+}
+
+.extraInfoLabel {
+    color: grey;
+    font-size: 1rem;
+    margin-bottom: 5px; /* Small space between label and textarea */
+}
+
+.extraInfoInput {
+    width: 100%; /* Full width of the parent container */
+    height: auto;
+    /* min-height: 80px; Minimum height to ensure it's not too small */
+    color: white;
+    background-color: #3e3e3e; /* Matching background color for consistency */
+    border: none;
+    border-radius: 8px; /* Rounded corners for a modern look */
+    padding: 10px; /* Padding for text inside the textarea */
+    font-size: 1rem; /* Consistent font size */
+    outline: none;
+    resize: none; /* Allow vertical resizing */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); /* Subtle inner shadow for depth */
+}
+
+.extraInfoInput:focus {
+    border: 1px solid grey; /* Subtle border */
+}
+
+/* add_button */
+.addButton {
+    background-color: #3e3e3e; /* Dark grey background */
+    color: white; /* White text for contrast */
+    padding: 16px 32px; /* Increased padding for a much bigger button */
+    font-size: 1.5rem; /* Larger font size for better visibility */
+    border: 1px solid grey; /* Subtle border for definition */
+    border-radius: 12px; /* Rounded corners for a modern look */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+}
+
+.addButton:hover {
+    background-color: #2e2e2e; /* Slightly darker grey on hover */
+    transform: translateY(-4px); /* More pronounced lift effect on hover */
+}
+
+.addButton:active {
+    background-color: #1e1e1e; /* Even darker grey when active */
+    transform: translateY(0); /* Reset the lift effect when active */
+}
+
+
+
+.delete-button {
+    display: none;
+    background-color: #ff4c4c; /* Red color for delete action */
+    border: none; /* Remove default border */
+    border-radius: 12px; /* Slightly rounded corners */
+    color: white; /* Text color */
+    padding: 10px 20px; /* Padding for a balanced look */
+    font-size: 1rem; /* Font size for readability */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition effects */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+.delete-button:hover {
+    background-color: #ff1c1c; /* Darker red on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.delete-button:active {
+    background-color: #d90000; /* Even darker red when pressed */
+    transform: translateY(0); /* Remove lift on click */
+}

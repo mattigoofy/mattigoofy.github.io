@@ -1,0 +1,97 @@
+#groupScreen {
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    text-align: center;
+    justify-content: center;
+    align-items: center;    
+}
+
+#groupScreen .leftContainer {
+    padding: 2%;
+    height: 82.9%;
+    /* height: 80.6%; */
+}
+
+#groupGenres {
+    color: grey;
+}
+
+#groupGenres:hover {
+    background-color: #3e3e3e;
+}
+
+
+
+#moviesContainer {
+    position: absolute;
+    padding: 20px;
+    border: 2px solid #3e3e3e; /* Subtle border for the container */
+    border-radius: 12px; /* Rounded corners for a modern look */
+    background-color: #2e2e2e; /* Dark background to match the theme */
+    width: 80%;
+    /* margin: 2%; */
+    top:5%;
+    height: 80%;
+}
+
+#addMoviesToGroupButton {
+    position: absolute;
+    top: 10px; /* Position the button inside the container */
+    right: 10px;
+    width: 40px; /* Increased size for better usability */
+    height: 40px;
+    background-color: #3e3e3e; /* Matching background color */
+    color: white; /* White text for contrast */
+    border: none; /* Remove default border */
+    border-radius: 50%; /* Circular shape */
+    font-size: 1.5rem; /* Large font size for visibility */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+#addMoviesToGroupButton:hover {
+    background-color: #2e2e2e; /* Darker grey on hover */
+    transform: scale(1.1); /* Slightly larger on hover */
+}
+
+#addMoviesToGroupButton:active {
+    background-color: #1e1e1e; /* Even darker grey when active */
+    transform: scale(0.95); /* Slightly smaller on click */
+}
+
+#moviesInGroup {
+    display: flex;
+    flex-wrap: wrap-reverse; /* Allow items to wrap and reverse the order */
+    align-content: flex-start; /* Start filling from the bottom */
+    padding: 20px;
+    padding-bottom: 0;
+    margin-top: 50px;
+    background-color: #3e3e3e;
+    border-radius: 12px;
+    overflow-y: auto;
+    height: 82%;
+    border: 2px solid #3e3e3e;
+}
+
+.dvdInGroup {
+    padding: 10px 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #2e2e2e;
+    margin: 5px 20% 0 20%;
+    max-height: 18vh;
+    overflow: hidden;
+    width: 40%; /* Control the width of each item */
+    animation: fadeIn 500ms;
+    flex-shrink: 0; /* Prevent items from shrinking */
+    flex-grow: 1; /* Allow items to grow and fill space */
+}
