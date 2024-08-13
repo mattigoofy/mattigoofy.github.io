@@ -63,7 +63,6 @@
                 </label> 
                 <label class="playtimeLabel">Playtime: <input type="num" class="playtimeInput" id="groupPlaytimeInput" disabled="true"> min</label>
             </div>
-            <br>
 
             <div class="dropdown-container">
                 <label class="dropdownLabel">Select Genre:</label>
@@ -71,7 +70,6 @@
                     <div class="dropdown-button" id="groupGenres">None</div>
                 </div>
             </div>
-            <br>
             
             <label class="scoreLabel">Score <input type="num" id="groupScoreInput" class="scoreInput" disabled="true">/5</label>
             
@@ -79,7 +77,6 @@
                 <label class="extraInfoLabel">Extra info</label>
                 <textarea class="extraInfoInput" id="groupExtraInfoInput" rows="6"></textarea>
             </div>
-            <br>
             <button class="addButton" id="groupAddButton">ADD</button>
             <br>
             <button class="delete-button" id="deleteGroupButton">Delete</button>
@@ -159,10 +156,15 @@
 
 <script type="module" src="scripts/firebase.js"></script>
 <script type="module">
-    import { signin, login, logout } from "./scripts/firebase.js";
+    import { signin, login, logout, writeItem, writeGroup, readItem, readGroup, deleteNode } from "./scripts/firebase.js";
     firebase.signin = signin;
     firebase.login = login;
     firebase.logout = logout;
+    firebase.writeItem = writeItem;
+    firebase.writeGroup = writeGroup;
+    firebase.readItem = readItem;
+    firebase.readGroup = readGroup;
+    firebase.deleteNode = deleteNode;
 </script>
 <script src="scripts/loginScript.js"></script>
 <script src="scripts/mainScript.js"></script>

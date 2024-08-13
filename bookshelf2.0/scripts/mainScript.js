@@ -1,7 +1,10 @@
 const firebase = {};
 var currentItems = "movies";
 
+var itemsNotYetStored = [];
+
 const amountOfStartingSHelfs = 4;
+var currentShelf = 0;
 
 var amountOfShelfs = 1;
 function createShelfs() {
@@ -34,14 +37,14 @@ document.getElementById("addItem").addEventListener('click', function(){
     disableAllInputs(false, "item")
     document.getElementById("itemScreen").style.display = "flex";
     document.getElementById("itemAddButton").innerHTML = "ADD";
-    addInfoToItem("");
+    firebase.readItem(null, false);
 })
 
 document.getElementById("addGroup").addEventListener('click', function(){
     disableAllInputs(false, "group")
     document.getElementById("groupScreen").style.display = "flex";
     document.getElementById("groupAddButton").innerHTML = "ADD";
-    addInfoToGroup("");
+    firebase.readGroup(null);
 })
 
 
@@ -52,6 +55,7 @@ const closeButtons = document.getElementsByClassName("closeButton");
 closeButtons[0].addEventListener('click', function() {
     document.getElementById("groupScreen").style.display = "none";
     document.getElementById("deleteGroupButton").style.display = "none";
+    itemsNotYetStored = [];
 })
 closeButtons[1].addEventListener('click', function() {
     document.getElementById("itemScreen").style.display = "none";

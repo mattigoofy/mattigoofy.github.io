@@ -171,11 +171,36 @@
     position: absolute;
     background-color: #3e3e3e;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     border-radius: 12px;
     z-index: 1;
     padding: 12px;
+    left: 0;
+    scrollbar-width: thin;
+    scrollbar-color: grey #3e3e3e;
 }
+
+/* WebKit Browsers */
+.dropdown-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.dropdown-content::-webkit-scrollbar-thumb {
+    background-color: grey;
+    border-radius: 10px;
+}
+
+.dropdown-content::-webkit-scrollbar-thumb:hover {
+    background-color: #5a5a5a;
+}
+
+.dropdown-content::-webkit-scrollbar-track {
+    background-color: #3e3e3e;
+    border-radius: 10px;
+}
+
 
 .dropdown-content label {
     display: block;
@@ -183,6 +208,7 @@
     padding: 8px 0;
     font-size: 0.8rem;
     cursor: pointer;
+    text-align: left; /* Left align text */
 }
 
 .dropdown-content label:hover {
@@ -197,7 +223,10 @@
 
 .dropdown:hover .dropdown-content {
     display: block;
+    right: auto; /* Reset right positioning to avoid overflow */
+    left: 0; /* Align dropdown content to the left */
 }
+
 
 /* Score */
 .scoreLabel {
