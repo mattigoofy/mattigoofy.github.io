@@ -116,6 +116,7 @@ export function logout() {
 // write_item_function
 //
 export function writeItem(relativePath, title, regisseur, timesWatched, playtime, genres, score, actors, extraInfo) {
+    var titleChanged = false;
     set(ref(db, basicPath + "/" + relativePath + "/" + title), {
         title: title,
         regisseur: regisseur,
