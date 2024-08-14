@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Background</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body class="light-theme">
+
+    <!-- Photos Section -->
+    <div id="photo-gallery">
+        <img src="Renée1.jpg" class="photo active">
+        <img src="Renée2.jpg" class="photo">
+        <img src="Renée3.jpg" class="photo">
+        <img src="Renée4.jpg" class="photo">
+        <img src="Renée5.jpg" class="photo">
+        <img src="Renée6.jpg" class="photo">
+        <img src="Renée7.jpg" class="photo">
+        <img src="Renée8.jpg" class="photo">
+        <img src="Renée9.jpg" class="photo">
+        <img src="Renée10.jpg" class="photo">
+        <img src="Renée11.jpeg" class="photo">
+    </div>
+  
+    <div id="topBeam"></div>
+
+    <!-- Clock and Dropdown for Weather -->
+    <div id="info">
+        <div id="clock">00:00:00<br>14 Aug '24</div>
+        <button id="toggle-weather">☰</button>
+        <button id="pause-music">&#10073;&#10073;</button>
+        <div id="weather" class="hidden">Weather Info Here</div>
+    </div>
+
+    <!-- Star Wars Animation -->
+    <div id="star-wars">
+        <div class="tie-fighter"></div>
+        <div class="x-wing"></div>
+    </div>
+
+    <!-- Music Player -->
+    <audio id="background-music" loop>
+        <source src="path_to_music.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- Theme Toggle -->
+    <button id="theme-toggle">Switch Theme</button>
+
+    <script src="scripts/script.js"></script>
+</body>
+</html>
