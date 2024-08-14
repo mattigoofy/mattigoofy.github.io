@@ -1,0 +1,139 @@
+/* General styling */
+/* Ensure the body and html have no margins and take up full width */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Arial, sans-serif;
+}
+
+#topBeam {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;  /* Ensures it spans the full width */
+    width: 100%;
+    height: 20px;
+    background-color: white; /* Default to light theme color */
+}
+
+.light-theme #topBeam {
+    background-color: white;
+}
+
+.dark-theme #topBeam {
+    background-color: black;
+}
+
+/* Other styling remains unchanged... */
+
+.light-theme {
+    background-color: #f0f0f0;
+    color: black;
+}
+
+.dark-theme {
+    background-color: #2b2b2b;
+    color: white;
+}
+
+/* Photo Gallery Styling */
+#photo-gallery {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 90%;
+    height: 90%;
+    overflow: hidden; /* Prevent overflow of animations */
+}
+
+.photo {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 2s ease, transform 1s ease;
+}
+
+.photo.active {
+    opacity: 1;
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Clock and Weather */
+#info {
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    width: 100%;
+}
+
+#clock {
+    font-size: 18px;
+}
+
+#toggle-weather {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%); /* Center vertically */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+#weather {
+    margin-top: 10px;
+    display: none;
+}
+
+#weather.shown {
+    display: block;
+}
+
+/* Star Wars Animation */
+#star-wars {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.tie-fighter, .x-wing {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-image: url('path_to_tie_fighter.png');
+    animation: fly 10s linear infinite;
+}
+
+/* Music Player Controls */
+#pause-music {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%); /* Center vertically */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+/* Theme Toggle Button */
+#theme-toggle {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
