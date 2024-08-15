@@ -370,3 +370,40 @@
     background-color: #d90000; /* Even darker red when pressed */
     transform: translateY(0); /* Remove lift on click */
 }
+
+
+
+
+
+#itemScreen {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* Styles for individual containers */
+.left-container,
+.right-container {
+    flex: 1;
+    padding: 10px;
+}
+
+
+
+
+
+/* Responsive layout for smaller screens (phone) */
+@media (max-width: 768px) {
+    #itemScreen {
+        flex-direction: column;
+        /* text-align: center; */
+    }
+
+    .leftContainer,
+    .rightContainer {
+        position: static;
+        transform: translateX(2.5%);
+        width: 90%;
+    }
+}
+
