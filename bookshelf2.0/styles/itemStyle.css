@@ -373,20 +373,20 @@
 
 
 
-
+/* 
 
 #itemScreen {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
+}*/
 
 /* Styles for individual containers */
-.left-container,
+/*.left-container,
 .right-container {
     flex: 1;
     padding: 10px;
-}
+} */
 
 
 
@@ -397,7 +397,7 @@
     #itemScreen, #groupScreen {
         flex-direction: column;
         /* text-align: center; */
-        display: flex;
+        /* display: none; */
         overflow-y: auto;
     }
 
@@ -406,6 +406,10 @@
         position: static;
         transform: translateX(2.5%);
         width: 90%;
+    }
+
+    #case {
+        top: 25%;
     }
 }
 
