@@ -1,0 +1,27 @@
+/* Responsive layout for smaller screens (phone) */
+@media (max-width: 768px) {
+    #itemScreen, #groupScreen {
+        flex-direction: column;
+        /* text-align: center; */
+        /* display: none; */
+        overflow-y: auto;
+    }
+
+    #itemScreen .leftContainer,
+    #itemScreen .rightContainer {
+        position: static;
+        transform: translateX(2.5%);
+        width: 90%;
+    }
+
+    #groupScreen .leftContainer,
+    #groupScreen .rightContainer {
+        position: static;
+        transform: translateX(0%);
+        width: 90%;
+    }
+
+    #case {
+        top: 23%;
+    }
+}
