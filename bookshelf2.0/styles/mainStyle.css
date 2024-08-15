@@ -99,6 +99,7 @@ body {
     margin-top: 1%;
     margin-bottom: 1px;
     cursor: pointer;
+    color: lightgrey;
 }
 
 .dvd:hover {
