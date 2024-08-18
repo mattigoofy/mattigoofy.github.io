@@ -64,9 +64,10 @@ document.getElementById("itemAddButton").addEventListener('click', function() {
             var groupTitle = null;
             if(inGroup) {
                 groupTitle = document.getElementById("groupTitleInput").value;
-                // firebase.writeItem(groupTitle, title, regisseur, timesSeen, playtime, selectedOptions, score, actors, extraInfo);
-                itemsNotYetStored.push({groupTitle, title, regisseur, timesSeen, playtime, genres, score, actors, extraInfo});
-                createDVDonShelf(false, groupTitle, title, title);
+                firebase.writeItem(groupTitle, title, regisseur, timesSeen, playtime, genres, score, actors, extraInfo);
+                // itemsNotYetStored.push({groupTitle, title, regisseur, timesSeen, playtime, genres, score, actors, extraInfo});
+                // createDVDonShelf(false, groupTitle, title, title);
+                // firebase.writeItem("", title, regisseur, timesSeen, playtime, genres, score, actors, extraInfo);
             } else {
                 firebase.writeItem("", title, regisseur, timesSeen, playtime, genres, score, actors, extraInfo);
             }

@@ -231,24 +231,27 @@ export function readGroup(key) {
                 if(item.val().title != null){
                     createDVDonShelf(false, snapchot.val().groupTitle, item.val().title, item.val().title);
                     averageScore += parseInt(item.val().score);
-                    item.val().genres.forEach(genre => {
-                        if(!genres.includes(genre)) {
-                            genres.push(genre);
-                        }
-                    })
+                    console.log(item.val().genres);
+                    if(item.val().genres != undefined) {
+                        item.val().genres.forEach(genre => {
+                            if(!genres.includes(genre)) {
+                                genres.push(genre);
+                            }
+                        })
+                    }
                     totalTimesSeen += parseInt(item.val().timesWatched);
                     totalPlaytime += parseInt(item.val().playtime == ""? 0: item.val().playtime);
                     counter++;
                 }
             })
             if(counter > 0) {
-                averageScore /= counter;
+                averageScore = Math.round(averageScore / counter);
                 totalTimesSeen = Math.floor(totalTimesSeen/counter);
             }
 
             document.getElementById("groupSeenInput").value = totalTimesSeen;   
             document.getElementById("groupPlaytimeInput").value = totalPlaytime;
-            document.getElementById("groupGenres").innerHTML = genres.lenth > 0? genres.join(", "): "None";
+            document.getElementById("groupGenres").innerHTML = genres.length > 0? genres.join(", "): "None";
             document.getElementById("groupScoreInput").value = averageScore;
         })
     } else {
