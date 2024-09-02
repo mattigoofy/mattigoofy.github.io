@@ -150,6 +150,15 @@ export function writeGroup(relativePath, title, regisseur, extraInfo, itemsNotYe
 // updateShelfs
 // 
 function updateShelfs() {
+    filterShelfs("",{"score": [], "timesWatched": "", "genres": []});
+}
+
+
+
+//
+// search&filterShelfs
+//
+export function filterShelfs(searchValue, filterValues) {
     onValue(ref(db, basicPath), (snapchot) => {
         for(let i=0; i<=currentShelf; i++) {
             document.getElementById("books" + i).innerHTML = "";
@@ -159,9 +168,57 @@ function updateShelfs() {
         snapchot.forEach(item => {
             // console.log(item.val().score);
             if(item.val().score == undefined) {
-                createDVDonShelf(true, null, item.val().groupTitle, item.val().groupTitle);
+                // console.log(item.val()["poep"])
+                if(item.val().groupTitle.toLowerCase().includes(searchValue.toLowerCase()) || searchValue.toLowerCase().includes(item.val().groupTitle.toLowerCase()) || 
+                   item.val().groupRegisseur.toLowerCase().includes(searchValue.toLowerCase()) || 
+                   item.val().groupInfo.toLowerCase().includes(searchValue.toLowerCase()) ) {
+                    
+                    var keys = Object.keys(item.val());
+                    var checkBooks = false;
+                    for(let i=0; i<keys.length; i++) {
+                        var book = item.val()[Object.keys(item.val())[i]];
+                        console.log(item.val()[Object.keys(item.val())[i]])
+
+                        var checkScores = false;
+                        filterValues.score.map(i => {if(item.val().score == i) {
+                                                            checkScores = true;
+                                                        }});
+
+                        var checkGenres = true;
+                        filterValues.genres.map(i => {if(!item.val().genres.includes(i)){
+                                                            checkGenres = false;
+                                                        }})
+
+                        if((checkScores || filterValues.score == "") && 
+                            (checkGenres || filterValues.generes == "")) {
+                            checkBooks = true;
+                        }
+                    }
+
+                    createDVDonShelf(true, null, item.val().groupTitle, item.val().groupTitle);
+                }
             } else {
-                createDVDonShelf(false, null, item.val().title, item.val().title);
+                // console.log(item.val())
+                if(item.val().title.toLowerCase().includes(searchValue.toLowerCase()) || searchValue.toLowerCase().includes(item.val().title.toLowerCase()) || 
+                   item.val().regisseur.toLowerCase().includes(searchValue.toLowerCase()) || 
+                   item.val().extraInfo.toLowerCase().includes(searchValue.toLowerCase()) || 
+                   item.val().actors.toLowerCase().includes(searchValue.toLowerCase()) ) {
+
+                    var checkScores = false;
+                    filterValues.score.map(i => {if(item.val().score == i) {
+                                                        checkScores = true;
+                                                    }});
+
+                    var checkGenres = true;
+                    filterValues.genres.map(i => {if(!item.val().genres.includes(i)){
+                                                        checkGenres = false;
+                                                    }})
+
+                    if((checkScores || filterValues.score == "") && 
+                        (checkGenres || filterValues.generes == "")) {
+                        createDVDonShelf(false, null, item.val().title, item.val().title);
+                    }
+                }
             }
         })
     })
@@ -181,7 +238,7 @@ export function readItem(path) {
             document.getElementById("itemPlaytimeInput").value = snapchot.val().playtime;
             if(snapchot.val().genres != undefined) {
                 document.getElementById("dropdownButton").innerHTML = snapchot.val().genres.join(', ');
-                document.querySelectorAll('.dropdown-content input[type="checkbox"]').forEach(checkbox => {
+                document.querySelectorAll('#genreSelect input[type="checkbox"]').forEach(checkbox => {
                     if (snapchot.val().genres.includes(checkbox.value)) {
                         checkbox.checked = true;
                     } else {
@@ -199,7 +256,7 @@ export function readItem(path) {
         document.getElementById("itemSeenInput").value = "0";   
         document.getElementById("itemPlaytimeInput").value = "";
         document.getElementById("dropdownButton").innerHTML = "Options ▼";
-        document.querySelectorAll('.dropdown-content input[type="checkbox"]').forEach(checkbox => {
+        document.querySelectorAll('#genreSelect input[type="checkbox"]').forEach(checkbox => {
             checkbox.checked = false;
         });
         document.getElementById("itemScoreInput").value = "";
@@ -230,8 +287,9 @@ export function readGroup(key) {
             snapchot.forEach(item => {
                 if(item.val().title != null){
                     createDVDonShelf(false, snapchot.val().groupTitle, item.val().title, item.val().title);
-                    averageScore += parseInt(item.val().score);
-                    console.log(item.val().genres);
+                    console.log(item.val().score)
+                    averageScore += parseInt(item.val().score != ""? item.val().score: 0);
+                    // console.log(item.val().genres);  
                     if(item.val().genres != undefined) {
                         item.val().genres.forEach(genre => {
                             if(!genres.includes(genre)) {
@@ -244,10 +302,15 @@ export function readGroup(key) {
                     counter++;
                 }
             })
+            console.log(averageScore)
             if(counter > 0) {
                 averageScore = Math.round(averageScore / counter);
                 totalTimesSeen = Math.floor(totalTimesSeen/counter);
             }
+            // console.log(totalTimesSeen)
+            // console.log(totalPlaytime)
+            // console.log(genres.length > 0? genres.join(", "):"None")
+            console.log(averageScore)
 
             document.getElementById("groupSeenInput").value = totalTimesSeen;   
             document.getElementById("groupPlaytimeInput").value = totalPlaytime;
@@ -302,17 +365,29 @@ function imInside() {
 
             onValue(genreRef, (snapchot) => {
                 snapchot.forEach(genre => {
-                    var lbl = document.createElement("label");
-                    var input = document.createElement("input");
-                    input.setAttribute('type', "checkbox");
-                    input.setAttribute('value', genre.val());
-                    input.addEventListener('change', updateButtonText);
-
-                    lbl.appendChild(input);
-                    lbl.appendChild(document.createTextNode(genre.val()));
+                    var lbl = createDropdownItem(updateButtonText, genre, false);
                     document.getElementById("genreSelect").appendChild(lbl);
+
+                    var lbl2 = createDropdownItem(filter, genre, true);
+                    document.getElementById("filterSelect").appendChild(lbl2);
                 });
             })
         }
     })
+}
+
+
+function createDropdownItem(eventHandler, genre, needsFor){
+    var lbl = document.createElement("label");
+    var input = document.createElement("input");
+    input.setAttribute('type', "checkbox");
+    input.setAttribute('value', genre.val());
+    input.addEventListener('change', eventHandler);
+    if(needsFor) {
+        input.setAttribute('for', 'genres');
+    }
+
+    lbl.appendChild(input);
+    lbl.appendChild(document.createTextNode(genre.val()));
+    return lbl;
 }

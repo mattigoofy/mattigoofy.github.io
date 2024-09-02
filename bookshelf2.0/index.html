@@ -43,6 +43,33 @@
             <button id="addGroup">Add group</button><br>
             <button id="addItem">Add item</button>
         </div>
+
+        <div id="search-filter">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search...">
+            </div>
+            <div class="dropdown-container">
+                <!-- <label class="dropdownLabel">Filter:</label> -->
+                <div class="dropdown">
+                    <div class="dropdown-button">None</div>
+                    <div class="dropdown-content" id="filterSelect">
+                        <div id="scoresFilters">Scores</div>
+                        <label><input for="score" class="filters" type="checkbox" value="1">1/5</label>
+                        <label><input for="score" class="filters" type="checkbox" value="2">2/5</label>
+                        <label><input for="score" class="filters" type="checkbox" value="3">3/5</label>
+                        <label><input for="score" class="filters" type="checkbox" value="4">4/5</label>
+                        <label><input for="score" class="filters" type="checkbox" value="5">5/5</label>
+
+                        <div id="watchedFilter">Watched</div>
+                        <label>Watched: <input for="timesWatched" class="filters" type="text"></label>
+
+                        <div>Genres</div>
+                        <!-- Add more genres as needed -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="case" class="caseFewShelfs">
             <div class="books" id="books0">
             </div>
@@ -156,7 +183,7 @@
 
 <script type="module" src="scripts/firebase.js"></script>
 <script type="module">
-    import { signin, login, logout, writeItem, writeGroup, readItem, readGroup, deleteNode } from "./scripts/firebase.js";
+    import { signin, login, logout, writeItem, writeGroup, readItem, readGroup, deleteNode, filterShelfs } from "./scripts/firebase.js";
     firebase.signin = signin;
     firebase.login = login;
     firebase.logout = logout;
@@ -165,6 +192,7 @@
     firebase.readItem = readItem;
     firebase.readGroup = readGroup;
     firebase.deleteNode = deleteNode;
+    firebase.filterShelfs = filterShelfs;
 </script>
 <script src="scripts/loginScript.js"></script>
 <script src="scripts/mainScript.js"></script>

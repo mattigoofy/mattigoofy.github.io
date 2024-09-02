@@ -142,3 +142,43 @@ body {
     background-color: #1e1e1e; /* Even darker grey when active */
     transform: scale(0.95); /* Slightly smaller on click */
 }
+
+
+
+/* Search Input Styles */
+.search-container {
+    display: inline-block;
+    position: relative;
+    margin-right: 20px;
+    margin-bottom: 3%;
+}
+
+.search-input {
+    width: 120px;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    border: 2px solid #3e3e3e;
+    border-radius: 12px;
+    transition: width 0.4s ease-in-out;
+    color: white;
+    background-color: #3e3e3e;
+}
+
+.search-input::placeholder {
+    color: grey;
+}
+
+.search-input:focus, .search-input:hover {
+    width: 240px;
+    outline: none;
+}
+
+#search-filter {
+    position: absolute;
+    left: 5%;
+    top: 15%;
+}
+
+/* #search-filter .dropdown-button {
+    color: grey;
+} */

@@ -227,6 +227,25 @@
     left: 0; /* Align dropdown content to the left */
 }
 
+/* CSS for the input inside the filter option */
+.dropdown-content input[type="text"] {
+    width: 20px;
+    padding: 4px;
+    font-size: 0.8rem;
+    border: 1px solid grey;
+    border-radius: 4px;
+    text-align: center;
+    color: white;
+    background-color: #3e3e3e;
+    margin-left: 5px;
+}
+
+/* Ensure the label and input are next to each other */
+.dropdown-content label {
+    display: flex;
+    align-items: center;
+}
+
 
 /* Score */
 .scoreLabel {
