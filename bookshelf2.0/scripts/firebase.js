@@ -116,8 +116,9 @@ export function logout() {
 // write_item_function
 //
 export function writeItem(relativePath, title, regisseur, timesWatched, playtime, genres, score, actors, extraInfo) {
-    var titleChanged = false;
-    set(ref(db, basicPath + "/" + relativePath + "/" + title), {
+    var key = "i-" + createKey();       // i for item
+    set(ref(db, basicPath + "/" + relativePath + "/" + key), {
+        key: key,
         title: title,
         regisseur: regisseur,
         timesWatched: timesWatched,
@@ -137,7 +138,9 @@ export function writeGroup(relativePath, title, regisseur, extraInfo, itemsNotYe
     itemsNotYetStored.forEach(item => {
         writeItem(relativePath + "/" + title, item.title, item.regisseur, item.timesSeen, item.playtime, item.genres, item.score, item.actors, item.extraInfo);
     })
-    update(ref(db, basicPath + "/" + relativePath + "/" + title), {
+    var key = "g-" + createKey();       // g for group
+    update(ref(db, basicPath + "/" + relativePath + "/" + key), {
+        key: key,
         groupTitle: title,
         groupRegisseur: regisseur,
         groupInfo: extraInfo
@@ -167,35 +170,58 @@ export function filterShelfs(searchValue, filterValues) {
 
         snapchot.forEach(item => {
             // console.log(item.val().score);
-            if(item.val().score == undefined) {
-                // console.log(item.val()["poep"])
+            if(item.val().key[0] == "g" || item.val().score == undefined) {
+                var checkBooks = false;
+                // check info group
                 if(item.val().groupTitle.toLowerCase().includes(searchValue.toLowerCase()) || searchValue.toLowerCase().includes(item.val().groupTitle.toLowerCase()) || 
                    item.val().groupRegisseur.toLowerCase().includes(searchValue.toLowerCase()) || 
                    item.val().groupInfo.toLowerCase().includes(searchValue.toLowerCase()) ) {
                     
-                    var keys = Object.keys(item.val());
-                    var checkBooks = false;
-                    for(let i=0; i<keys.length; i++) {
-                        var book = item.val()[Object.keys(item.val())[i]];
-                        console.log(item.val()[Object.keys(item.val())[i]])
+                    checkBooks = true;
+                } 
+                // check info children
+                var keys = Object.keys(item.val());
+                var averageScore = 0;
+                var genres = [];
+                var totalTimesSeen = 0;
+                var counter = 0;
+                for(let i=0; i<keys.length-3; i++) {
+                    var book = item.val()[Object.keys(item.val())[i]];
+                    // console.log(item.val()[Object.keys(item.val())[i]])
 
-                        var checkScores = false;
-                        filterValues.score.map(i => {if(item.val().score == i) {
-                                                            checkScores = true;
-                                                        }});
+                    averageScore += parseInt(book.score != ""? book.score: 0);
+                    totalTimesSeen += parseInt(book.timesWatched);
+                    counter++;
 
-                        var checkGenres = true;
-                        filterValues.genres.map(i => {if(!item.val().genres.includes(i)){
-                                                            checkGenres = false;
-                                                        }})
+                    var checkGenres = true;
+                    filterValues.genres.map(i => {if(!book.genres.includes(i)){
+                                                        checkGenres = false;
+                                                    }})
 
-                        if((checkScores || filterValues.score == "") && 
-                            (checkGenres || filterValues.generes == "")) {
+                    if(book.title.toLowerCase().includes(searchValue.toLowerCase()) || searchValue.toLowerCase().includes(book.title.toLowerCase()) || 
+                        book.regisseur.toLowerCase().includes(searchValue.toLowerCase()) || 
+                        book.extraInfo.toLowerCase().includes(searchValue.toLowerCase()) || 
+                        book.actors.toLowerCase().includes(searchValue.toLowerCase()) ) {
                             checkBooks = true;
-                        }
                     }
+                }
+                
+                if(counter > 0) {
+                    averageScore = Math.round(averageScore / counter);
+                    totalTimesSeen = Math.floor(totalTimesSeen/counter);
+                }
 
-                    createDVDonShelf(true, null, item.val().groupTitle, item.val().groupTitle);
+                var checkScores = false;
+                filterValues.score.map(i => {if(averageScore == i) {
+                                                    checkScores = true;
+                                                }});
+
+                if( checkBooks &&
+                    (checkScores || filterValues.score == "") && 
+                    (checkGenres || filterValues.genres == "") && 
+                    (filterValues.timesWatched == totalTimesSeen || filterValues.timesWatched == "")
+                ) {
+                    createDVDonShelf(true, null, item.val().groupTitle, item.val().key);
                 }
             } else {
                 // console.log(item.val())
@@ -215,8 +241,9 @@ export function filterShelfs(searchValue, filterValues) {
                                                     }})
 
                     if((checkScores || filterValues.score == "") && 
-                        (checkGenres || filterValues.generes == "")) {
-                        createDVDonShelf(false, null, item.val().title, item.val().title);
+                        (checkGenres || filterValues.genres == "") && 
+                        (filterValues.timesWatched == item.val().timesWatched || filterValues.timesWatched == "")) {
+                        createDVDonShelf(false, null, item.val().title, item.val().key);
                     }
                 }
             }
@@ -230,8 +257,10 @@ export function filterShelfs(searchValue, filterValues) {
 // read_items
 //
 export function readItem(path) {
+    console.log(path)
     if(path != null) {
         onValue(ref(db, basicPath + "/" + path), (snapchot) => {
+            console.log(snapchot.val())
             document.getElementById("itemTitleInput").value = snapchot.val().title; 
             document.getElementById("itemRegisseurInput").value = snapchot.val().regisseur;
             document.getElementById("itemSeenInput").value = snapchot.val().timesWatched;   
@@ -286,8 +315,7 @@ export function readGroup(key) {
             document.getElementById("moviesInGroup").innerHTML = "";
             snapchot.forEach(item => {
                 if(item.val().title != null){
-                    createDVDonShelf(false, snapchot.val().groupTitle, item.val().title, item.val().title);
-                    console.log(item.val().score)
+                    createDVDonShelf(false, snapchot.val().groupTitle, item.val().title, item.val().key);
                     averageScore += parseInt(item.val().score != ""? item.val().score: 0);
                     // console.log(item.val().genres);  
                     if(item.val().genres != undefined) {
@@ -302,15 +330,10 @@ export function readGroup(key) {
                     counter++;
                 }
             })
-            console.log(averageScore)
             if(counter > 0) {
                 averageScore = Math.round(averageScore / counter);
                 totalTimesSeen = Math.floor(totalTimesSeen/counter);
             }
-            // console.log(totalTimesSeen)
-            // console.log(totalPlaytime)
-            // console.log(genres.length > 0? genres.join(", "):"None")
-            console.log(averageScore)
 
             document.getElementById("groupSeenInput").value = totalTimesSeen;   
             document.getElementById("groupPlaytimeInput").value = totalPlaytime;
@@ -390,4 +413,16 @@ function createDropdownItem(eventHandler, genre, needsFor){
     lbl.appendChild(input);
     lbl.appendChild(document.createTextNode(genre.val()));
     return lbl;
+}
+
+
+
+
+//
+// create key
+//
+function createKey() {
+    return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+        (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+    );
 }

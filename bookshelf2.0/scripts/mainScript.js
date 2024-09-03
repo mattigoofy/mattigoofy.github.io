@@ -93,7 +93,6 @@ document.querySelector(".search-input").addEventListener('input', function() {
 //
 const filters = document.getElementsByClassName("filters");
 for(let i=0; i<filters.length; i++) {
-    console.log(i)
     filters[i].addEventListener('change', function() {filter()})
 }
 

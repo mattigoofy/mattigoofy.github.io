@@ -11,7 +11,8 @@
     <button id="addButton">add</button>
 </body>
 
-<script type="module">
+
+<script type="module">;
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
@@ -73,18 +74,20 @@
             
             while(i[0] == "!") {
                 watched++;  
-                i = i.slice(1, i.length);
+                i = i.slice(1, i.length).trim();
             }
 
             var score = "";
             var idx = i.indexOf("*");
             if(idx != -1) {
                 score = Math.round(parseInt(i.slice(idx+1, i.length))/2);
-                i = i.slice(0, idx);
+                i = i.slice(0, idx).trim();
             }
             console.log(i + ", score: " + score + ", watched: " + watched);
 
-            set(ref(db, basicPath + "/" + i), {
+            var key = "i-" + createKey();       // i for item
+            set(ref(db, basicPath + "/" + key), {
+                key: key,
                 title: i,
                 regisseur: "",
                 timesWatched: watched,
@@ -95,6 +98,12 @@
                 extraInfo: ""
             })
         });
+
+        function createKey() {
+            return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+                (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+            );
+        }
         // console.log(input);
     })
 </script>

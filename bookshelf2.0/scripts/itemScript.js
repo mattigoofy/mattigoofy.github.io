@@ -140,7 +140,7 @@ function createDVDonShelf(isGroup, groupTitle, title, key) {
             document.getElementById("groupAddButton").disabled = false;
             document.getElementById("groupAddButton").innerHTML = "EDIT";
 
-            firebase.readGroup(title);
+            firebase.readGroup(key);
         })
         
         document.getElementById("books" + currentShelf).appendChild(dvd);
