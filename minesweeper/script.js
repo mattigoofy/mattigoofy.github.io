@@ -6,16 +6,6 @@ var revealedSquares = 0;
 var cells = [];
 
 function createField() {
-    if(Number.isInteger(parseInt(document.getElementById("rowsIn").value))) {
-        ROWS = document.getElementById("rowsIn").value
-    }
-    if(Number.isInteger(parseInt(document.getElementById("colsIn").value))) {
-        COLS = document.getElementById("colsIn").value
-    }
-    if(Number.isInteger(parseInt(document.getElementById("bombsIn").value))) {
-        BOMBS = document.getElementById("bombsIn").value
-    }
-
     cells = [];
     revealedSquares = 0;
     var TABLE = document.getElementById("field");
@@ -152,13 +142,39 @@ function won() {
 }
 
 
-addBombs(BOMBS);
-createField();
+function start() {
+    if(Number.isInteger(parseInt(document.getElementById("rowsIn").value))) {
+        ROWS = document.getElementById("rowsIn").value
+    } else {
+        ROWS = 8;
+    }
+    if(Number.isInteger(parseInt(document.getElementById("colsIn").value))) {
+        COLS = document.getElementById("colsIn").value
+    } else {
+        COLS = 10;
+    }
+    if(Number.isInteger(parseInt(document.getElementById("bombsIn").value))) {
+        BOMBS = document.getElementById("bombsIn").value
+    } else {
+        BOMBS = 4;
+    }
+
+    addBombs(BOMBS);
+    createField();
+}
+
+start();
 
 
 document.getElementById("restartBtn").addEventListener('click', function() {
-    addBombs(BOMBS);
-    createField();
+    start();
 })
+
+inputs = document.getElementsByTagName("input");
+for(let i=0; i<inputs.length; i++) {
+    inputs[i].addEventListener('change', function() {
+        start();
+    })
+}
 
 document.addEventListener('contextmenu', e => e?.cancelable && e.preventDefault())
