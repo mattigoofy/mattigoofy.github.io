@@ -1,33 +1,132 @@
+/* General body styling */
 body {
     text-align: center;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8;
+    margin: 0;
+    padding: 20px;
 }
 
+/* Styling for the title */
+h1 {
+    color: #333;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+/* Label styling */
+label {
+    margin: 10px;
+    font-weight: bold;
+    color: #555;
+}
+
+/* Input field styling */
+input {
+    width: 60px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1rem;
+    margin: 0 10px;
+    transition: border 0.3s ease;
+}
+
+input:focus {
+    border: 1px solid #007bff;
+    outline: none;
+}
+
+/* Table styling */
 table {
-    margin: auto auto;
+    margin: 20px auto;
+    background-color: #090909;
+    border-spacing: 0;
+    border: 1px solid #444;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
 }
 
 table, tr, td {
-    border: 1px solid black;
     border-collapse: collapse;
-    padding: 15px;
-    font-size: 120%;
 }
 
 td {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #555;
     position: relative;
 }
 
+/* Button inside table cells */
 td > button {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    padding: 0;
+    background-color: #c1cdd7;
     border: none;
-    box-sizing: border-box;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
 }
 
-button:hover {
-    background-color: grey;
+td > button:hover {
+    /* background-color: #9aa7b4; */
+    opacity: 0.75;
+}
+
+/* Reveal bomb cells (optional styling for bomb cells) */
+td.bomb button {
+    background-color: #f05353;
+    color: #fff;
+}
+
+td.revealed {
+    background-color: #d6d6d6;
+}
+
+/* Restart button styling */
+button#restartBtn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button#restartBtn:hover {
+    background-color: #0056b3;
+}
+
+button#restartBtn:active {
+    background-color: #004494;
+}
+
+/* Disable default right-click menu on buttons (for flagging cells) */
+button {
+    outline: none;
+}
+
+button:focus {
+    outline: none;
+}
+
+button.flagged {
+    /* background-color: red; */
+    background-image: url("flag.png");
+    background-size: 50px 50px;
+}
+
+button.revealed {
+    background-color: white;
+}
+
+button.bomb {
+    background-image: url("bomb.png");
+    background-size: 50px 50px;
 }

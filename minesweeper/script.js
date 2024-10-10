@@ -1,73 +1,116 @@
 var ROWS = 8;
 var COLS = 10;
-var BOMBS = 2;
+var BOMBS = 4;
 var bombList = [];
 var revealedSquares = 0;
+var cells = [];
 
 function createField() {
+    if(Number.isInteger(parseInt(document.getElementById("rowsIn").value))) {
+        ROWS = document.getElementById("rowsIn").value
+    }
+    if(Number.isInteger(parseInt(document.getElementById("colsIn").value))) {
+        COLS = document.getElementById("colsIn").value
+    }
+    if(Number.isInteger(parseInt(document.getElementById("bombsIn").value))) {
+        BOMBS = document.getElementById("bombsIn").value
+    }
+
+    cells = [];
     revealedSquares = 0;
     var TABLE = document.getElementById("field");
     TABLE.innerHTML = "";
 
     for(let i=0; i<ROWS; i++) {
         var row = document.createElement("tr");
+        var cellRow = [];
 
         for(let j=0; j<COLS; j++) {
             var col = document.createElement("td");
-            col.id = i + "," + j
+            var cell = new Cell(i, j);
+            // cells[i][j] = cell;
+            cellRow.push(cell);
+            // col.id = i + "," + j
             // console.log([i,j])
             // col.innerHTML = bombList.includes([i,j])? "o": "x";
             // var text;
             if(containsBomb(bombList, i, j)) {
-                var text = document.createTextNode("X");
-                col.appendChild(text)
-                col.className = "bomb";
+                // var text = document.createTextNode("X");
+                // col.appendChild(text)
+                // col.className = "bomb";
                 // col.innerHTML = "x";
+                cell.isBomb = true;
             }
+            var btn = document.createElement("button");
+            btn.id = i + "," + j;
+            btn.addEventListener('mousedown', function(e) {
+                place = this.id.split(",")
+                if(e.which === 1 || e.button === 0) {
+                    if(!cells[place[0]][place[1]].isFlagged) {
+                        // this.style.display = "none";
+                        // document.getElementById(i + "," + j).className += " revealed";
+                        // console.log(cells[place[0]][place[1]]);
+                        if(cells[place[0]][place[1]].isBomb) {
+                            setTimeout(()=> {gameOver()}, 1);
+                            return;
+                        } else if(!cells[place[0]][place[1]].isRevealed){
+                            cells[place[0]][place[1]].reveal();
+                        } else {
+                            cells[place[0]][place[1]].cord();
+                        }
+
+                        // revealedSquares++;
+                        // if(ROWS*COLS-BOMBS == revealedSquares) {
+                        //     setTimeout(() => won());
+                        // }
+                    } else {
+                        this.className = "";
+                        cells[place[0]][place[1]].isFlagged = false;
+                    }
+                } else if(e.which === 3 || e.button === 2) {                    
+                    if(!cells[place[0]][place[1]].isRevealed) {
+                        if(!cells[place[0]][place[1]].isFlagged) {
+                            this.className = "flagged"
+                            cells[place[0]][place[1]].isFlagged = true;
+                        } else{
+                            // this.style.backgroundColor = "#F6F6F6";
+                            this.className = "";
+                            cells[place[0]][place[1]].isFlagged = false;
+
+                        }
+                    }
+                }
+            })
+            col.appendChild(btn);
 
             row.appendChild(col);
         }
+        cells.push(cellRow);
         TABLE.appendChild(row);
     }
 
     for(let i=0; i<ROWS; i++) {
         for(let j=0; j<COLS; j++) {
-            var counter = 0;
-            if(!containsBomb(bombList, i, j)){
-                for(let k=i-1; k<=i+1; k++) {
-                    for(let l=j-1; l<=j+1; l++){
-                        if(containsBomb(bombList, k, l)){
-                            counter++;
-                        }
-                    }
-                }
-                if(counter == 0) {
-                    document.getElementById(i + "," + j).innerHTML = ".";
-                    document.getElementById(i + "," + j).className = "empty"
-                } else {
-                    document.getElementById(i + "," + j).innerHTML = counter;
-                }
+            if(!cells[i][j].isBomb) {
+                cells[i][j].countBombs(cells);
+                // console.log(cells[i][j].neighborCount)
             }
-            var btn = document.createElement("button");
-            btn.addEventListener('mousedown', function(e) {
-                if(e.which === 1 || e.button === 0) {
-                    this.style.display = "none";
-                    document.getElementById(i + "," + j).className += " revealed";
-                    if(document.getElementById(i + "," + j).className.includes("bomb")) {
-                        setTimeout(()=> {gameOver()}, 1);
-                    } else if(document.getElementById(i + "," + j).className.includes("empty")) {
-                        emptySquares(i, j);
-                    }
-
-                    revealedSquares++;
-                    if(ROWS*COLS-BOMBS == revealedSquares) {
-                        setTimeout(() => won());
-                    }
-                } else if(e.which === 3 || e.button === 2) {
-                    this.style.backgroundColor = "red";
-                }
-            })
-            document.getElementById(i + "," + j).appendChild(btn);
+            // var counter = 0;
+            // if(!containsBomb(bombList, i, j)){
+            //     for(let k=i-1; k<=i+1; k++) {
+            //         for(let l=j-1; l<=j+1; l++){
+            //             if(containsBomb(bombList, k, l)){
+            //                 counter++;
+            //             }
+            //         }
+            //     }
+            //     if(counter == 0) {
+            //         document.getElementById(i + "," + j).innerHTML = ".";
+            //         document.getElementById(i + "," + j).className = "empty"
+            //     } else {
+            //         document.getElementById(i + "," + j).innerHTML = counter;
+            //     }
+            // }
         }
     }
 }
@@ -76,8 +119,8 @@ function addBombs(BOMBS) {
     bombList = [];
     for(let i=0; i<BOMBS; i++) {
         do {
-        var x = Math.floor(Math.random()*ROWS);
-        var y = Math.floor(Math.random()*COLS);
+            var x = Math.floor(Math.random()*ROWS);
+            var y = Math.floor(Math.random()*COLS);
         } while(bombList.includes([x,y]))
             
         bombList.push([x,y])
@@ -94,80 +137,28 @@ function containsBomb(bombList, x, y) {
 }
 
 function gameOver() {
-    alert("Game over");
-    addBombs(BOMBS);
-    createField();
+    revealedSquares = ROWS*COLS;
+    for(let i=0; i<ROWS; i++) {
+        for(let j=0; j<COLS; j++) {
+            cells[i][j].reveal();
+        }
+    }
+    setTimeout(() =>{alert("Game over")}, 200);
+    // alert("Game over");
 }
 
 function won() {
     alert("You won");
-    addBombs(BOMBS);
-    createField();
 }
 
-function emptySquares(x, y) {
-    // console.log("emptying")
-    console.log(x, y);
-    for(let i=x-1; i<=x+1; i++) {
-        for(let j=y-1; j<=y+1; j++) {
-            if(i>=0 && i<ROWS && j>=0 && j<COLS){
-                // console.log(i + "," + j);
-
-                var neighbor = document.getElementById(i + "," + j);
-                // console.log(neighbor);
-                if(neighbor.className.includes("empty") && !(i==x && j==y) && !neighbor.className.includes("revealed")) {
-                    emptySquares(i, j);
-                }
-
-                document.getElementById(i + "," + j).getElementsByTagName("button")[0].style.display = "none";
-                if(!document.getElementById(i + "," + j).className.includes("revealed")){
-                    document.getElementById(i + "," + j).className += " revealed";
-                    revealedSquares++;
-                }
-                // var query = "#" + i + "," + j + " > button";
-                // console.log(query);
-                // console.log(document.querySelector(query));
-                // document.querySelector(query)[0].style.display = "none";
-            }
-        }
-    }
-}
-
-function revealSquare(x, y) {
-
-}
 
 addBombs(BOMBS);
 createField();
 
 
-function onMouseDown(e)
-{
-    if (e.which === 1 || e.button === 0)
-    {
-        console.log('"Left" at ' + e.clientX + 'x' + e.clientY);
-    }
+document.getElementById("restartBtn").addEventListener('click', function() {
+    addBombs(BOMBS);
+    createField();
+})
 
-    if (e.which === 2 || e.button === 1)
-    {
-        console.log('"Middle" at ' + e.clientX + 'x' + e.clientY);
-    }
-
-    if (e.which === 3 || e.button === 2)
-    {
-        console.log('"Right" at ' + e.clientX + 'x' + e.clientY);
-    }
-
-    if (e.which === 4 || e.button === 3)
-    {
-        console.log('"Back" at ' + e.clientX + 'x' + e.clientY);
-    }
-
-    if (e.which === 5 || e.button === 4)
-    {
-        console.log('"Forward" at ' + e.clientX + 'x' + e.clientY);
-    }
-}
-
-window.addEventListener('mousedown', onMouseDown);
 document.addEventListener('contextmenu', e => e?.cancelable && e.preventDefault())
