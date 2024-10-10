@@ -2,6 +2,10 @@ body, html {
     padding: 0;
     margin: 0;
 	background: #8ec4ff;
+
+    --groupBackgroundcolor: #2e2e2e;
+    --itemBackgroundcolor: #2e2e2e;
+    --elementsColor: #3e3e3e;
 }
 
 body {
@@ -61,7 +65,7 @@ body {
 
 #addButtonsDiv #addGroup,
 #addButtonsDiv #addItem {
-    background-color: #3e3e3e;
+    background-color: var(--elementsColor);
     color: white;
     width: 100%;
     font-size: 0.7rem;
@@ -165,7 +169,7 @@ body {
     border-radius: 50%; /* Circular shape */
     width: 3vw; /* Slightly larger size for better accessibility */
     height: 3vw;
-    background-color: #3e3e3e; /* Matching dark grey background */
+    background-color: var(--elementsColor); /* Matching dark grey background */
     color: white; /* White color for contrast */
     border: none; /* Remove default border */
     font-size: 1.5rem; /* Large font size for visibility */
@@ -202,11 +206,11 @@ body {
     width: 120px;
     padding: 8px 16px;
     font-size: 0.8rem;
-    border: 2px solid #3e3e3e;
+    border: 2px solid var(--elementsColor);
     border-radius: 12px;
     transition: width 0.4s ease-in-out;
     color: white;
-    background-color: #3e3e3e;
+    background-color: var(--elementsColor);
 }
 
 .search-input::placeholder {
