@@ -5,6 +5,7 @@ body {
     background-color: #f0f4f8;
     margin: 0;
     padding: 20px;
+    /* overflow-x: auto;  */
 }
 
 /* Styling for the title */
@@ -40,6 +41,13 @@ input:focus {
 
 /* Table styling */
 table {
+    /* margin: 20px auto;
+    overflow-x: auto; 
+    max-width: 90vw;  
+    background-color: #e0e4e8;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #444;
+    padding: 10px; */
     margin: 20px auto;
     background-color: #090909;
     border-spacing: 0;
@@ -52,8 +60,10 @@ table, tr, td {
 }
 
 td {
-    width: 50px;
-    height: 50px;
+    /* width: 50px;
+    height: 50px; */
+    width: 5vw;
+    height: 5vw;
     border: 1px solid #555;
     position: relative;
 }
@@ -129,4 +139,32 @@ button.revealed {
 button.bomb {
     background-image: url("bomb.png");
     background-size: 50px 50px;
+}
+
+
+#endGame {
+    position: absolute;
+    display: none;
+    /* margin: auto auto; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* width: 50%;
+    height: 50%; */
+    padding: 10% 10%;
+    z-index: 1;
+    font-size: 200%;
+    /* text-align: center; */
+    vertical-align: center;
+    /* padding: auto auto; */
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+#endGame.won {
+    background-color: blue;
+}
+
+#endGame.lost {
+    background-color: red;
 }

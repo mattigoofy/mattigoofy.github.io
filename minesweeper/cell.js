@@ -10,8 +10,7 @@ class Cell {
   }
 
   reveal() {
-    // console.log("im revealed");
-    if(!this.isRevealed) {
+    if(!this.isRevealed && !this.isFlagged) {
       revealedSquares++;
       if(ROWS*COLS-BOMBS == revealedSquares) {
           setTimeout(() => won(), 1);
@@ -21,6 +20,8 @@ class Cell {
   
       if(this.isBomb){
         document.getElementById(this.btnID).className = "bomb";
+        setTimeout(()=> {gameOver()}, 1);
+        return;
       } else {
         if(this.neighborCount != 0) {
           document.getElementById(this.btnID).innerHTML = this.neighborCount;
@@ -31,10 +32,8 @@ class Cell {
         for(let i=this.place[0]-1; i<=this.place[0]+1; i++) {
           for(let j=this.place[1]-1; j<=this.place[1]+1; j++) {
             if(i>=0 && i<ROWS && j>=0 && j<COLS){
-              // console.log(i + "," + j);
   
               var neighbor = cells[i][j];
-              // console.log(neighbor);
               if(!(i==this.place[0] && j==this.place[1]) && !neighbor.isRevealed) {
                   neighbor.reveal();
               }
@@ -62,7 +61,6 @@ class Cell {
   }
 
   cord() {
-    console.log("im cording")
     var flagCount = 0;
     for(let i=this.place[0]-1; i<=this.place[0]+1; i++) {
       for(let j=this.place[1]-1; j<=this.place[1]+1; j++) {
@@ -73,13 +71,12 @@ class Cell {
         }
       }
     }
-    console.log(flagCount)
 
-    if(flagCount >= this.neighborCount) {   
+    if(flagCount == this.neighborCount) {   
       for(let i=this.place[0]-1; i<=this.place[0]+1; i++) {
         for(let j=this.place[1]-1; j<=this.place[1]+1; j++) {
           if(i>=0 && i<ROWS && j>=0 && j<COLS){
-            if(!cells[i][j].isBomb){
+            if(!cells[i][j].isFlagged && !isGameOver){
               cells[i][j].reveal();
             }
           }          

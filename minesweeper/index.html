@@ -15,17 +15,24 @@
 
     <br>
 
-    <input id="colsIn" type="text" placeholder="10">
-    <input id="rowsIn" type="text" placeholder="8">
-    <input id="bombsIn" type="text" placeholder="4">
+    <input id="colsIn" class="fieldEditors" type="tel" placeholder="10">
+    <input id="rowsIn" class="fieldEditors" type="tel" placeholder="8">
+    <input id="bombsIn" class="fieldEditors" type="tel" placeholder="4">
     <br>
     <br>
+
+    <label>set flag<input id="setFlagInput" type="checkbox"></label>
 
     <table id="field">
     </table>
 
     <br>
     <button id="restartBtn">Restart</button>
+
+    <br>
+
+
+    <div id="endGame"></div>
 
     <script src="cell.js"></script>
     <script src="script.js"></script>
