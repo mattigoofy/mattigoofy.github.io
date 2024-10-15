@@ -1,10 +1,13 @@
 class Cell {
-  constructor (x, y) {
+  constructor (x, y, ROWS, COLS, BOMBS) {
     this.place = [x, y];
     this.isBomb = false;
     this.isRevealed = false;
     this.isFlagged = false;
     this.neighborCount = 0;
+    this.ROWS = ROWS;
+    this.COLS = COLS;
+    this.BOMBS = BOMBS;
 
     this.btnID = x + "," + y;
   }
@@ -12,7 +15,7 @@ class Cell {
   reveal() {
     if(!this.isRevealed && !this.isFlagged) {
       revealedSquares++;
-      if(ROWS*COLS-BOMBS == revealedSquares) {
+      if(this.ROWS*this.COLS-this.BOMBS == revealedSquares) {
           setTimeout(() => won(), 1);
       }
       this.isRevealed = true;
@@ -20,7 +23,7 @@ class Cell {
   
       if(this.isBomb){
         document.getElementById(this.btnID).className = "bomb";
-        setTimeout(()=> {gameOver()}, 1);
+        setTimeout(()=> {gameOver(this.ROWS, this.COLS)}, 1);
         return;
       } else {
         if(this.neighborCount != 0) {
@@ -31,7 +34,7 @@ class Cell {
       if(this.neighborCount == 0) {
         for(let i=this.place[0]-1; i<=this.place[0]+1; i++) {
           for(let j=this.place[1]-1; j<=this.place[1]+1; j++) {
-            if(i>=0 && i<ROWS && j>=0 && j<COLS){
+            if(i>=0 && i<this.ROWS && j>=0 && j<this.COLS){
   
               var neighbor = cells[i][j];
               if(!(i==this.place[0] && j==this.place[1]) && !neighbor.isRevealed) {
@@ -50,7 +53,8 @@ class Cell {
     for(let k=this.place[0]-1; k<=this.place[0]+1; k++) {
       for(let l=this.place[1]-1; l<=this.place[1]+1; l++){
         // console.log(k + "," +  l)
-        if(k>=0 && k<ROWS && l>=0 && l<COLS) {
+        // console.log(cells)
+        if(k>=0 && k<cells.length && l>=0 && l<cells[0].length) {
           if(cells[k][l].isBomb){
               this.neighborCount++;
           }
@@ -64,7 +68,7 @@ class Cell {
     var flagCount = 0;
     for(let i=this.place[0]-1; i<=this.place[0]+1; i++) {
       for(let j=this.place[1]-1; j<=this.place[1]+1; j++) {
-        if(i>=0 && i<ROWS && j>=0 && j<COLS){
+        if(i>=0 && i<this.ROWS && j>=0 && j<this.COLS){
           if(cells[i][j].isFlagged) {
             flagCount++;
           }
@@ -75,7 +79,7 @@ class Cell {
     if(flagCount == this.neighborCount) {   
       for(let i=this.place[0]-1; i<=this.place[0]+1; i++) {
         for(let j=this.place[1]-1; j<=this.place[1]+1; j++) {
-          if(i>=0 && i<ROWS && j>=0 && j<COLS){
+          if(i>=0 && i<this.ROWS && j>=0 && j<this.COLS){
             if(!cells[i][j].isFlagged && !isGameOver){
               cells[i][j].reveal();
             }
