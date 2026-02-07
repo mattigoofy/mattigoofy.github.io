@@ -1,0 +1,57 @@
+:root {
+    --background-color-primary: black;
+    --background-color-secondary: grey;
+    --text-color: white;
+    --border-color: lightgrey;
+}
+
+body {
+    background-color: var(--background-color-primary);
+    color: var(--text-color);
+    padding: 2%;
+}
+
+h1 {
+    font-size: 300%;
+}
+
+/* .page:nth-child(even) .page-heading { */
+    /* background-color: green; */
+    /* display: inline-block; */
+    /* position: fixed; */
+    /* right: 0; */
+/* } */
+
+.page:nth-child(even) {
+    background-color: blue;
+    float: right;    
+    /* text-align: right; */
+}
+
+.page {
+    padding: 1%;
+}
+
+.page-heading {
+    font-size: 200%;
+    background-color: var(--background-color-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 20px 20px 1px 1px;
+    padding: 5px 10px 5px 10px;
+    width: fit-content;
+    font-weight: bold;
+}
+
+.page-info  {
+    font-size: 100%;
+    background-color: var(--background-color-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 0px 1px 20px 20px;
+    padding: 5px 10px 5px 10px;
+    width: fit-content;
+    transform: translateY(-2px);        /* overlap borders */
+}
+
+.page-info .a {
+    
+}
