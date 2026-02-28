@@ -1,69 +1,82 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-  <title>index</title>
-  <style>
-	body {
-		background-color: rgba(60, 59, 59, 0.768);
-		text-align: left;
-		padding-left: 20px;
-		/* padding-top: 20px; */
-	}
-	h1 {
-		margin-bottom: 1.5%;
-		font-size: 500%;
-	}
-	a.pages {
-		display: inline-block;
-		color: darkgray;
-		font-size:xx-large;
-		border: solid;
-		border-color: rgba(240, 248, 255, 0.678);
-		border-radius: 10px;
-		padding: 0.3%;
-		width: 20%;
-		background-color: rgba(42, 41, 41, 0.768);
-		margin-bottom: 0.5%;
-	}
-	a:link { 
-		text-decoration: none; 
-	}
-	a:visited {
-		color: rgb(116, 86, 86);		
-	}
-	a.pages:hover {
-		/* background-color: rgba(74, 73, 73, 0.768); */
-		border-radius: 10px;
-		font-size: 300%;
-		width: 30%;
-		margin-bottom: 0;
-	}
-	/* a.downloads {
-		position: relative;
-		left: 20%;
-	} */
-
-	@media (max-width: 600px) {
-		body {
-			text-align: center;
-		}
-	}
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <title>Welcome</title>
 </head>
 <body>
-	<h1>Welcome on my Github site</h1>
-	<div id="container">
-		<a class="pages" href="doomsday/">Doomsday trainer</a> <br><br>
-		<a class="pages" href="encrypt/encrypt.html">Encrypt</a> <br><br>
-		<a class="pages" href="bookshelf/bookshelf.html">Bookshelf</a> <br><br>
-		<a class="pages" href="bookshelf2.0/index.html">Bookshelf2.0</a> <br>
-		<a class="downloads" href="bookshelf2.0/app-release.apk" download="bookshelf2.0.apk"><u>Download bookshelf2.0</u></a> <br><br>
-		<a class="pages" href="Star%20wars%20speeder/index.html">Star Wars Speeder</a><br><br>
-		<a class="pages" href="taipan/index.html">Taipan</a> <br>
-		<a class="downloads" href="taipan/app-release.apk" download="taipan.apk"><u>Download taipan</u></a> <br><br>
-		<a class="pages" href="minesweeper/index.html">Minesweeper</a> <br>
-	</div>
+  <header class="site-header">
+    <h1>Welcome to my GitHub site</h1>
+    <p class="lead">Small projects and experiments — choose one to explore.</p>
+  </header>
+
+  <main id="page-container" class="grid">
+    <article class="page card">
+      <h2 class="page-heading">Doomsday trainer</h2>
+      <p class="page-info">A simple trainer to master the doomsday algorithm</p>
+      <div class="actions">
+        <a class="btn primary" href="doomsday/">Open</a>
+      </div>
+    </article>
+
+    <article class="page card">
+      <h2 class="page-heading">Encrypt</h2>
+      <p class="page-info">Simple encryption demo.</p>
+      <div class="actions">
+        <a class="btn primary" href="encrypt/encrypt.html">Open</a>
+      </div>
+    </article>
+
+    <article class="page card">
+      <h2 class="page-heading">Bookshelf</h2>
+      <p class="page-info">A digital bookshelf for all your content.</p>
+      <div class="actions">
+        <a class="btn primary" href="bookshelf/bookshelf.html">Open</a>
+      </div>
+    </article>
+
+    <article class="page card">
+      <h2 class="page-heading">Bookshelf 2.0</h2>
+      <p class="page-info">New and improved bookshelf, hopefully better then the previous one.</p>
+      <div class="actions">
+        <a class="btn primary" href="bookshelf2.0/index.html">Open</a>
+        <a class="btn secondary" href="bookshelf2.0/app-release.apk" download="bookshelf2.0.apk">Download APK</a>
+      </div>
+    </article>
+
+    <article class="page card">
+      <h2 class="page-heading">Star wars speeder</h2>
+      <p class="page-info">Simple star wars based game.</p>
+      <div class="actions">
+        <a class="btn primary" href="Star%20wars%20speeder/index.html">Open</a>
+      </div>
+    </article>
+
+    <article class="page card">
+      <h2 class="page-heading">Taipan</h2>
+      <p class="page-info">Score manager for the card game Taipan or Tichu (Mainly for mobile).</p>
+      <div class="actions">
+        <a class="btn primary" href="taipan/index.html">Open</a>
+        <a class="btn secondary" href="taipan/app-release.apk" download="taipan.apk">Download APK</a>
+      </div>
+    </article>
+
+    <article class="page card">
+      <h2 class="page-heading">Minesweeper</h2>
+      <p class="page-info">Classic minesweeper implementation in the browser.</p>
+      <div class="actions">
+        <a class="btn primary" href="minesweeper/index.html">Open</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <small>&copy; <span id="year"></span> mattigoofy — hosted on GitHub Pages</small>
+  </footer>
+
+  <script type="text/javascript" src="script.js"></script>
 </body>
 </html>
