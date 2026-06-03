@@ -1,0 +1,70 @@
+{
+  "font_size": 15,
+  "icon_size": 400,
+  "use_images": true,
+  "image_dir": "figs",
+  "conductor": {
+    "name": "John",
+    "color": "#8b4513",
+    "image": "conductor.png"
+
+  },
+  "sections": [
+    {
+      "name": "Flute",
+      "color": "#e74c3c",
+      "row": 1,
+      "start_index": 0,
+      "names": ["Alice", "Bob", ""]
+    },
+    {
+      "name": "Oboe",
+      "color": "#e67e22",
+      "row": 1,
+      "start_index": 1,
+      "names": ["Carol", "Diana", "Eve"]
+    },
+    {
+      "name": "Saxophone",
+      "color": "#3498db",
+      "row": 2,
+      "start_index": 0,
+      "names": ["Frank", "Grace", "Hank", "Ivy", ""]
+    },
+    {
+      "name": "clarinet",
+      "color": "#2ecc71",
+      "row": 2,
+      "start_index": 1,
+      "names": ["Jack", "Kate"]
+    },
+    {
+      "name": "bassoon",
+      "color": "#9b59b6",
+      "row": 3,
+      "start_index": 0,
+      "names": ["Leo", "Mia", "Noah", "Olivia", "Peter", "Quinn"]
+    },
+    {
+      "name": "trumpet",
+      "color": "#f39c12",
+      "row": 3,
+      "start_index": 1,
+      "names": ["", "", "Rachel", "Sam", "Tina", "Uma", "Victor"]
+    },
+    {
+      "name": "Trombone",
+      "color": "#34495e",
+      "row": 4,
+      "start_index": 0,
+      "names": ["Wendy", "Xander"]
+    },
+    {
+      "name": "snare",
+      "color": "#34495e",
+      "row": 4,
+      "start_index": 1,
+      "names": ["Wendy", "Xander"]
+    }
+  ]
+}
