@@ -316,7 +316,7 @@ function drawWatermark(ctx, displayWidth, displayHeight) {
   const x = displayWidth - boxWidth;
   const y = displayHeight - boxHeight;
 
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+  ctx.fillStyle = '#f8f9fa';
   roundRect(ctx, x, y, boxWidth, boxHeight, 4);
   ctx.fill();
 
