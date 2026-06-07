@@ -1,0 +1,35 @@
+/* ============================================================
+   CSS CUSTOM PROPERTIES (COLOR VARIABLES)
+   ============================================================ */
+
+:root {
+  /* Backgrounds */
+  --bg-dark: #1a1a2e;
+  --bg-editor: #1e1e2e;
+  --bg-row: #1e1e28;
+  --bg-card: #252535;
+  --bg-input: #1e1e2e;
+
+  /* Text */
+  --text-primary: #ccc;
+  --text-muted: #888;
+  --text-faded: #666;
+  --text-dark: #555;
+  --text-white: #fff;
+
+  /* Borders */
+  --border-default: #444;
+
+  /* Accents */
+  --accent-blue: #3498db;
+  --accent-blue-dark: #2980b9;
+  --accent-purple: #9b59b6;
+  --accent-purple-dark: #8e44ad;
+  --accent-green: #2ecc71;
+  --accent-green-dark: #27ae60;
+  --accent-red: #e74c3c;
+  --accent-brown: #8b4513;
+
+  /* Canvas */
+  --canvas-bg: #f8f9fa;
+}

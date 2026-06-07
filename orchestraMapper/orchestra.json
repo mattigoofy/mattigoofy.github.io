@@ -1,6 +1,7 @@
 {
   "font_size": 15,
   "icon_size": 400,
+  "title": "My overview",
   "use_images": true,
   "image_dir": "figs",
   "conductor": {

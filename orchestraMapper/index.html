@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Orchestra Layout</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles/variables.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/editor.css">
+  <link rel="stylesheet" href="styles/dropdown.css">
 </head>
 <body>
   <div class="controls">
@@ -30,12 +33,19 @@
       <canvas id="orchestra-canvas"></canvas>
     </div>
     <div id="editor-container">
-      <textarea id="json-editor" placeholder="Paste JSON here..."></textarea>
+      <div class="editor-tabs">
+        <button class="tab-btn" data-mode="text">Text</button>
+        <button class="tab-btn" data-mode="visual">Visual</button>
+      </div>
+      <textarea id="json-editor" placeholder="Paste JSON here..." style="display: none;"></textarea>
+      <div id="visual-editor"></div>
       <button id="apply-btn">Apply</button>
     </div>
   </div>
 
-  <script src="orchestra.js"></script>
-  <script src="app.js"></script>
+  <script type="module" src="scripts/orchestra.js"></script>
+  <script type="module" src="scripts/app.js"></script>
+  <script type="module" src="scripts/editor.js"></script>
+  <script type="module" src="scripts/dropdown.js"></script>
 </body>
 </html>

@@ -1,0 +1,404 @@
+/* ============================================================
+   EDITOR TABS
+   ============================================================ */
+
+.editor-tabs {
+  display: flex;
+  gap: 5px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 8px;
+  font-size: 12px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: none;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.tab-btn.active {
+  background: var(--accent-blue);
+  color: var(--text-white);
+}
+
+.tab-btn:hover:not(.active) {
+  background: var(--border-default);
+}
+
+#json-editor, #visual-editor {
+  flex: 1;
+  min-height: 0;
+  font-family: monospace;
+  font-size: 12px;
+  padding: 10px;
+  border: 1px solid var(--border-default);
+  border-radius: 0 0 6px 6px;
+  background: var(--bg-editor);
+  color: var(--text-primary);
+  resize: none;
+  overflow-y: auto;
+}
+
+#json-editor:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+#visual-editor {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   TITLE & CONDUCTOR
+   ============================================================ */
+
+.visual-title {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: var(--bg-card);
+  border-radius: 4px;
+  border-left: 3px solid var(--border-default);
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+
+.visual-title h4 {
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-size: 15px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.title-input {
+  width: 100%;
+  padding: 6px 10px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-default);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 13px;
+}
+
+.title-input:focus {
+  outline: none;
+  border-color: var(--accent-purple);
+}
+
+.visual-conductor {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: var(--bg-card);
+  border-radius: 4px;
+  border-left: 3px solid var(--conductor-color, var(--accent-brown));
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+
+.visual-conductor h4 {
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-size: 12px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.conductor-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.conductor-name-wrapper {
+  flex: 1;
+}
+
+.conductor-row input {
+  padding: 4px 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-default);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 12px;
+}
+
+.conductor-name {
+  width: 100%;
+}
+
+.conductor-row input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+/* ============================================================
+   ROW CONTAINERS
+   ============================================================ */
+
+.visual-row {
+  margin-bottom: 15px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.visual-row-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--text-white);
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+}
+
+.visual-row-header .row-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.visual-row-header .row-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.visual-row-header .row-action-btn {
+  padding: 3px 8px;
+  font-size: 10px;
+  background: rgba(255,255,255,0.2);
+  color: var(--text-white);
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.row-action-btn.delete-row:hover  {
+  background: var(--accent-red);
+}
+
+.row-action-btn.add-to-row:hover  {
+  background: var(--accent-green);
+}
+
+.visual-row-content {
+  padding: 10px;
+  min-height: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--bg-row);
+  border: 1px solid var(--border-default);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+}
+
+.visual-row-content.drag-over {
+  background: rgba(52, 152, 219, 0.15);
+  outline: 2px dashed var(--accent-blue);
+  outline-offset: -4px;
+}
+
+/* ============================================================
+   SECTION CARDS
+   ============================================================ */
+
+.visual-section {
+  padding: 8px;
+  background: var(--bg-card);
+  border-radius: 4px;
+  border-left: 3px solid var(--section-color, var(--accent-blue));
+  cursor: grab;
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+}
+
+.visual-section:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
+.visual-section.dragging {
+  opacity: 0.5;
+  transform: scale(0.98);
+}
+
+.visual-section.drag-target {
+  border-left-color: var(--accent-blue);
+  box-shadow: 0 0 0 2px var(--accent-blue);
+}
+
+.visual-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.visual-section-header input[type="color"] {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: none;
+  flex-shrink: 0;
+}
+
+.section-name-wrapper {
+  flex: 1;
+}
+
+.section-name-input {
+  width: 100%;
+  padding: 4px 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-default);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 12px;
+}
+
+.section-name-input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+.visual-section-header .drag-handle {
+  color: var(--text-faded);
+  font-size: 14px;
+  cursor: grab;
+  user-select: none;
+  padding: 0 4px;
+}
+
+.visual-section-header .drag-handle:active {
+  cursor: grabbing;
+}
+
+/* ============================================================
+   MUSICIAN NAMES
+   ============================================================ */
+
+.visual-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 5px;
+}
+
+.name-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.visual-name-input {
+  width: 60px;
+  padding: 4px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-default);
+  border-radius: 4px 0 0 4px;
+  color: var(--text-primary);
+  font-size: 11px;
+}
+
+.visual-name-input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+.visual-name-input.empty {
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.remove-name-btn {
+  padding: 4px 6px;
+  font-size: 10px;
+  background: var(--border-default);
+  color: var(--text-muted);
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1;
+}
+
+.remove-name-btn:hover {
+  background: var(--accent-red);
+  color: var(--text-white);
+}
+
+/* ============================================================
+   ACTION BUTTONS
+   ============================================================ */
+
+.add-name-btn, .remove-section-btn {
+  padding: 4px 8px;
+  font-size: 11px;
+  background: var(--border-default);
+  color: var(--text-white);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-name-btn:hover {
+  background: var(--accent-green);
+}
+
+.remove-section-btn {
+  background: var(--border-default);
+}
+
+.remove-section-btn:hover {
+  background: var(--accent-red);
+  color: var(--text-white);
+}
+
+.add-section-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 12px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 2px dashed var(--border-default);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.add-section-btn:hover {
+  background: var(--border-default);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+}
+
+.add-row-btn {
+  width: 100%;
+  padding: 8px;
+  font-size: 11px;
+  background: transparent;
+  color: var(--text-faded);
+  border: 1px dashed var(--border-default);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 5px;
+}
+
+.add-row-btn:hover {
+  border-color: var(--text-faded);
+  color: var(--text-muted);
+}

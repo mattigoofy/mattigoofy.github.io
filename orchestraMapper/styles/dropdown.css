@@ -1,0 +1,49 @@
+/* ============================================================
+   IMAGE DROPDOWN
+   ============================================================ */
+
+.image-dropdown {
+  position: fixed;
+  max-height: 150px;
+  overflow-y: auto;
+  background: var(--bg-editor);
+  border: 1px solid var(--border-default);
+  border-radius: 0 0 4px 4px;
+  z-index: 10000;
+  display: none;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.image-dropdown.open {
+  display: block;
+}
+
+.image-dropdown-item {
+  padding: 6px 10px;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: 11px;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.image-dropdown-item:hover {
+  background: var(--accent-blue);
+  color: var(--text-white);
+}
+
+.image-dropdown-item img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  border-radius: 2px;
+}
+
+.image-dropdown-empty {
+  padding: 8px 10px;
+  color: var(--text-faded);
+  font-size: 11px;
+  text-align: center;
+}

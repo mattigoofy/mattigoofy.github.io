@@ -1,8 +1,9 @@
 // ============================================================
-// CONFIG
+// EXPORTS / IMPORTS 
 // ============================================================
-const IMAGE_BASE_URL = 'https://raw.githubusercontent.com/mattigoofy/orchestraMapper/main/figs/';
+import { IMAGE_BASE_URL } from './app.js';
 
+export { redraw, generatePositions, drawOrchestra, exportToPNG };
 
 // ============================================================
 // MATH HELPERS
@@ -414,4 +415,23 @@ function exportToPNG(canvasId, filename = 'orchestra.png') {
   link.download = filename;
   link.href = canvas.toDataURL('image/png');
   link.click();
+}
+
+function redraw() {
+  const data = window.json_config?.currentData;
+  if (!data) return;
+
+  const { allMusicians, sectionInfo, rowInfo } = generatePositions(data.sections);
+  const canvas = document.getElementById('orchestra-canvas');
+  const showLabels = document.getElementById('show-labels').checked;
+  const showCounts = document.getElementById('show-counts').checked;
+  const useImages = document.getElementById('use-images').checked;
+
+  document.fonts.ready.then(() => {
+    drawOrchestra(
+      canvas, allMusicians, sectionInfo, rowInfo, data,
+      showLabels, showCounts, useImages,
+      data.title || 'Orchestra Seating Layout'
+    );
+  });
 }
