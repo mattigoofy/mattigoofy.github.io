@@ -43,8 +43,14 @@ async function handlePrint(canvasId) {
   redraw();
 
   printWindow.document.write(`
-    <html><head><title>Orchestra Layout</title>
-    <style>@media print { body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; } img { max-width: 100%; max-height: 100vh; object-fit: contain; } }</style>
+    <html><head><title>&#8203;</title>
+    <style>
+      @page { margin: 0; size: auto; }
+      @media print { 
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        img { max-width: 100%; max-height: 100vh; object-fit: contain; }
+      }
+    </style>
     </head><body><img src="${dataUrl}" onload="window.print(); window.close();"></body></html>
   `);
   printWindow.document.close();

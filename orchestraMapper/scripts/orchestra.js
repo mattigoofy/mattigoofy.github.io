@@ -332,6 +332,28 @@ function drawWatermark(ctx, displayWidth, displayHeight) {
   });
 }
 
+function drawDate(ctx, date, displayWidth, displayHeight) {
+  const fontSize = 17;
+  const lineHeight = 14;
+  const padding = 12;
+
+  ctx.font = `${fontSize}px sans-serif`;
+  ctx.fillStyle = '#666';
+
+  const maxWidth = ctx.measureText(date).width;
+  const totalHeight = lineHeight;
+  const boxWidth = maxWidth + padding * 2;
+  const boxHeight = totalHeight + padding * 1.5;
+
+  const x = 0; // left side
+  const y = displayHeight - boxHeight;
+
+  ctx.fillStyle = '#555';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  ctx.fillText(date, x + padding, y + padding);
+}
+
 function roundRect(ctx, x, y, w, h, r) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
@@ -406,8 +428,11 @@ async function drawOrchestra(canvas, musicians, sectionInfo, rowInfo, config, sh
     drawLegend(ctx, rowCounts, fontSize);
   }
 
+  const date = config.date ?? new Date().toLocaleDateString('en-US');
+
   drawTitle(ctx, title, fontSize, layout.centerX);
   drawWatermark(ctx, displayWidth, displayHeight);
+  drawDate(ctx, date, displayWidth, displayHeight);
 }
 
 

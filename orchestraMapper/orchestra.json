@@ -6,6 +6,7 @@
   "image_dir": "figs",
   "show_labels": false,
   "show_row_count": false,
+  "date": "10 jan 2025",
   "conductor": {
     "name": "John",
     "color": "#8b4513",
