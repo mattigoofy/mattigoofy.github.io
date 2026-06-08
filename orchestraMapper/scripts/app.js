@@ -31,9 +31,17 @@ function syncToText() {
   document.getElementById('json-editor').value = JSON.stringify(json_config.currentData, null, 2);
 }
 
-function handlePrint() {
-  const dataUrl = document.getElementById('orchestra-canvas').toDataURL('image/png');
+async function handlePrint(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  
+  // Redraw without background
+  await redraw(true);
+  
+  const dataUrl = canvas.toDataURL('image/png');
   const printWindow = window.open('', '_blank');
+
+  redraw();
+
   printWindow.document.write(`
     <html><head><title>Orchestra Layout</title>
     <style>@media print { body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; } img { max-width: 100%; max-height: 100vh; object-fit: contain; } }</style>
@@ -79,5 +87,5 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('show-counts').addEventListener('change', redraw);
   document.getElementById('use-images').addEventListener('change', redraw);
   document.getElementById('export-btn').addEventListener('click', () => exportToPNG('orchestra-canvas', 'orchestra.png'));
-  document.getElementById('print-btn').addEventListener('click', handlePrint);
+  document.getElementById('print-btn').addEventListener('click', () => handlePrint('orchestra-canvas'));
 });

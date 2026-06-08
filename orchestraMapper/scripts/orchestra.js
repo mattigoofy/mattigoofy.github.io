@@ -317,10 +317,6 @@ function drawWatermark(ctx, displayWidth, displayHeight) {
   const x = displayWidth - boxWidth;
   const y = displayHeight - boxHeight;
 
-  ctx.fillStyle = '#f8f9fa';
-  roundRect(ctx, x, y, boxWidth, boxHeight, 4);
-  ctx.fill();
-
   ctx.fillStyle = '#555';
   ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
@@ -347,7 +343,7 @@ function roundRect(ctx, x, y, w, h, r) {
 // ============================================================
 // MAIN DRAW FUNCTION
 // ============================================================
-async function drawOrchestra(canvas, musicians, sectionInfo, rowInfo, config, showLabels = false, showRowCounts = false, useImages = false, title = 'Orchestra Seating Layout') {
+async function drawOrchestra(canvas, musicians, sectionInfo, rowInfo, config, showLabels = false, showRowCounts = false, useImages = false, title = 'Orchestra Seating Layout', transparent_bg = false) {
   const { ctx, w: displayWidth, h: displayHeight } = setupCanvas(canvas);
   const layout = computeLayout(rowInfo, displayWidth, displayHeight);
   const fontSize = config.font_size || 9;
@@ -367,8 +363,10 @@ async function drawOrchestra(canvas, musicians, sectionInfo, rowInfo, config, sh
     rowCounts[closestRow] = (rowCounts[closestRow] || 0) + 1;
   }
 
-  ctx.fillStyle = '#f8f9fa';
-  ctx.fillRect(0, 0, displayWidth, displayHeight);
+  if (!transparent_bg) {
+    ctx.fillStyle = '#f8f9fa';
+    ctx.fillRect(0, 0, displayWidth, displayHeight);
+  }
 
   drawRowArcs(ctx, rowInfo, layout);
 
@@ -409,15 +407,22 @@ async function drawOrchestra(canvas, musicians, sectionInfo, rowInfo, config, sh
 // ============================================================
 // PUBLIC API
 // ============================================================
-function exportToPNG(canvasId, filename = 'orchestra.png') {
+async function exportToPNG(canvasId, filename = 'orchestra.png') {
   const canvas = document.getElementById(canvasId);
+  
+  // Redraw without background
+  await redraw(true);
+  
   const link = document.createElement('a');
   link.download = filename;
   link.href = canvas.toDataURL('image/png');
   link.click();
+  
+  // Restore with background
+  redraw();
 }
 
-function redraw() {
+async function redraw(transparent_bg = false) {
   const data = window.json_config?.currentData;
   if (!data) return;
 
@@ -427,11 +432,12 @@ function redraw() {
   const showCounts = document.getElementById('show-counts').checked;
   const useImages = document.getElementById('use-images').checked;
 
-  document.fonts.ready.then(() => {
-    drawOrchestra(
-      canvas, allMusicians, sectionInfo, rowInfo, data,
-      showLabels, showCounts, useImages,
-      data.title || 'Orchestra Seating Layout'
-    );
-  });
+  await document.fonts.ready;  // ← instead of .then()
+  
+  await drawOrchestra(
+    canvas, allMusicians, sectionInfo, rowInfo, data,
+    showLabels, showCounts, useImages,
+    data.title || 'Orchestra Seating Layout',
+    transparent_bg
+  );
 }
