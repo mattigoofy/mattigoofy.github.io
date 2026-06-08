@@ -4,6 +4,8 @@
   "title": "My overview",
   "use_images": true,
   "image_dir": "figs",
+  "show_labels": false,
+  "show_row_count": false,
   "conductor": {
     "name": "John",
     "color": "#8b4513",

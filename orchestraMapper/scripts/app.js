@@ -83,9 +83,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  document.getElementById('show-labels').addEventListener('change', redraw);
-  document.getElementById('show-counts').addEventListener('change', redraw);
-  document.getElementById('use-images').addEventListener('change', redraw);
+  document.getElementById('use-images').addEventListener('change', e => {
+    if (window.json_config?.currentData) window.json_config.currentData.use_images = e.target.checked;
+    redraw();
+  });
+  document.getElementById('show-labels').addEventListener('change', e => {
+    if (window.json_config?.currentData) window.json_config.currentData.show_labels = e.target.checked;
+    redraw();
+  });
+  document.getElementById('show-counts').addEventListener('change', e => {
+    if (window.json_config?.currentData) window.json_config.currentData.show_row_count = e.target.checked;
+    redraw();
+  });
   document.getElementById('export-btn').addEventListener('click', () => exportToPNG('orchestra-canvas', 'orchestra.png'));
   document.getElementById('print-btn').addEventListener('click', () => handlePrint('orchestra-canvas'));
 });

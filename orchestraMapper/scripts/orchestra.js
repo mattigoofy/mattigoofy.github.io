@@ -264,9 +264,16 @@ function drawLegend(ctx, rowCounts, fontSize) {
 
   ctx.font = `${legendFontSize}px sans-serif`;
 
+  // set universal width
+  const textWidth = Math.max(...Object.entries(rowCounts).map(([row, count]) => {
+        const text = `Row ${row}: ${count} musicians`;
+        return ctx.measureText(text).width
+      }
+    )
+  );
+
   for (const rowNum of Object.keys(rowCounts).map(Number).sort((a, b) => a - b)) {
     const text = `Row ${rowNum}: ${rowCounts[rowNum]} musicians`;
-    const textWidth = ctx.measureText(text).width;
     const pad = legendFontSize * 0.5;
 
     ctx.fillStyle = 'white';
@@ -428,9 +435,22 @@ async function redraw(transparent_bg = false) {
 
   const { allMusicians, sectionInfo, rowInfo } = generatePositions(data.sections);
   const canvas = document.getElementById('orchestra-canvas');
+
+  // Sync checkboxes from JSON (JSON is source of truth)
+  if (data.use_images !== undefined) {
+    document.getElementById('use-images').checked = data.use_images;
+  }
+  if (data.show_labels !== undefined) {
+    document.getElementById('show-labels').checked = data.show_labels;
+  }
+  if (data.show_row_count !== undefined) {
+    document.getElementById('show-counts').checked = data.show_row_count;
+  }
+  
+  // Read final values (now in sync)
+  const useImages = document.getElementById('use-images').checked;
   const showLabels = document.getElementById('show-labels').checked;
   const showCounts = document.getElementById('show-counts').checked;
-  const useImages = document.getElementById('use-images').checked;
 
   await document.fonts.ready;  // ← instead of .then()
   
