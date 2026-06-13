@@ -16,6 +16,34 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  position: relative;
+}
+
+.favicon-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 52px;
+  height: 52px;
+  /* border-radius: 6px; */
+  /* background: var(--bg-card); */
+  /* border: 1px solid var(--border-default); */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); */
+  transition: all 0.2s;
+}
+
+.favicon-badge:hover {
+  transform: scale(1.1);
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); */
+}
+
+.favicon-badge img {
+  width: 44px;
+  height: 44px;
+  display: block;
 }
 
 button {
@@ -116,4 +144,31 @@ canvas {
 
 #apply-btn:hover {
   background: var(--accent-purple-dark);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.footer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 12px;
+  color: var(--text-faded);
+}
+
+.footer p {
+  margin: 0;
+}
+
+.footer a {
+  color: var(--accent-blue);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer a:hover {
+  color: var(--accent-blue-dark);
+  text-decoration: underline;
 }

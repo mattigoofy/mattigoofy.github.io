@@ -457,11 +457,25 @@ function updateStartIndices() {
 function setupEventListeners() {
   const container = document.getElementById('visual-editor');
 
+  // Helper: calculate start_index for a new section at the end of a row
+  const getNextStartIndex = (row) => {
+    const sectionsInRow = json_config.currentData.sections.filter(s => s.row === row);
+    if (sectionsInRow.length === 0) return 0;
+    
+    let maxIndex = 0;
+    for (const section of sectionsInRow) {
+      const endIndex = section.start_index + section.names.length;
+      if (endIndex > maxIndex) maxIndex = endIndex;
+    }
+    return maxIndex;
+  };
+
   container.querySelectorAll('.add-to-row').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const row = parseInt(btn.closest('.visual-row').dataset.rowNum);
-      json_config.currentData.sections.push({ name: '', color: getRowColor(), row, start_index: 0, names: [''] });
+      const start_index = getNextStartIndex(row);
+      json_config.currentData.sections.push({ name: '', color: getRowColor(), row, start_index, names: [''] });
       renderEditor();
       syncToText();
       redraw();
@@ -478,7 +492,8 @@ function setupEventListeners() {
   });
 
   container.querySelector('.add-section-btn')?.addEventListener('click', () => {
-    json_config.currentData.sections.push({ name: 'New Section', color: getRowColor(), row: 1, start_index: 0, names: [''] });
+    const start_index = getNextStartIndex(1);
+    json_config.currentData.sections.push({ name: 'New Section', color: getRowColor(), row: 1, start_index, names: [''] });
     renderEditor();
     syncToText();
     redraw();
