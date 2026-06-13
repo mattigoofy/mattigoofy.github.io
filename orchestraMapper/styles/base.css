@@ -151,11 +151,12 @@ canvas {
    ============================================================ */
 
 .footer {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
+  margin-top: 40px;
+  padding: 20px;
+  text-align: center;
   font-size: 12px;
   color: var(--text-faded);
+  width: 100%;
 }
 
 .footer p {

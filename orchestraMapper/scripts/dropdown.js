@@ -1,4 +1,4 @@
-import { json_config, IMAGE_BASE_URL } from './app.js';
+import { json_config, image_base_url } from './app.js';
 
 export { initDropdowns, setupDropdowns };
 
@@ -87,7 +87,7 @@ function renderDropdown(dropdown, images, filter, input) {
   }
 
   filtered.forEach(img => {
-    const imgUrl = `${IMAGE_BASE_URL}${img.toLowerCase().replace(/ /g, '_')}.png`;
+    const imgUrl = `${image_base_url}${img.toLowerCase().replace(/ /g, '_')}.png`;
     const displayName = formatImageName(img);
 
     const item = document.createElement('div');

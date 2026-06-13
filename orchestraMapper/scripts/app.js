@@ -2,11 +2,12 @@ import { redraw, exportToPNG } from './orchestra.js';
 import { initEditor, getEditorMode, renderEditor } from './editor.js';
 import { initDropdowns } from './dropdown.js';
 
-export { IMAGE_BASE_URL, json_config, cssVar, getRowColor, syncEditorHeight, syncToText};
+export { image_base_url, json_config, cssVar, getRowColor, syncEditorHeight, syncToText};
 
 
 
-const IMAGE_BASE_URL = 'https://raw.githubusercontent.com/mattigoofy/orchestraMapper/main/figs/';
+const IMAGE_BASE_URL_FALLBACK = 'https://raw.githubusercontent.com/mattigoofy/orchestraMapper/main/figs/';
+let image_base_url = IMAGE_BASE_URL_FALLBACK;
 
 const json_config = { currentData: null, availableImages: [] };
 window.json_config = json_config;
@@ -94,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .then(data => {
         json_config.currentData = data;
+        image_base_url = data.image_url ?? IMAGE_BASE_URL_FALLBACK;
         syncToText();
         renderEditor();
         redraw();

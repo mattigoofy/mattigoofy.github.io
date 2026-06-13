@@ -1,4 +1,4 @@
-import { IMAGE_BASE_URL, json_config, cssVar, getRowColor, syncToText, syncEditorHeight } from './app.js';
+import { image_base_url, json_config, cssVar, getRowColor, syncToText, syncEditorHeight } from './app.js';
 import { setupDropdowns } from './dropdown.js';
 import { redraw } from './orchestra.js';
 
@@ -44,7 +44,8 @@ function createOptionsBar(data) {
   
   const toggleOption = (label, key, field) => {
     const btn = el('button', 'toggle-option', { textContent: label });
-    btn.classList.toggle('active', data[field]);
+    const active = data[field] ?? false;
+    btn.classList.toggle('active', active);
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       json_config.currentData[field] = !json_config.currentData[field];
@@ -58,6 +59,7 @@ function createOptionsBar(data) {
   bar.appendChild(toggleOption('Labels', 'show_labels', 'show_labels'));
   bar.appendChild(toggleOption('Row Count', 'show_row_count', 'show_row_count'));
   bar.appendChild(toggleOption('Images', 'use_images', 'use_images'));
+  bar.appendChild(toggleOption('Invert', 'invert', 'invert'));
 
   return bar;
 }

@@ -1,7 +1,7 @@
 // ============================================================
 // EXPORTS / IMPORTS 
 // ============================================================
-import { IMAGE_BASE_URL } from './app.js';
+import { image_base_url } from './app.js';
 
 export { redraw, generatePositions, drawOrchestra, exportToPNG };
 
@@ -23,7 +23,7 @@ function mean(arr) {
 // ============================================================
 function getImageUrl(sectionName) {
   const nameLower = sectionName.toLowerCase().replace(/ /g, '_');
-  return `${IMAGE_BASE_URL}${nameLower}.png`;
+  return `${image_base_url}${nameLower}.png`;
 }
 
 function loadImage(url) {
@@ -36,7 +36,7 @@ function loadImage(url) {
   });
 }
 
-function drawImage(ctx, img, cx, cy, targetSize) {
+function drawImage(ctx, img, cx, cy, targetSize, flip=false) {
   const aspectRatio = img.width / img.height;
   let w, h;
   if (aspectRatio > 1) {
@@ -46,7 +46,16 @@ function drawImage(ctx, img, cx, cy, targetSize) {
     h = targetSize;
     w = h * aspectRatio;
   }
-  ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h);
+  // ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h);
+  if (flip) {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(1, -1);
+    ctx.drawImage(img, -w / 2, -h / 2, w, h);
+    ctx.restore();
+  } else {
+    ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h);
+  }
   return { w, h };
 }
 
@@ -122,7 +131,7 @@ function setupCanvas(canvas) {
   return { ctx, w, h };
 }
 
-function computeLayout(rowInfo, displayWidth, displayHeight) {
+function computeLayout(rowInfo, displayWidth, displayHeight, invert = false) {
   const maxRadius = Math.max(...Object.values(rowInfo).map(r => r.radius));
   const paddingX = displayWidth * 0.01;
   const paddingY = displayHeight * 0.01;
@@ -130,14 +139,15 @@ function computeLayout(rowInfo, displayWidth, displayHeight) {
   const availH = displayHeight - paddingY * 2;
   const scale = Math.min(availW, availH) / (maxRadius * 1.5);
   const centerX = displayWidth / 2;
-  const centerY = displayHeight / 2 + maxRadius * scale * 0.5;
+  const centerY = invert ? displayHeight / 2 - maxRadius * scale * 0.5 : displayHeight / 2 + maxRadius * scale * 0.5;
 
   return {
     scale,
     centerX,
     centerY,
-    toCanvasX: (x) => centerX + x * scale,
-    toCanvasY: (y) => centerY - y * scale
+    invert,
+    toCanvasX: (x) => invert ? centerX - x * scale : centerX + x * scale,
+    toCanvasY: (y) => invert ? centerY + y * scale : centerY - y * scale
   };
 }
 
@@ -153,7 +163,11 @@ function drawRowArcs(ctx, rowInfo, layout) {
 
   for (const info of Object.values(rowInfo)) {
     ctx.beginPath();
-    ctx.arc(layout.centerX, layout.centerY, info.radius * layout.scale, Math.PI, 0, false);
+    if (layout.invert) {
+      ctx.arc(layout.centerX, layout.centerY, info.radius * layout.scale, 0, Math.PI, false);
+    } else {
+      ctx.arc(layout.centerX, layout.centerY, info.radius * layout.scale, Math.PI, 0, false);
+    }
     ctx.stroke();
   }
 
@@ -228,10 +242,11 @@ function drawConductor(ctx, conductorConfig, useImages, imageCache, iconRadius, 
   const imgSize = iconRadius * 2.5;
   const imgName = conductorConfig.image_name || 'conductor';
   const cx = layout.centerX;
-  const cy = layout.toCanvasY(-0.3);
+  const conductorY = layout.invert ? 0.3 : -0.3;
+  const cy = layout.toCanvasY(conductorY);
 
   if (useImages && imageCache[imgName]) {
-    const { h } = drawImage(ctx, imageCache[imgName], cx, cy, imgSize * 2);
+    const { h } = drawImage(ctx, imageCache[imgName], cx, cy, imgSize * 2, layout.invert);
     const labelFontSize = Math.max(7, fontSize * 1.1);
     ctx.font = `bold ${labelFontSize}px sans-serif`;
     ctx.fillStyle = '#2c3e50';
@@ -256,9 +271,9 @@ function drawConductor(ctx, conductorConfig, useImages, imageCache, iconRadius, 
   }
 }
 
-function drawLegend(ctx, rowCounts, fontSize) {
+function drawLegend(ctx, rowCounts, fontSize, displayHeight = null, invert = false) {
   const x = 10;
-  let y = 20;
+  let y = invert && displayHeight ? displayHeight - 20 : 20;
   const legendFontSize = Math.max(6, fontSize * 1.2);
   const lineHeight = legendFontSize + 10;
 
@@ -278,7 +293,8 @@ function drawLegend(ctx, rowCounts, fontSize) {
 
     ctx.fillStyle = 'white';
     ctx.globalAlpha = 0.9;
-    roundRect(ctx, x, y - 2, textWidth + pad * 2, legendFontSize + pad, 4);
+    const rectY = invert ? y - legendFontSize - pad : y - 2;
+    roundRect(ctx, x, rectY, textWidth + pad * 2, legendFontSize + pad, 4);
     ctx.fill();
     ctx.globalAlpha = 1;
 
@@ -288,9 +304,9 @@ function drawLegend(ctx, rowCounts, fontSize) {
 
     ctx.fillStyle = '#5d6d7e';
     ctx.textAlign = 'left';
-    ctx.textBaseline = 'top';
+    ctx.textBaseline = invert ? 'bottom' : 'top';
     ctx.fillText(text, x + pad, y);
-    y += lineHeight;
+    y += invert ? -lineHeight : lineHeight;
   }
 }
 
@@ -332,7 +348,7 @@ function drawWatermark(ctx, displayWidth, displayHeight) {
   });
 }
 
-function drawDate(ctx, date, displayWidth, displayHeight) {
+function drawDate(ctx, date, displayWidth, displayHeight, invert = false) {
   const fontSize = 17;
   const lineHeight = 14;
   const padding = 12;
@@ -346,11 +362,11 @@ function drawDate(ctx, date, displayWidth, displayHeight) {
   const boxHeight = totalHeight + padding * 1.5;
 
   const x = 0; // left side
-  const y = displayHeight - boxHeight;
+  const y = invert ? 0 : displayHeight - boxHeight;
 
   ctx.fillStyle = '#555';
   ctx.textAlign = 'left';
-  ctx.textBaseline = 'top';
+  ctx.textBaseline = invert ? 'top' : 'top';
   ctx.fillText(date, x + padding, y + padding);
 }
 
@@ -372,9 +388,9 @@ function roundRect(ctx, x, y, w, h, r) {
 // ============================================================
 // MAIN DRAW FUNCTION
 // ============================================================
-async function drawOrchestra(canvas, musicians, sectionInfo, rowInfo, config, showLabels = false, showRowCounts = false, useImages = false, title = 'Orchestra Seating Layout', transparent_bg = false) {
+async function drawOrchestra(canvas, musicians, sectionInfo, rowInfo, config, showLabels = false, showRowCounts = false, useImages = false, title = 'Orchestra Seating Layout', transparent_bg = false, invert = false) {
   const { ctx, w: displayWidth, h: displayHeight } = setupCanvas(canvas);
-  const layout = computeLayout(rowInfo, displayWidth, displayHeight);
+  const layout = computeLayout(rowInfo, displayWidth, displayHeight, invert);
   const fontSize = config.font_size || 9;
   const iconRadius = 25;
 
@@ -425,14 +441,14 @@ async function drawOrchestra(canvas, musicians, sectionInfo, rowInfo, config, sh
   drawConductor(ctx, conductorConfig, useImages, imageCache, iconRadius, fontSize, layout);
 
   if (showRowCounts) {
-    drawLegend(ctx, rowCounts, fontSize);
+    drawLegend(ctx, rowCounts, fontSize, displayHeight, invert);
   }
 
   const date = config.date ?? new Date().toLocaleDateString('en-US');
 
   drawTitle(ctx, title, fontSize, layout.centerX);
   drawWatermark(ctx, displayWidth, displayHeight);
-  drawDate(ctx, date, displayWidth, displayHeight);
+  drawDate(ctx, date, displayWidth, displayHeight, invert);
 }
 
 
@@ -462,9 +478,10 @@ async function redraw(transparent_bg = false) {
   const canvas = document.getElementById('orchestra-canvas');
 
   // Read values from JSON (source of truth)
-  const useImages = data.use_images ?? true;
+  const useImages = data.use_images ?? false;
   const showLabels = data.show_labels ?? false;
   const showCounts = data.show_row_count ?? false;
+  const invert = data.invert ?? false;
 
   await document.fonts.ready;  // ← instead of .then()
   
@@ -472,6 +489,7 @@ async function redraw(transparent_bg = false) {
     canvas, allMusicians, sectionInfo, rowInfo, data,
     showLabels, showCounts, useImages,
     data.title || 'Orchestra Seating Layout',
-    transparent_bg
+    transparent_bg,
+    invert
   );
 }

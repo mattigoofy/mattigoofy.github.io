@@ -3,9 +3,10 @@
   "icon_size": 400,
   "title": "My overview",
   "use_images": true,
-  "image_dir": "figs",
+  "image_url": "https://raw.githubusercontent.com/mattigoofy/orchestraMapper/main/figs/",
   "show_labels": false,
   "show_row_count": false,
+  "invert": false,
   "date": "10 jan 2025",
   "conductor": {
     "name": "John",
