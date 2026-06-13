@@ -29,29 +29,72 @@
 }
 
 #json-editor, #visual-editor {
-  flex: 1;
-  min-height: 0;
-  font-family: monospace;
-  font-size: 12px;
-  padding: 10px;
-  border: 1px solid var(--border-default);
-  border-radius: 0 0 6px 6px;
-  background: var(--bg-editor);
-  color: var(--text-primary);
-  resize: none;
-  overflow-y: auto;
-}
+   flex: 1;
+   min-height: 0;
+   font-family: monospace;
+   font-size: 12px;
+   padding: 10px;
+   border: 1px solid var(--border-default);
+   border-radius: 0 0 6px 6px;
+   background: var(--bg-editor);
+   color: var(--text-primary);
+   resize: none;
+   overflow-y: auto;
+ }
 
-#json-editor:focus {
-  outline: none;
-  border-color: var(--accent-blue);
-}
+ #json-editor:focus {
+   outline: none;
+   border-color: var(--accent-blue);
+ }
 
-#visual-editor {
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-}
+ #visual-editor {
+   font-family: sans-serif;
+   display: flex;
+   flex-direction: column;
+ }
+
+ /* ============================================================
+    OPTIONS BAR
+    ============================================================ */
+
+ .visual-options-bar {
+   display: flex;
+   gap: 10px;
+   margin-bottom: 15px;
+   padding: 10px;
+   background: var(--bg-card);
+   border-radius: 4px;
+   border-left: 3px solid var(--accent-blue);
+   align-items: center;
+ }
+
+ .toggle-option {
+   padding: 6px 12px;
+   font-size: 12px;
+   background: var(--border-default);
+   color: var(--text-muted);
+   border: 1px solid var(--border-default);
+   border-radius: 4px;
+   cursor: pointer;
+   transition: all 0.2s;
+   font-weight: 500;
+ }
+
+ .toggle-option:hover {
+   background: var(--bg-input);
+   border-color: var(--accent-blue);
+ }
+
+ .toggle-option.active {
+   background: var(--accent-blue);
+   color: var(--text-white);
+   border-color: var(--accent-blue);
+ }
+
+ .toggle-option.active:hover {
+   background: var(--accent-blue-dark);
+   border-color: var(--accent-blue-dark);
+ }
 
 /* ============================================================
    TITLE & CONDUCTOR
@@ -87,6 +130,40 @@
 }
 
 .title-input:focus {
+  outline: none;
+  border-color: var(--accent-purple);
+}
+
+.visual-date {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: var(--bg-card);
+  border-radius: 4px;
+  border-left: 3px solid var(--border-default);
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+
+.visual-date h4 {
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  font-size: 15px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.date-input {
+  width: 100%;
+  padding: 6px 10px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-default);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 13px;
+}
+
+.date-input:focus {
   outline: none;
   border-color: var(--accent-purple);
 }

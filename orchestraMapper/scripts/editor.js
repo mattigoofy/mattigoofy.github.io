@@ -39,25 +39,50 @@ function initEditor() {
   switchEditorMode('visual');
 }
 
+function createOptionsBar(data) {
+  const bar = el('div', 'visual-options-bar');
+  
+  const toggleOption = (label, key, field) => {
+    const btn = el('button', 'toggle-option', { textContent: label });
+    btn.classList.toggle('active', data[field]);
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      json_config.currentData[field] = !json_config.currentData[field];
+      btn.classList.toggle('active');
+      syncToText();
+      redraw();
+    });
+    return btn;
+  };
+
+  bar.appendChild(toggleOption('Labels', 'show_labels', 'show_labels'));
+  bar.appendChild(toggleOption('Row Count', 'show_row_count', 'show_row_count'));
+  bar.appendChild(toggleOption('Images', 'use_images', 'use_images'));
+
+  return bar;
+}
+
 function renderEditor() {
-  const container = document.getElementById('visual-editor');
-  const data = json_config.currentData;
-  if (!data) return;
+   const container = document.getElementById('visual-editor');
+   const data = json_config.currentData;
+   if (!data) return;
 
-  fetchImages();
-  container.innerHTML = '';
+   fetchImages();
+   container.innerHTML = '';
 
-  const rows = {};
-  data.sections.forEach((section, idx) => {
-    const rowNum = section.row || 1;
-    if (!rows[rowNum]) rows[rowNum] = [];
-    rows[rowNum].push({ ...section, _index: idx });
-  });
+   const rows = {};
+   data.sections.forEach((section, idx) => {
+     const rowNum = section.row || 1;
+     if (!rows[rowNum]) rows[rowNum] = [];
+     rows[rowNum].push({ ...section, _index: idx });
+   });
 
-  const maxRow = Math.max(...Object.keys(rows).map(Number), 0);
+   const maxRow = Math.max(...Object.keys(rows).map(Number), 0);
 
-  container.appendChild(createTitleSection(data));
-  container.appendChild(createConductorSection(data));
+   container.appendChild(createOptionsBar(data));
+   container.appendChild(createTitleSection(data));
+   container.appendChild(createDate(data));
+   container.appendChild(createConductorSection(data));
 
   for (let rowNum = 1; rowNum <= maxRow; rowNum++) {
     container.appendChild(createRow(rowNum, rows[rowNum] || []));
@@ -113,6 +138,21 @@ function createTitleSection(data) {
   const inp = input('title-input', 'text', data.title || 'Orchestra Seating Layout', 'Enter title...');
   inp.addEventListener('change', () => {
     json_config.currentData.title = inp.value;
+    syncToText();
+    redraw();
+  });
+  section.appendChild(inp);
+
+  return section;
+}
+
+function createDate(data) {
+  const section = el('div', 'visual-date');
+  section.appendChild(el('h4', null, { textContent: 'Date' }));
+
+  const inp = input('date-input', 'text', data.date || new Date().toLocaleDateString('en-US'), 'Enter date...');
+  inp.addEventListener('change', () => {
+    json_config.currentData.date = inp.value;
     syncToText();
     redraw();
   });

@@ -461,21 +461,10 @@ async function redraw(transparent_bg = false) {
   const { allMusicians, sectionInfo, rowInfo } = generatePositions(data.sections);
   const canvas = document.getElementById('orchestra-canvas');
 
-  // Sync checkboxes from JSON (JSON is source of truth)
-  if (data.use_images !== undefined) {
-    document.getElementById('use-images').checked = data.use_images;
-  }
-  if (data.show_labels !== undefined) {
-    document.getElementById('show-labels').checked = data.show_labels;
-  }
-  if (data.show_row_count !== undefined) {
-    document.getElementById('show-counts').checked = data.show_row_count;
-  }
-  
-  // Read final values (now in sync)
-  const useImages = document.getElementById('use-images').checked;
-  const showLabels = document.getElementById('show-labels').checked;
-  const showCounts = document.getElementById('show-counts').checked;
+  // Read values from JSON (source of truth)
+  const useImages = data.use_images ?? true;
+  const showLabels = data.show_labels ?? false;
+  const showCounts = data.show_row_count ?? false;
 
   await document.fonts.ready;  // ← instead of .then()
   
